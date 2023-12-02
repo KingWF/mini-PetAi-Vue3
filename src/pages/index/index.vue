@@ -1,3 +1,26 @@
+<template>
+  <!-- 自定义导航栏 -->
+  <CustomNavbar />
+  <!-- <image src="@/static/icon/圣诞冰淇淋.png" mode="scaleToFill" /> -->
+  <!-- 滚动容器 -->
+  <scroll-view
+    refresher-enabled
+    @refresherrefresh="onRefresherrefresh"
+    :refresher-triggered="isRefresher"
+    @scrolltolower="onScrolltolower"
+    scroll-y
+  >
+    <!-- 定义骨架屏 -->
+    <PageSkeleton v-if="isLoading" />
+    <template v-else>
+      <!-- 轮播图 -->
+      <PetAiSwiper :list="bannerList" />
+      <!-- 猜你喜欢 -->
+      <PetAiGuess ref="guessRef" />
+    </template>
+  </scroll-view>
+</template>
+
 <script setup lang="ts">
 import CustomNavbar from './componts/CustomNavbar.vue'
 import CategoryPanel from './componts/CategoryPanel.vue'
@@ -53,29 +76,6 @@ onLoad(async () => {
   isLoading.value = false
 })
 </script>
-
-<template>
-  <!-- 自定义导航栏 -->
-  <CustomNavbar />
-  <!-- <image src="@/static/icon/圣诞冰淇淋.png" mode="scaleToFill" /> -->
-  <!-- 滚动容器 -->
-  <scroll-view
-    refresher-enabled
-    @refresherrefresh="onRefresherrefresh"
-    :refresher-triggered="isRefresher"
-    @scrolltolower="onScrolltolower"
-    scroll-y
-  >
-    <!-- 定义骨架屏 -->
-    <PageSkeleton v-if="isLoading" />
-    <template v-else>
-      <!-- 轮播图 -->
-      <PetAiSwiper :list="bannerList" />
-      <!-- 猜你喜欢 -->
-      <PetAiGuess ref="guessRef" />
-    </template>
-  </scroll-view>
-</template>
 
 <style lang="scss">
 page {
