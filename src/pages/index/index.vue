@@ -1,5 +1,4 @@
 <template>
-  <view>hahha</view>
   <!-- 自定义导航栏 -->
   <CustomNavbar />
   <!-- <image src="@/static/icon/圣诞冰淇淋.png" mode="scaleToFill" /> -->
