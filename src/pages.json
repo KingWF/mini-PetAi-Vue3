@@ -41,12 +41,42 @@
 				"navigationBarTitleText": "登录"
 			}
 		},
-    {
-      "path": "pages/category/category",
-      "style": {
-        "navigationBarTitleText": "分类"
-      }
-    }
+		{
+			"path": "pages/category/category",
+			"style": {
+				"navigationBarTitleText": "分类"
+			}
+		},
+		{
+			"path": "pages/index/homePetMess/PetIdentification/PetIdentification",
+			"style": {
+				"navigationBarTitleText": "宠物识别"
+			}
+		},
+		{
+			"path": "pages/index/homePetMess/SentimentAnalysis/SentimentAnalysis",
+			"style": {
+				"navigationBarTitleText": "宠物情绪分析"
+			}
+		},
+		{
+			"path": "pages/index/homePetMess/AddPetMess/AddPetMess",
+			"style": {
+				"navigationBarTitleText": "添加宠物信息"
+			}
+		},
+		{
+			"path": "pages/index/homePetMess/SetPetMess/SetPetMess",
+			"style": {
+				"navigationBarTitleText": "修改宠物信息"
+			}
+		},
+		{
+			"path": "pages/index/homePetMess/getMorePetMess/getMorePetMess",
+			"style": {
+				"navigationBarTitleText": "宠物档案室"
+			}
+		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

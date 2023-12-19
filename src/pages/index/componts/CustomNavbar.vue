@@ -6,10 +6,10 @@
       <text class="logo-text">一站式智能宠物管理平台</text>
     </view>
     <!-- 搜索条 -->
-    <view class="search">
+    <!-- <view class="search">
       <text class="icon-search">搜索资讯</text>
       <text class="icon-scan"></text>
-    </view>
+    </view> -->
   </view>
 </template>
 
