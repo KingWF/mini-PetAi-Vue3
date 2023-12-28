@@ -1,6 +1,6 @@
 <template>
   <view class="glass-content">
-    <scroll-view scroll-y>
+    <scroll-view scroll-y class="scoll-css">
       <!-- 内容区域 -->
       <view class="container">
         <view class="left-section">
@@ -22,11 +22,11 @@
           <text>右侧文字</text>
         </view>
       </view>
-      <view class="container">
+      <view class="container" v-for="item in 3" :key="item">
         <view class="left-section">
           <view class="circle">
             <image
-              src="https://img.zcool.cn/community/01ab5e5aec6354a801219b7f5e6a73.jpg@1280w_1l_2o_100sh.jpg"
+              src="https://ts1.cn.mm.bing.net/th/id/R-C.be1895b6cc60526df6bd79aef4005208?rik=v29k4ZW3ZVFq8g&riu=http%3a%2f%2fpic.baike.soso.com%2fp%2f20140328%2f20140328093026-679114537.jpg&ehk=EPX8WPV2D9J4aUmNtfgcN2KN3X%2fUk2BgISQsCaHMZ2Q%3d&risl=&pid=ImgRaw&r=0"
             />
           </view>
           <view class="text1">
@@ -34,7 +34,7 @@
             <text class="text02">
               <text>小标题</text>
               <text>性别</text>
-              <text>年龄</text>
+              <text>年龄: {{ item }}</text>
             </text>
           </view>
         </view>
@@ -182,5 +182,9 @@ const trigger = (e: any) => {
   margin-left: auto;
   margin-top: 50rpx;
   margin-right: 10rpx;
+}
+.scoll-css{
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
 }
 </style>
