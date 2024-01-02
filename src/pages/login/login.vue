@@ -2,23 +2,26 @@
 import { postLoginWxMinSimpleAPI } from '@/services/login'
 import { useMemberStore } from '@/stores/modules/member'
 import type { LoginResult } from '@/types/member'
+import { onLoad } from '@dcloudio/uni-app'
+
+// 获取 code 登录凭证
+let code = ''
+onLoad(async () => {
+  const res = await wx.login()
+  code = res.code
+})
 
 // 模拟手机号码快捷登录（开发练习）
 const onGetphonenumberSimple = async () => {
-  // const res = await postLoginWxMinSimpleAPI('13123456789')
-  // loginSuccess(res.result)
-  uni.showToast({ icon: 'success', title: '登录成功' })
-  setTimeout(() => {
-    // 页面跳转
-    uni.switchTab({ url: '/pages/index/index' })
-  }, 500)
+  const res = await postLoginWxMinSimpleAPI('13693482742')
+  loginSuccess(res.result)
 }
 
 const loginSuccess = (profile: LoginResult) => {
-  // 保存会员信息
-  // const memberStore = useMemberStore() // [!code ++]
-  // memberStore.setProfile(profile) // [!code ++]
-  // 成功提示
+  //保存会员信息
+  const memberStore = useMemberStore() // [!code ++]
+  memberStore.setProfile(profile) // [!code ++]
+  //成功提示
   uni.showToast({ icon: 'success', title: '登录成功' })
   setTimeout(() => {
     // 页面跳转
