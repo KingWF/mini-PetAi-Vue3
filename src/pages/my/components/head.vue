@@ -4,7 +4,7 @@
     <view class="right">
       <div class="first">
         <div class="name">张三</div>
-        <div class="introduce">个人简介</div>
+        <div class="edit"><button @tap="Edit">编辑</button></div>
       </div>
       <div class="second">
         <div class="focus">关注5</div>
@@ -14,7 +14,13 @@
   </view>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const Edit = () => {
+  uni.navigateTo({
+    url: '/pages/my/components/EditInformation',
+  })
+}
+</script>
 
 <style lang="scss" scoped>
 .box {
@@ -29,8 +35,8 @@
     height: 120rpx;
     background-color: black;
     border-radius: 30px;
-    margin-left: 20rpx;
-    top: 8rpx;
+    margin-left: 30rpx;
+    top: 15rpx;
     float: left;
   }
   .right {
@@ -43,14 +49,19 @@
         display: inline-block;
         font-size: 20px;
       }
-      .introduce {
-        margin-left: 50rpx;
+      .edit {
         display: inline-block;
+        margin-left: 40rpx;
+        margin-top: 20rpx;
+        button {
+          font-size: 10px;
+          border-radius: 50px;
+        }
       }
     }
     .second {
       position: absolute;
-      top: 80rpx;
+      top: 110rpx;
       .focus {
         display: inline-block;
         font-size: 15px;

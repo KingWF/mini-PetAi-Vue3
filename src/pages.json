@@ -26,6 +26,10 @@
     {
       "path": "pages/my/my",
       "style": {
+        // 导航栏样式:隐藏系统自带顶部导航栏
+        "navigationStyle": "custom",
+        // 导航栏标题颜色和状态栏前景颜色
+        "navigationBarTextStyle": "white",
         "navigationBarTitleText": "我的"
       }
     },
@@ -75,6 +79,47 @@
       "path": "pages/index/homePetMess/getMorePetMess/getMorePetMess",
       "style": {
         "navigationBarTitleText": "宠物档案室"
+      }
+    },
+    {
+      "path": "pages/my/components/ShoppingCart",
+      "style": {
+        "navigationBarTitleText": "购物车"
+      }
+    },
+    {
+      "path": "pages/my/components/MyOrder",
+      "style": {
+        "navigationBarTitleText": "我的订单"
+      }
+    },
+    {
+      "path": "pages/my/components/MyPrivacy",
+      "style": {
+        "navigationBarTitleText": "我的隐私"
+      }
+    },
+    {
+      "path": "pages/my/components/Business",
+      "style": {
+        "navigationBarTitleText": "商家注册"
+      }
+    },
+    {
+      "path": "pages/my/components/EditInformation",
+      "style": {
+        // 导航栏样式:隐藏系统自带顶部导航栏
+        "navigationStyle": "custom",
+        // 导航栏标题颜色和状态栏前景颜色
+        "navigationBarTextStyle": "white",
+        "navigationBarTitleText": "编辑"
+      }
+    },
+    {
+      "path": "pages/community/components/add",
+      "style": {
+        "navigationBarTitleText": "发布",
+        "enablePullDownRefresh": true
       }
     }
   ],
