@@ -29,7 +29,6 @@ console.log(safeAreaInsets)
   display: flex;
   flex-direction: column;
   padding-top: 20px;
-  z-index: 1;
   .logo {
     display: flex;
     align-items: center;
