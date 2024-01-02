@@ -30,7 +30,7 @@ const loginSuccess = (profile: LoginResult) => {
 <template>
   <view class="viewport">
     <view class="logo">
-      <image src="D:\mini-PetAI-Vue3\src\static\picture\logo2.png"></image>
+      <image src="/static/picture/logo2.png"></image>
     </view>
     <view class="login">
       <!-- 网页端表单登录 -->
