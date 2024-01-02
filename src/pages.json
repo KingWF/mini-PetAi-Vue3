@@ -114,6 +114,13 @@
         "navigationBarTextStyle": "white",
         "navigationBarTitleText": "编辑"
       }
+    },
+    {
+      "path": "pages/community/components/add",
+      "style": {
+        "navigationBarTitleText": "发布",
+        "enablePullDownRefresh": true
+      }
     }
   ],
   "globalStyle": {

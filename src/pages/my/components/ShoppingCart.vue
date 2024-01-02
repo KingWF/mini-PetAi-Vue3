@@ -26,11 +26,7 @@
                 hover-class="none"
                 class="navigator"
               >
-                <image
-                  mode="aspectFill"
-                  class="picture"
-                  src="D:\mini-PetAI-Vue3\src\static\picture\R-C.jpg"
-                ></image>
+                <image mode="aspectFill" class="picture" src="/static/picture/R-C.jpg"></image>
                 <view class="meta">
                   <view class="name ellipsis">人气猫粮，五斤猫粮</view>
                   <view class="attrsText ellipsis">5kg</view>

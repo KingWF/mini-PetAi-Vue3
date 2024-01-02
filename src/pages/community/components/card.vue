@@ -33,7 +33,7 @@
       <image src="/static/communityImages/分享.png"></image>
     </div>
   </view>
-  <div class="add">+</div>
+  <div class="add" @click="add">+</div>
 </template>
 
 <script setup lang="ts">
@@ -51,6 +51,12 @@ const getCommunityData = async () => {
   //反转获取的信息，保证用户发表说说后，是出现在页面的第一个位置
   res.result = res.result.slice().reverse()
   communityData.value = res.result
+}
+
+const add = () => {
+  uni.navigateTo({
+    url: '/pages/community/components/add',
+  })
 }
 
 onLoad(() => {
