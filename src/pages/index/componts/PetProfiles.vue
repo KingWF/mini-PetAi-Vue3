@@ -42,7 +42,7 @@
           <text>右侧文字</text>
         </view>
       </view>
-      <!-- 添加宠物 -->
+      <!-- 添加宠物
       <uni-fab
         ref="fab"
         :pattern="pattern"
@@ -52,7 +52,7 @@
         direction="horizontal"
         @trigger="trigger"
       >
-      </uni-fab>
+      </uni-fab> -->
     </scroll-view>
   </view>
 </template>
@@ -71,7 +71,6 @@ const pattern = reactive({
   selectedColor: '#007AFF',
   buttonColor: '#007AFF',
   iconColor: '#fff',
-
 })
 const content = reactive([
   {
@@ -183,7 +182,7 @@ const trigger = (e: any) => {
   margin-top: 50rpx;
   margin-right: 10rpx;
 }
-.scoll-css{
+.scoll-css {
   padding-top: 10rpx;
   padding-bottom: 10rpx;
 }

@@ -8,6 +8,7 @@ import type { PetAiGuessInstance } from '@/types/component'
 import PetProfiles from './componts/PetProfiles.vue'
 import Function from './componts/Function.vue'
 import Function2 from './componts/Function2.vue'
+import Function3 from './componts/Function3.vue'
 import RecommendGoods from './componts/SuggesstionGoods.vue'
 
 // 通过封装在ts文件中的API来获取轮播图数据
@@ -62,10 +63,11 @@ onLoad(async () => {
   <PetProfiles></PetProfiles>
   <Function></Function>
   <Function2></Function2>
+  <Function3></Function3>
   <!-- 猜你喜欢 -->
   <!-- <PetAiGuess ref="guessRef" /> -->
   <!-- 推荐 -->
-  <RecommendGoods></RecommendGoods>
+  <!-- <RecommendGoods></RecommendGoods> -->
 </template>
 
 <style lang="scss">
