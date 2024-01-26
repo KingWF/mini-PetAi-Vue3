@@ -29,6 +29,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 .box .COM_search {
   width: 300rpx;
@@ -44,6 +45,7 @@ export default {
   font-size: 20rpx;
   border: 1rpx solid #797979;
   border-radius: 30rpx;
+  background-color: #ffffff;
 }
 .box .COM_search image {
   width: 25rpx;
@@ -67,6 +69,7 @@ export default {
   line-height: 50rpx;
   border: 1rpx solid #797979;
   text-align: center;
+  background-color: #ffffff;
 }
 .box .right .nearby {
   margin-right: 30rpx;

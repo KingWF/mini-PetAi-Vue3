@@ -121,6 +121,34 @@
         "navigationBarTitleText": "发布",
         "enablePullDownRefresh": true
       }
+    },
+    {
+      "path": "pages/base/assembly/HealthMonFunction",
+      "style": {
+        "navigationBarTitleText": "健康检测",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/base/assembly/ExercisePlanFunction",
+      "style": {
+        "navigationBarTitleText": "运动计划",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/base/assembly/DietManagementFunction",
+      "style": {
+        "navigationBarTitleText": "饮食管理",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/base/assembly/IntelligentFunction",
+      "style": {
+        "navigationBarTitleText": "智能咨询",
+        "enablePullDownRefresh": true
+      }
     }
   ],
   "globalStyle": {
