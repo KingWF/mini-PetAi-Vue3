@@ -1,10 +1,67 @@
+<template>
+  <!-- 搜索 -->
+  <view class="search">
+    <view class="icon-search"></view>
+    <view class="ta1">
+      <input
+        v-model="searchKeyWord"
+        placeholder="搜索商品"
+        placeholder-class="textarea-placeholder"
+        @confirm="searchInput"
+      />
+    </view>
+    <button class="but1" @click="searchInput">搜索</button>
+  </view>
+  <!-- 推荐选项 -->
+  <view class="tabs">
+    <text
+      v-for="(item, index) in recommendList"
+      :key="index"
+      class="text"
+      :class="{ active: index === activeIndex }"
+      @tap="test(index)"
+      >{{ recommendList[index].name }}</text
+    >
+  </view>
+  <!-- 推荐列表 -->
+  <scroll-view
+    scroll-y
+    class="scroll-view"
+    v-for="(item, index) in recommendList"
+    :key="index"
+    v-show="index === activeIndex"
+    @scrolltolower="onScrolltolower"
+  >
+    <view class="goods">
+      <navigator
+        hover-class="none"
+        class="navigator"
+        v-for="goods in item.goodsItems.items"
+        :key="goods.id"
+        :url="`/pages/goods/goods?id=${goods.id}`"
+      >
+        <image class="thumb" :src="goods.pic"></image>
+        <view class="name ellipsis">{{ goods.name }}</view>
+        <view class="price">
+          <text class="symbol">备注：</text>
+          <text class="number">{{ goods.text }}</text>
+        </view>
+      </navigator>
+    </view>
+    <view class="loading-text" v-if="isScrolltolower">没有更多数据了...</view>
+    <view class="loading-text" v-else>正在加载...</view>
+  </scroll-view>
+</template>
+
 <script setup lang="ts">
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
-import { getRecommendGoodsAPI } from '@/services/home'
-import type { RecommendGoodsItem } from '@/types/home'
+import { getRecommendGoodsAPI } from '../../../services/home'
+import type { RecommendGoodsItem } from '../../../types/home'
 import { reactive } from 'vue'
 
+// 搜索框关键词
+const searchKeyWord = ref('')
 // 设置tab集合
 const tabsName = reactive(['食谱', '保健', '出行'])
 // 设置动态设置高亮的下标
@@ -56,6 +113,10 @@ const onScrolltolower = async () => {
     isScrolltolower.value = true
   }
 }
+// 用户点击搜索框
+const searchInput = () => {
+  console.log('点击了搜索框' + searchKeyWord.value)
+}
 // 测试
 const test = (val: number) => {
   activeIndex.value = val
@@ -65,52 +126,6 @@ onLoad(() => {
   getHotRecommendData()
 })
 </script>
-
-<template>
-  <!-- 推荐选项 -->
-  <view class="tabs">
-    <!-- 搜索 -->
-    <view class="search">
-      <text class="icon-search">搜索商品</text>
-    </view>
-    <text
-      v-for="(item, index) in recommendList"
-      :key="index"
-      class="text"
-      :class="{ active: index === activeIndex }"
-      @tap="test(index)"
-      >{{ recommendList[index].name }}</text
-    >
-  </view>
-  <!-- 推荐列表 -->
-  <scroll-view
-    scroll-y
-    class="scroll-view"
-    v-for="(item, index) in recommendList"
-    :key="index"
-    v-show="index === activeIndex"
-    @scrolltolower="onScrolltolower"
-  >
-    <view class="goods">
-      <navigator
-        hover-class="none"
-        class="navigator"
-        v-for="goods in item.goodsItems.items"
-        :key="goods.id"
-        :url="`/pages/goods/goods?id=${goods.id}`"
-      >
-        <image class="thumb" :src="goods.pic"></image>
-        <view class="name ellipsis">{{ goods.name }}</view>
-        <view class="price">
-          <text class="symbol">备注：</text>
-          <text class="number">{{ goods.text }}</text>
-        </view>
-      </navigator>
-    </view>
-    <view class="loading-text" v-if="isScrolltolower">没有更多数据了...</view>
-    <view class="loading-text" v-else>正在加载...</view>
-  </scroll-view>
-</template>
 
 <style lang="scss">
 page {
@@ -137,13 +152,11 @@ page {
   flex: 1;
 }
 .search {
-  width: 300rpx;
   display: flex;
-  align-items: center;
   justify-content: space-between;
   padding: 0 10rpx 0 20rpx;
   height: 64rpx;
-  margin: 20rpx 10rpx;
+  margin: 20rpx 20rpx;
   color: #0e0e0e93;
   font-size: 28rpx;
   border-radius: 32rpx;
@@ -151,7 +164,32 @@ page {
   // 边框
   border: 2rpx solid #c5c5c5e5;
 }
-
+.ta1 {
+  margin-left: 10rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon-search {
+  background-color: #e39b9b00;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.but1 {
+  padding: 0;
+  border-radius: 32rpx;
+  background-color: #27bc42;
+  margin-right: 0rpx;
+  margin-top: 8rpx;
+  margin-bottom: 8rpx;
+  font-size: small;
+  color: #ffffff;
+  width: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .tabs {
   display: flex;
   justify-content: space-evenly;

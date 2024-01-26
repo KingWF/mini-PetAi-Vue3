@@ -1,7 +1,7 @@
 import { useMemberStore } from '@/stores'
 
-const baseURL = 'http://localhost:8888/miniTest'
-// 'https://pcapi-xiaotuxian-front-devtest.itheima.net'
+const baseURL = 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/miniTest'
+// 终端服务器基地址：'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top'
 // 添加拦截器
 // 拦截reques请求和uploadFile文件上传
 
@@ -14,7 +14,7 @@ const httpInterceptor = {
       options.url = baseURL + options.url
     }
     // 请求超时，默认是60s，修改成10s
-    options.timeout = 10000
+    options.timeout = 60000
     options.header = {
       // 保留原始的header
       ...options.header,

@@ -42,7 +42,7 @@
           <text>右侧文字</text>
         </view>
       </view>
-      <!-- 添加宠物 -->
+      <!-- 添加宠物
       <uni-fab
         ref="fab"
         :pattern="pattern"
@@ -52,7 +52,7 @@
         direction="horizontal"
         @trigger="trigger"
       >
-      </uni-fab>
+      </uni-fab> -->
     </scroll-view>
   </view>
 </template>
