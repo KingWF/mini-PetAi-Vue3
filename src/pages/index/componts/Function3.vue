@@ -1,14 +1,14 @@
 <template>
   <view class="glass-content">
-    <view class="button-container">
-      <button class="floating-button" @click="intoShop">点击进入购物商城</button>
-    </view>
     <view class="swiper-container">
       <swiper :autoplay="true" :interval="3000" :indicator-dots="true">
         <swiper-item v-for="(item, index) in swiperList" :key="index">
           <image :src="item" mode="aspectFill" class="swiper-image" @click="intoShop" />
         </swiper-item>
       </swiper>
+    </view>
+    <view class="button-container">
+      <view class="floating-button" @click="intoShop">进入购物商城>>></view>
     </view>
     <!-- <PetAiSwiper :list="swiperList2"></PetAiSwiper> -->
   </view>
@@ -57,11 +57,8 @@ const intoShop = () => {
 
 <style lang="scss">
 .glass-content {
-  margin: 0 20rpx 20rpx 20rpx;
-  height: 400rpx;
+  height: 450rpx;
   background-color: rgba(255, 255, 255, 0);
-  border-radius: 15px;
-  border: 2rpx solid #c5c5c5e5;
   position: relative;
 }
 
@@ -76,8 +73,8 @@ const intoShop = () => {
 
 .floating-button {
   padding: 10rpx 20rpx;
-  background-color: rgba(255, 102, 0, 0);
-  color: #fff;
+  background-color: rgba(87, 82, 78, 0);
+  color: #776f6fc7;
   border-radius: 20rpx;
 }
 
@@ -89,6 +86,6 @@ const intoShop = () => {
 .swiper-image {
   width: 100%;
   height: 100%;
-  border-radius: 15px;
+
 }
 </style>

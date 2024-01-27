@@ -60,19 +60,18 @@ onLoad(async () => {
   <!-- 轮播图 -->
   <!-- <PetAiSwiper :list="bannerList" /> -->
   <!-- 板块 -->
-  <PetProfiles></PetProfiles>
-  <Function></Function>
-  <Function2></Function2>
   <Function3></Function3>
-  <!-- 猜你喜欢 -->
-  <!-- <PetAiGuess ref="guessRef" /> -->
-  <!-- 推荐 -->
-  <!-- <RecommendGoods></RecommendGoods> -->
+
+  <view style="background-color: rgba(238, 238, 238, 0.822); padding-top: 10rpx;border-radius: 20rpx;">
+    <PetProfiles></PetProfiles>
+    <Function></Function>
+    <Function2></Function2>
+  </view>
 </template>
 
 <style lang="scss">
 page {
-  background-color: rgb(224, 224, 224);
+  background-color: rgb(247, 196, 129);
   height: 100%;
   // display: flex;
   // flex-direction: column;

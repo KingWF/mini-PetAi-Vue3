@@ -134,36 +134,42 @@
 				"navigationBarTitleText": "在线商城"
 			}
 		},
-    {
-      "path": "pages/index/shopMalls/shopProductsList",
-      "style": {
-        "navigationBarTitleText": "商品列表"
-      }
-    },
-    {
-      "path": "pages/base/assembly/HealthMonFunction",
-      "style": {
-        "navigationBarTitleText": "健康检测"
-      }
-    },
-    {
-      "path": "pages/base/assembly/DietManagementFunction",
-      "style": {
-        "navigationBarTitleText": "饮食管理"
-      }
-    },
-    {
-      "path": "pages/base/assembly/ExercisePlanFunction",
-      "style": {
-        "navigationBarTitleText": "运动计划"
-      }
-    },
-    {
-      "path": "pages/base/assembly/IntelligentFunction",
-      "style": {
-        "navigationBarTitleText": "智能咨询"
-      }
-    }
+		{
+			"path": "pages/index/shopMalls/shopProductsList",
+			"style": {
+				"navigationBarTitleText": "商品列表"
+			}
+		},
+		{
+			"path": "pages/base/assembly/HealthMonFunction",
+			"style": {
+				"navigationBarTitleText": "健康检测"
+			}
+		},
+		{
+			"path": "pages/base/assembly/DietManagementFunction",
+			"style": {
+				"navigationBarTitleText": "饮食管理"
+			}
+		},
+		{
+			"path": "pages/base/assembly/ExercisePlanFunction",
+			"style": {
+				"navigationBarTitleText": "运动计划"
+			}
+		},
+		{
+			"path": "pages/base/assembly/IntelligentFunction",
+			"style": {
+				"navigationBarTitleText": "智能咨询"
+			}
+		},
+		{
+			"path": "pages/index/petInformation/petInformation",
+			"style": {
+				"navigationBarTitleText": "宠物信息"
+			}
+		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

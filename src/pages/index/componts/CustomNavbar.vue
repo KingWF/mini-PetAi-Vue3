@@ -22,7 +22,8 @@ console.log(safeAreaInsets)
 <style lang="scss">
 /* 自定义导航条 */
 .navbar {
-  background-image: url(@/static/images/navigator_bg.png);
+  // background-image: url(@/static/images/navigator_bg.png);
+  background-color: #da7a277c;
   height: 160rpx;
   background-size: cover;
   position: relative;
