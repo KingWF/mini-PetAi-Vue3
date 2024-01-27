@@ -12,7 +12,6 @@
     </view>
     <!-- <PetAiSwiper :list="swiperList2"></PetAiSwiper> -->
   </view>
-
 </template>
 
 <script lang="ts" setup>

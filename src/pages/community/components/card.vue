@@ -33,7 +33,7 @@
       <image src="/static/communityImages/分享.png"></image>
     </div>
   </view>
-  <div class="add" @click="add">+</div>
+  <navigator :url="`pages/community/components/add`" class="add" @click="add">+</navigator>
 </template>
 
 <script setup lang="ts">
@@ -72,14 +72,17 @@ onLoad(() => {
   margin-top: 25rpx;
   border-radius: 42rpx;
   border: 1rpx solid #797979;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 .box .box1 {
   display: flex;
   justify-content: space-between;
+  border-radius: 42rpx;
 }
 .box .box1 .left {
   float: left;
   display: flex;
+  border-radius: 42rpx;
   .COM_ava {
     width: 66rpx;
     height: 66rpx;
@@ -118,6 +121,7 @@ onLoad(() => {
   text-align: center;
   margin-top: 26rpx;
   margin-right: 26rpx;
+  background-color: #ffffff;
 }
 .box .title {
   margin-left: 30rpx;
@@ -174,6 +178,9 @@ onLoad(() => {
   display: flex;
   justify-content: space-between;
   margin-top: 22rpx;
+  border-radius: 42rpx;
+  width: 550rpx;
+  margin-left: 20rpx;
   & image {
     width: 50rpx;
     height: 50rpx;
@@ -197,6 +204,6 @@ onLoad(() => {
   z-index: 100;
   bottom: 50rpx;
   right: 22rpx;
-  background-color: antiquewhite;
+  background-color: #ffffff;
 }
 </style>

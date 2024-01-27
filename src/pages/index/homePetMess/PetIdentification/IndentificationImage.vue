@@ -141,11 +141,11 @@ const cancel = () => {
   flex-direction: column;
   justify-content: space-between;
 }
-.vie-v2 .child .t1{
+.vie-v2 .child .t1 {
   font-size: large;
   color: #ff7e7e;
 }
-.vie-v2 .child .t2{
+.vie-v2 .child .t2 {
   margin-top: 3rpx;
 }
 .vie-v3 {

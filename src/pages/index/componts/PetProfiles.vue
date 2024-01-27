@@ -71,7 +71,6 @@ const pattern = reactive({
   selectedColor: '#007AFF',
   buttonColor: '#007AFF',
   iconColor: '#fff',
-
 })
 const content = reactive([
   {
@@ -183,7 +182,7 @@ const trigger = (e: any) => {
   margin-top: 50rpx;
   margin-right: 10rpx;
 }
-.scoll-css{
+.scoll-css {
   padding-top: 10rpx;
   padding-bottom: 10rpx;
 }
