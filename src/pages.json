@@ -133,7 +133,13 @@
 			"style": {
 				"navigationBarTitleText": "在线商城"
 			}
-		}
+		},
+    {
+      "path": "pages/index/shopMalls/shopProductsList",
+      "style": {
+        "navigationBarTitleText": "商品列表"
+      }
+    }
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

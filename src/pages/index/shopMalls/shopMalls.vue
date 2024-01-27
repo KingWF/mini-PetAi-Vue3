@@ -1,3 +1,4 @@
+<!-- 此界面是搜索框+推荐 -->
 <template>
   <!-- 搜索 -->
   <view class="search">
@@ -116,6 +117,9 @@ const onScrolltolower = async () => {
 // 用户点击搜索框
 const searchInput = () => {
   console.log('点击了搜索框' + searchKeyWord.value)
+  uni.navigateTo({
+    url: '/pages/index/shopMalls/shopProductsList',
+  })
 }
 // 测试
 const test = (val: number) => {

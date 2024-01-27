@@ -1,3 +1,4 @@
+<!-- 此代码已经全部复制到其他组件中  -->
 <template>
   <!-- 搜索 -->
   <view class="search">
