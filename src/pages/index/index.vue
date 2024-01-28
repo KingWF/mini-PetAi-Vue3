@@ -8,6 +8,7 @@ import type { PetAiGuessInstance } from '@/types/component'
 import PetProfiles from './componts/PetProfiles.vue'
 import Function from './componts/Function.vue'
 import Function2 from './componts/Function2.vue'
+import Function3 from './componts/Function3.vue'
 import RecommendGoods from './componts/SuggesstionGoods.vue'
 
 // 通过封装在ts文件中的API来获取轮播图数据
@@ -59,18 +60,18 @@ onLoad(async () => {
   <!-- 轮播图 -->
   <!-- <PetAiSwiper :list="bannerList" /> -->
   <!-- 板块 -->
-  <PetProfiles></PetProfiles>
-  <Function></Function>
-  <Function2></Function2>
-  <!-- 猜你喜欢 -->
-  <!-- <PetAiGuess ref="guessRef" /> -->
-  <!-- 推荐 -->
-  <RecommendGoods></RecommendGoods>
+  <Function3></Function3>
+
+  <view style="background-color: rgba(238, 238, 238, 0.822); padding-top: 10rpx;border-radius: 20rpx;">
+    <PetProfiles></PetProfiles>
+    <Function></Function>
+    <Function2></Function2>
+  </view>
 </template>
 
 <style lang="scss">
 page {
-  background-color: rgb(224, 224, 224);
+  background-color: rgb(247, 196, 129);
   height: 100%;
   // display: flex;
   // flex-direction: column;

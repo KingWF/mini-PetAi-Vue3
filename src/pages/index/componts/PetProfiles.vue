@@ -2,7 +2,7 @@
   <view class="glass-content">
     <scroll-view scroll-y class="scoll-css">
       <!-- 内容区域 -->
-      <view class="container">
+      <!-- <view class="container">
         <view class="left-section">
           <view class="circle">
             <image
@@ -21,7 +21,7 @@
         <view class="right-section">
           <text>右侧文字</text>
         </view>
-      </view>
+      </view> -->
       <view class="container" v-for="item in 3" :key="item">
         <view class="left-section">
           <view class="circle">
@@ -39,20 +39,9 @@
           </view>
         </view>
         <view class="right-section">
-          <text>右侧文字</text>
+          <text class="text-s1" @click="toPetInformation">宠物档案>>></text>
         </view>
       </view>
-      <!-- 添加宠物 -->
-      <uni-fab
-        ref="fab"
-        :pattern="pattern"
-        :content="content"
-        horizontal="right"
-        vertical="bottom"
-        direction="horizontal"
-        @trigger="trigger"
-      >
-      </uni-fab>
     </scroll-view>
   </view>
 </template>
@@ -64,53 +53,9 @@ const pic1 =
 const onClick = (e: any) => {
   console.log(e)
 }
-// 悬浮按钮属性
-const pattern = reactive({
-  color: '#7A7E83',
-  backgroundColor: '#fff',
-  selectedColor: '#007AFF',
-  buttonColor: '#007AFF',
-  iconColor: '#fff',
-
-})
-const content = reactive([
-  {
-    iconPath: '/static/icon/add002.png',
-    selectedIconPath: '/static/icon/add002.png',
-    text: '添加',
-    active: false,
-  },
-  {
-    iconPath: '/static/icon/reset001.png',
-    selectedIconPath: '/static/icon/reset001.png',
-    text: '修改',
-    active: false,
-  },
-  {
-    iconPath: '/static/icon/dangan.png',
-    selectedIconPath: '/static/icon/dangan.png',
-    text: '档案',
-    active: false,
-  },
-])
-// 悬浮按钮跳转页面链接
-const linkList = reactive([
-  {
-    navToLink: '/pages/index/homePetMess/AddPetMess/AddPetMess',
-  },
-  {
-    navToLink: '/pages/index/homePetMess/SetPetMess/SetPetMess',
-  },
-  {
-    navToLink: '/pages/index/homePetMess/getMorePetMess/getMorePetMess',
-  },
-])
-
-const trigger = (e: any) => {
-  console.log(e.index)
-  content[e.index].active = !e.item.active
+const toPetInformation = () => {
   uni.navigateTo({
-    url: linkList[e.index].navToLink,
+    url: '/pages/index/petInformation/petInformation',
   })
 }
 </script>
@@ -183,8 +128,12 @@ const trigger = (e: any) => {
   margin-top: 50rpx;
   margin-right: 10rpx;
 }
-.scoll-css{
+.scoll-css {
   padding-top: 10rpx;
   padding-bottom: 10rpx;
+}
+// 宠物档案--文本样式
+.text-s1 {
+  color: #847f7fc1;
 }
 </style>
