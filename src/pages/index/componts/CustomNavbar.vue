@@ -23,7 +23,7 @@ console.log(safeAreaInsets)
 /* 自定义导航条 */
 .navbar {
   // background-image: url(@/static/images/navigator_bg.png);
-  background-color: #da7a277c;
+  background-color: #e67f24b9;
   height: 160rpx;
   background-size: cover;
   position: relative;

@@ -62,7 +62,9 @@ onLoad(async () => {
   <!-- 板块 -->
   <Function3></Function3>
 
-  <view style="background-color: rgba(238, 238, 238, 0.822); padding-top: 10rpx;border-radius: 20rpx;">
+  <view
+    style="background-color: rgba(238, 238, 238, 0.626); padding-top: 0rpx; border-radius: 20rpx"
+  >
     <PetProfiles></PetProfiles>
     <Function></Function>
     <Function2></Function2>
@@ -71,7 +73,7 @@ onLoad(async () => {
 
 <style lang="scss">
 page {
-  background-color: rgb(247, 196, 129);
+  background-color: rgb(255, 208, 146);
   height: 100%;
   // display: flex;
   // flex-direction: column;

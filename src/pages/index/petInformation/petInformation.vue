@@ -12,6 +12,32 @@
           </view>
         </view>
       </view>
+      <view class="rigth-section">
+        <view class="rs1">
+          <view class="rs1-child">
+            <text class="t1">动态</text>
+            <text class="t2">100</text>
+          </view>
+          <view class="rs1-child">
+            <text class="t1">照片</text>
+            <text class="t2">56</text>
+          </view>
+          <view class="rs1-child">
+            <text class="t1">视频</text>
+            <text class="t2">12</text>
+          </view>
+        </view>
+        <view class="rs2">
+          <view class="rs2-1">
+            <view v-for="(item, index) in petLikeListTag" :key="index">
+              <text>{{ item }}</text>
+            </view>
+          </view>
+          <view class="rs2-2" @click="setTag">
+            <image src="D:\mini-PetAI-Vue3\src\static\icon\set-Icon.png" mode="scaleToFill" />
+          </view>
+        </view>
+      </view>
     </view>
     <view class="glass-content2">
       <view
@@ -35,114 +61,99 @@
       <view class="v2-2"></view>
     </view>
   </view>
-  <!-- 推荐列表 -->
-  <!-- <scroll-view
-    scroll-y
-    class="scroll-view"
-    v-for="(item, index) in recommendList"
-    :key="index"
-    v-show="index === activeIndex"
-    @scrolltolower="onScrolltolower"
-  >
-    <view class="goods">
-      <view
-        hover-class="none"
-        class="navigator"
-        v-for="goods in item.goodsItems.items"
-        :key="goods.id"
-        :url="`/pages/goods/goods?id=${goods.id}`"
-        :style="{ height: generateRandomInteger() + 'rpx' }"
-      >
-        <image
-          class="thumb"
-          :src="goods.pic"
-        ></image>
+  <!-- 弹窗 -->
+  <view class="popup" v-show="showDialog">
+    <view class="popup-info">
+      <view class="popup-main">
+        <view v-for="(item, index) in allPetLikeTag" :key="index" @click="chooseAddTag(index)">
+          <text>{{ item }}</text>
+        </view>
+      </view>
+      <!-- 备选框 -->
+      <view class="choose-tag">
+        <view v-for="(item, index) in petLikeList" :key="index" @click="chooseDeleteTag(index)">
+          <text>{{ item }}</text>
+        </view>
+      </view>
+      <view class="popup-btn">
+        <button class="button1" @tap="cancel">取消</button>
+        <button class="button2" @tap="affirm">确认</button>
       </view>
     </view>
-    <view class="loading-text" v-if="isScrolltolower">没有更多数据了...</view>
-    <view class="loading-text" v-else>正在加载...</view>
-  </scroll-view> -->
+  </view>
 </template>
 <script setup lang="ts">
-import { onLoad } from '@dcloudio/uni-app'
-import { ref } from 'vue'
-import { getRecommendGoodsAPI } from '../../../services/home'
-import type { RecommendGoodsItem } from '../../../types/home'
 import { reactive } from 'vue'
+import { ref } from 'vue'
 
-// 设置tab集合
-const tabsName = reactive(['食谱', '保健', '出行'])
 // 设置动态设置高亮的下标
 const activeIndex = ref(0)
-
-// 推荐数据的list
-const recommendList = ref<RecommendGoodsItem[]>([])
 // petTabarList
 const petTabarList = ref(['动态', '照片', '视频'])
+// 已选择的动物个性标签
+let petLikeListTag = reactive(['活泼', '萌萌哒', '多动'])
+// 处于选择中的动物个性标签
+let petLikeList = reactive(['活泼', '萌萌哒', '多动'])
+// 所有的动物个性标签
+let allPetLikeTag = ref([
+  '活泼',
+  '忠诚',
+  '温柔',
+  '聪明',
+  '爱玩',
+  '害羞',
+  '善解人意',
+  '好奇',
+  '独立',
+  '顽皮',
+  '友善',
+  '安静',
+  '慵懒',
+  '机灵',
+  '勇敢',
+  '耐心',
+  '爱护主人',
+  '独特',
+  '活力四溢',
+  '热情',
+])
+// 弹窗开启条件
+let showDialog = ref(false)
 
-// 获取数据
-const getHotRecommendData = async () => {
-  const res = await getRecommendGoodsAPI({
-    // 在开发时，用DEV模式下直接从30开始获取 正常用户使用下页码从1开始 import.meta.env.DEV ? 2 : 1
-    page: 1,
-    pageSize: 5,
-  })
-  console.log(res.result)
-  recommendList.value = res.result.items
-}
-// 到底的标识
-const isScrolltolower = ref(false)
-// 下拉触底
-const onScrolltolower = async () => {
-  console.log(activeIndex.value)
-  // 获取当前tab下的数据
-  const curr = recommendList.value[activeIndex.value]
-  console.log('触底了！')
-  if (curr.goodsItems.page >= curr.goodsItems.pages) {
-    // 没有更多数据了
-    if (isScrolltolower.value) {
-      uni.showToast({
-        title: '没有更多数据~',
-        icon: 'none',
-      })
-      return
-    }
-  }
-  console.log(curr)
-  // 增加页码
-  curr.goodsItems.page++
-  const res = await getRecommendGoodsAPI({
-    subType: activeIndex.value,
-    page: curr.goodsItems.page,
-    pageSize: curr.goodsItems.pageSize,
-  })
-  console.log(res)
-  curr.goodsItems.items.push(...res.result.items[activeIndex.value].goodsItems.items)
-  // 判断是否到底了
-  if (curr.goodsItems.page >= curr.goodsItems.pages) {
-    isScrolltolower.value = true
-  }
-}
-// 用户点击搜索框
-const searchInput = () => {
-  console.log('点击了搜索框')
-}
-// 测试
-const test = (val: number) => {
-  activeIndex.value = val
-  console.log(val)
-}
-onLoad(() => {
-  getHotRecommendData()
-})
-// 生成随机高度
-const generateRandomInteger = () => {
-  const min = 400
-  const max = 600
-  var randomInteger = Math.floor(Math.random() * (max - min + 1) + min)
-  console.log(randomInteger)
+let type = ref('center')
+let msgType = ref('success')
+let messageText = ref('这是一条成功提示')
+let value = ref('')
 
-  return randomInteger
+// 修改宠物个性标签
+const setTag = () => {
+  showDialog.value = true
+}
+// 选择增加个性标签
+const chooseAddTag = (index: any) => {
+  if (petLikeList.length < 3) {
+    petLikeList.push(allPetLikeTag.value[index])
+    console.log(allPetLikeTag.value[index])
+  } else {
+    uni.showToast({
+      title: '最多选择三个哦~',
+      icon: 'none',
+    })
+  }
+}
+// 选择删除个性标签
+const chooseDeleteTag = (index: any) => {
+  petLikeList.splice(index, 1)
+}
+const cancel = () => {
+  showDialog.value = false
+}
+const affirm = () => {
+  showDialog.value = false
+  petLikeListTag.length = 0
+  for (let i = 0; i < petLikeList.length; i++) {
+    petLikeListTag.push(petLikeList[i])
+  }
 }
 </script>
 <style lang="scss">
@@ -150,7 +161,7 @@ const generateRandomInteger = () => {
   margin-top: 20rpx;
   margin-left: 20rpx;
   margin-right: 20rpx;
-  height: 100px;
+  height: 110px;
   background-color: rgba(255, 209, 93, 0.801); /* 半透明的背景色 */
   backdrop-filter: blur(10px); /* 模糊效果，根据需要调整模糊程度 */
 
@@ -162,6 +173,9 @@ const generateRandomInteger = () => {
   border-top: 2rpx solid #c5c5c5e5;
   // 阴影
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 阴影样式 */
+  // 子盒子布局样式
+  display: flex;
+  justify-content: space-between;
 }
 .glass-content2 {
   margin-left: 20rpx;
@@ -202,20 +216,87 @@ const generateRandomInteger = () => {
   background-color: rgb(255, 158, 158);
 }
 .container {
-  height: 200rpx;
-  display: flex;
+  height: 150rpx;
   margin: 30rpx;
+  // background-color: #666;
+}
+.rigth-section {
+  margin: 30rpx;
+  margin-right: 50rpx;
+  background-color: #ffffff00;
+  width: 500rpx;
+  .rs1 {
+    // 子盒子布局样式
+    display: flex;
+    justify-content: space-between;
+    .rs1-child {
+      display: flex;
+      flex-direction: column;
+      margin-top: 10rpx;
+      margin-left: 20rpx;
+      margin-right: 20rpx;
+      .t1 {
+      }
+      .t2 {
+        margin-top: 10rpx;
+        color: #ffffff;
+        font-weight: 800;
+      }
+    }
+  }
+  .rs2 {
+    margin-top: 10rpx;
+
+    display: flex;
+    justify-content: space-between;
+    .rs2-1 {
+      width: 80%;
+      margin-left: 20rpx;
+      margin-right: 20rpx;
+      display: flex;
+      justify-content: space-between;
+      // background-color: #666;
+      view {
+        height: 50rpx;
+        background-color: #dcafaf;
+        border-radius: 25rpx;
+        padding-top: 8rpx;
+        padding-left: 10rpx;
+        padding-right: 10rpx;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        max-width: 100px; /* 设置最大宽度 */
+        overflow: hidden; /* 超出部分隐藏 */
+        white-space: nowrap; /* 文本不换行 */
+        text-overflow: ellipsis; /* 超出部分以省略号表示 */
+        text {
+          font-size: small;
+          display: inline-block;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          color: #fff;
+        }
+      }
+    }
+    .rs2-2 {
+      width: 40rpx;
+      height: 40rpx;
+      margin-left: 10rpx;
+      // background-color: #a61818;
+    }
+  }
 }
 
 .left-section {
   display: flex;
-  margin-left: 0rpx;
   margin-top: 0;
 }
 
 .circle {
-  width: 120rpx;
-  height: 120rpx;
+  width: 150rpx;
+  height: 150rpx;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -264,7 +345,7 @@ const generateRandomInteger = () => {
   }
   .v2 {
     width: 49%;
-    height:100%;
+    height: 100%;
     // height: 500rpx;
     margin-top: 20rpx;
     border-radius: 10rpx;
@@ -293,47 +374,97 @@ const generateRandomInteger = () => {
     }
   }
 }
-
-//
-.scroll-view {
-  flex: 1;
+// 弹窗样式
+.popup-info {
+  position: fixed;
+  width: 600rpx;
+  padding: 10rpx;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30upx;
+  border-radius: 20upx;
+  background-color: #fff;
+  z-index: 9999;
 }
-.goods {
+.popup-btn {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10rpx;
+  .button1{
+    width: 50%;
+    border-radius: 0;
+    border-bottom: 1rpx solid rgb(113, 113, 112);
+    border-right: 1rpx solid rgb(113, 113, 112);
+  }
+  .button2{
+    width: 50%;
+    border-radius: 0;
+    border-bottom: 1rpx solid rgb(113, 113, 112);
+  }
+}
+// 个性标签的样式
+.popup-main {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  background-color: #666;
-  padding: 0 20rpx 20rpx;
-  .navigator {
-    width: 49%;
-    // height: 500rpx;
-    margin-top: 20rpx;
-    border-radius: 10rpx;
-    background-color: #a61818;
+  view {
+    height: 50rpx;
+    background-color: #dcafaf;
+    border-radius: 25rpx;
+    margin: 10rpx;
+    padding: 10rpx;
+    padding-left: 20rpx;
+    padding-right: 20rpx;
     display: flex;
-    justify-content: space-between;
-  }
-  .thumb {
-    width: 100%;
-    height: 500rpx;
-    border-radius: 10rpx;
-  }
-  .name {
-    height: 88rpx;
-    font-size: 26rpx;
-  }
-  .symbol {
-    font-size: 70%;
-  }
-  .decimal {
-    font-size: 70%;
+    justify-content: center;
+    text-align: center;
+    max-width: 100px; /* 设置最大宽度 */
+    overflow: hidden; /* 超出部分隐藏 */
+    white-space: nowrap; /* 文本不换行 */
+    text-overflow: ellipsis; /* 超出部分以省略号表示 */
+    text {
+      font-size: small;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: #fff;
+    }
   }
 }
-
-.loading-text {
-  text-align: center;
-  font-size: 28rpx;
-  color: #666;
-  padding: 20rpx 0 50rpx;
+// 选中的标签的备选框
+.choose-tag {
+  width: 100%;
+  height: 70rpx;
+  background-color: #eaeaea00;
+  border: 0.5rpx solid #828282e5;
+  border-radius: 20rpx;
+  margin-top: 20rpx;
+  display: flex;
+  flex-wrap: wrap;
+  view {
+    height: 50rpx;
+    background-color: #dcafaf;
+    border-radius: 25rpx;
+    margin: 10rpx;
+    padding: 10rpx;
+    padding-left: 20rpx;
+    padding-right: 20rpx;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    max-width: 100px; /* 设置最大宽度 */
+    overflow: hidden; /* 超出部分隐藏 */
+    white-space: nowrap; /* 文本不换行 */
+    text-overflow: ellipsis; /* 超出部分以省略号表示 */
+    text {
+      font-size: small;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: #fff;
+    }
+  }
 }
 </style>
