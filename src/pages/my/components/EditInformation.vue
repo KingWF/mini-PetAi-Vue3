@@ -1,8 +1,61 @@
 <script setup lang="ts">
+import { getMemberProfileAPI } from '@/services/profile'
+import { useMemberStore } from '@/stores/modules/member'
+import type { ProfileDetail } from '@/types/member'
+import { onLoad } from '@dcloudio/uni-app'
+import { ref } from 'vue'
+
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
-</script>
 
+// 获取个人信息
+const profile = ref<ProfileDetail>()
+const getMemberProfileData = async () => {
+  const res = await getMemberProfileAPI()
+  profile.value = res.result
+}
+
+const memberStore = useMemberStore()
+
+// 修改头像
+const onAvatarChange = () => {
+  // 调用拍照/选择图片
+  uni.chooseMedia({
+    // 文件个数
+    count: 1,
+    // 文件类型
+    mediaType: ['image'],
+    success: (res) => {
+      // 本地路径
+      const { tempFilePath } = res.tempFiles[0]
+      // 文件上传
+      uni.uploadFile({
+        url: '/user/updateAvatar', // [!code ++]
+        name: 'avatarUrl', // 后端数据字段名  // [!code ++]
+        filePath: tempFilePath, // 新头像  // [!code ++]
+        success: (res) => {
+          // 判断状态码是否上传成功
+          if (res.statusCode === 200) {
+            // 提取头像
+            const { avatar } = JSON.parse(res.data).result
+            // 当前页面更新头像
+            profile.value!.avatar = avatar // [!code ++]
+            // 更新 Store 头像
+            memberStore.profile!.avatar = avatar // [!code ++]
+            uni.showToast({ icon: 'success', title: '更新成功' })
+          } else {
+            uni.showToast({ icon: 'error', title: '出现错误' })
+          }
+        },
+      })
+    },
+  })
+}
+
+onLoad(() => {
+  getMemberProfileData()
+})
+</script>
 <template>
   <view class="viewport">
     <!-- 导航栏 -->
@@ -12,8 +65,8 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
     </view>
     <!-- 头像 -->
     <view class="avatar">
-      <view class="avatar-content">
-        <image class="image" src=" " mode="aspectFill" />
+      <view @tap="onAvatarChange" class="avatar-content">
+        <image class="image" :src="profile?.avatar" mode="aspectFill" />
         <text class="text">点击修改头像</text>
       </view>
     </view>
@@ -23,21 +76,21 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
       <view class="form-content">
         <view class="form-item">
           <text class="label">账号</text>
-          <text class="account">账号名</text>
+          <text class="account">{{ profile?.account }}</text>
         </view>
         <view class="form-item">
           <text class="label">昵称</text>
-          <input class="input" type="text" placeholder="请填写昵称" value="" />
+          <input class="input" type="text" placeholder="请填写昵称" :value="profile?.nickname" />
         </view>
         <view class="form-item">
           <text class="label">性别</text>
           <radio-group>
             <label class="radio">
-              <radio value="男" color="#27ba9b" :checked="true" />
+              <radio value="男" color="#27ba9b" :checked="profile?.sex === '男'" />
               男
             </label>
             <label class="radio">
-              <radio value="女" color="#27ba9b" :checked="false" />
+              <radio value="女" color="#27ba9b" :checked="profile?.sex === '女'" />
               女
             </label>
           </radio-group>
@@ -49,22 +102,18 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
             mode="date"
             start="1900-01-01"
             :end="new Date()"
-            value="2000-01-01"
+            :value="profile?.birthday"
           >
-            <view v-if="false">2000-01-01</view>
+            <view v-if="profile?.birthday">{{ profile.birthday }}</view>
             <view class="placeholder" v-else>请选择日期</view>
           </picker>
         </view>
         <view class="form-item">
           <text class="label">城市</text>
-          <picker class="picker" mode="region" :value="['广东省', '广州市', '天河区']">
-            <view v-if="false">广东省广州市天河区</view>
+          <picker class="picker" :value="profile?.city?.split(' ')" mode="region">
+            <view v-if="profile?.city">{{ profile.city }}</view>
             <view class="placeholder" v-else>请选择城市</view>
           </picker>
-        </view>
-        <view class="form-item">
-          <text class="label">职业</text>
-          <input class="input" type="text" placeholder="请填写职业" value="" />
         </view>
       </view>
       <!-- 提交按钮 -->
