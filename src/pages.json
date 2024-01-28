@@ -1,24 +1,16 @@
 {
-	// 配置组件自动引入的规则
 	"easycom": {
-		// 是否开启自动扫描
 		"autoscan": true,
-		// 以正则表达式方式自定义组件匹配的规则
 		"custom": {
-			// uni-ui 规则如下配置
 			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
-			// 将通用组件库中的组件按照PetAI开头的格式导入
 			"^PetAi(.*)": "@/components/PetAi$1.vue"
 		}
 	},
 	"pages": [
-		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/index/index",
 			"style": {
-				// 导航栏样式:隐藏系统自带顶部导航栏
 				"navigationStyle": "custom",
-				// 导航栏标题颜色和状态栏前景颜色
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "首页"
 			}
@@ -26,9 +18,7 @@
 		{
 			"path": "pages/my/my",
 			"style": {
-				// 导航栏样式:隐藏系统自带顶部导航栏
 				"navigationStyle": "custom",
-				// 导航栏标题颜色和状态栏前景颜色
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "我的"
 			}
@@ -108,9 +98,7 @@
 		{
 			"path": "pages/my/components/EditInformation",
 			"style": {
-				// 导航栏样式:隐藏系统自带顶部导航栏
 				"navigationStyle": "custom",
-				// 导航栏标题颜色和状态栏前景颜色
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "编辑"
 			}
@@ -177,7 +165,6 @@
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},
-	// 设置 TabBar
 	"tabBar": {
 		"color": "#2c2c2c",
 		"selectedColor": "#27ba9b",
