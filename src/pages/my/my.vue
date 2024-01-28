@@ -8,7 +8,7 @@
     <pButton @tap="MyOrder">我的订单</pButton>
     <pButton @tap="MyPrivacy">隐私设置</pButton>
     <pButton @tap="Business">商家注册</pButton>
-    <button><div class="word">退出登录</div></button>
+    <button @tap="onLoadOut"><div class="word">退出登录</div></button>
   </div>
   <div class="fail" v-else>
     <Head class="head"></Head>
@@ -17,7 +17,7 @@
     <pButton @tap="MyOrder">我的订单</pButton>
     <pButton @tap="MyPrivacy">隐私设置</pButton>
     <pButton @tap="Business">商家注册</pButton>
-    <button><div class="word">点击登录账号</div></button>
+    <button @tap="Load"><div class="word">点击登录账号</div></button>
   </div>
 </template>
 
@@ -46,6 +46,23 @@ const MyPrivacy = () => {
 const Business = () => {
   uni.navigateTo({
     url: '/pages/my/components/Business',
+  })
+}
+const Load = () => {
+  uni.navigateTo({
+    url: '/pages/login/login',
+  })
+}
+const onLoadOut = () => {
+  //模态弹窗
+  uni.showModal({
+    content: '是否退出登录',
+    success: (res) => {
+      if (res.confirm) {
+        //清空用户信息
+        memberStore.clearProfile()
+      }
+    },
   })
 }
 
