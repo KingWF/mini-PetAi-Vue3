@@ -12,10 +12,9 @@ onHide(() => {
 })
 </script>
 
-<style lang="scss">
-// 字体图标
-@import '@/styles/fonts.scss';
 
+
+<style lang="scss">
 view,
 navigator,
 input,
