@@ -1,19 +1,22 @@
 <template>
   <view class="glass-content">
     <!-- 内容区域 -->
-    <view class="container-1" @tap="toNavgetor1">
-      <view class="top-text">宠物种类识别</view>
-      <view class="bottom-content">
+    <view class="container" @tap="toNavgetor1">
+      <view class="bottom-content-1">
         <image src="@\static\picture\carme.png"></image>
-        <text>深入了解宠物的相关信息</text>
       </view>
+      <view class="bottom-text">宠物识别</view>
     </view>
+
+    <view class="logo-container">
+      <image src="/static/picture/logo2.png"></image>
+    </view>
+
     <view class="container" @tap="toNavgetor2">
-      <view class="top-text">健康情绪分析</view>
-      <view class="bottom-content">
+      <view class="bottom-content-2">
         <image src="@\static\picture\voice.png"></image>
-        <text>听听宠物的悄悄话</text>
       </view>
+      <view class="bottom-text">情绪分析</view>
     </view>
   </view>
 </template>
@@ -29,61 +32,64 @@ const toNavgetor2 = () => {
   })
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .glass-content {
-  // margin: 20rpx 20rpx 0 20rpx;
-  height: 230rpx;
-  padding: 24rpx 20rpx 20rpx;
+  margin: 20rpx 20rpx 0 20rpx;
   display: flex;
-  justify-content: center;
-  // top: 50%;
-  // left: 50%;
-  // 阴影
-  // box-shadow: 2px 2px 4px rgba(63, 63, 63, 0.2);
-  background-color: rgba(255, 255, 255, 0.801); /* 半透明的背景色 */
-  backdrop-filter: blur(10px); /* 模糊效果，根据需要调整模糊程度 */
-  // border-radius: 15px 15px 0 0;
-  // 边框
-  border-left: 2rpx solid #c5c5c5e5;
-  border-right: 2rpx solid #c5c5c5e5;
-  border-top: 2rpx solid #c5c5c5e5;
-  /* 其他样式属性 */
-}
-.container-1 {
-  text-align: center;
-  // 边框
-  border-right: 2rpx solid #c5c5c5e5;
-  height: 200rpx;
+  justify-content: space-between;
 }
 .container {
   text-align: center;
-  height: 200rpx;
+  border-radius: 20rpx;
+  height: 230rpx;
+  margin-bottom: 20rpx;
+  // background-color: aliceblue;
+}
+// 中间logo标识
+.logo-container {
+  text-align: center;
+  border-radius: 20rpx;
+  height: 230rpx;
+  margin-bottom: 20rpx;
+  // background-color: rgb(50, 140, 219);
+  image {
+    width: 220rpx; /* 调整图片的宽度 */
+    height: 220rpx;
+    will-change: transform;
+  }
+}
+.bottom-text {
+  margin-top: 10rpx;
+  font-size: 32rpx;
+  font-weight: 800;
 }
 
-.top-text {
-  font-size: 20px;
-  line-height: 1;
-}
-
-.bottom-content {
+.bottom-content-1 {
+  border-radius: 20rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  height: 100rpx;
+  height: 180rpx;
+  width: 180rpx;
+  background-color: rgb(39, 243, 209);
+  image {
+    width: 120rpx; /* 调整图片的宽度 */
+    height: 120rpx;
+    will-change: transform;
+  }
 }
-
-.bottom-content image {
-  width: 100rpx; /* 调整图片的宽度 */
-  height: 100rpxs;
-  margin-left: 10px;
-  will-change: transform;
-}
-
-.bottom-content text {
-  width: 200rpx;
-  font-size: 15px;
-  line-height: 1;
-  margin-left: 20rpx;
+.bottom-content-2 {
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 180rpx;
+  width: 180rpx;
+  background-color: rgb(250, 216, 81);
+  image {
+    width: 120rpx; /* 调整图片的宽度 */
+    height: 120rpx;
+    will-change: transform;
+  }
 }
 </style>

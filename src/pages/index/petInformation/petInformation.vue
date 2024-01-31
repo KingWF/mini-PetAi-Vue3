@@ -34,7 +34,7 @@
             </view>
           </view>
           <view class="rs2-2" @click="setTag">
-            <image src="D:\mini-PetAI-Vue3\src\static\icon\set-Icon.png" mode="scaleToFill" />
+            <image src="/static/icon/set-Icon.png" mode="scaleToFill" />
           </view>
         </view>
       </view>

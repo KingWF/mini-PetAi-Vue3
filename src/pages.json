@@ -157,6 +157,12 @@
 			"style": {
 				"navigationBarTitleText": "宠物信息"
 			}
+		},
+		{
+			"path": "pages/index/shopMalls/productDetails/productDetails",
+			"style": {
+				"navigationBarTitleText": "商品详情"
+			}
 		}
 	],
 	"globalStyle": {

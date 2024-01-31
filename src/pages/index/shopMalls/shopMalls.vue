@@ -39,7 +39,7 @@
         class="navigator"
         v-for="goods in item.goodsItems.items"
         :key="goods.id"
-        :url="`/pages/goods/goods?id=${goods.id}`"
+        :url="`/pages/index/shopMalls/productDetails/productDetails?id=${goods.id}`"
       >
         <image class="thumb" :src="goods.pic"></image>
         <view class="name ellipsis">{{ goods.name }}</view>
@@ -116,42 +116,28 @@ const onScrolltolower = async () => {
 }
 // 用户点击搜索框
 const searchInput = () => {
-  console.log('点击了搜索框' + searchKeyWord.value)
+  if (searchKeyWord.value == '') {
+    uni.showToast({
+      title: '请输入商品名字~',
+      icon: 'none',
+    })
+    return
+  }
   uni.navigateTo({
-    url: '/pages/index/shopMalls/shopProductsList',
+    url: `/pages/index/shopMalls/shopProductsList?searchKeyWord=${searchKeyWord.value}`,
   })
-}
-// 测试
-const test = (val: number) => {
-  activeIndex.value = val
-  console.log(val)
 }
 onLoad(() => {
   getHotRecommendData()
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 page {
   height: 100%;
   background-color: #f4f4f4;
 }
-.viewport {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 180rpx 0 0;
-  position: relative;
-}
-.cover {
-  width: 750rpx;
-  height: 225rpx;
-  border-radius: 0 0 40rpx 40rpx;
-  overflow: hidden;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
+
 .scroll-view {
   flex: 1;
 }
