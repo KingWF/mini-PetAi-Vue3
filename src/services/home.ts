@@ -1,5 +1,11 @@
 import type { PageParams, PageResult } from '@/types/global'
-import type { BannerItem, GuessItem, RecommendGoodsItem, RecommendList } from '@/types/home'
+import type {
+  BannerItem,
+  GuessItem,
+  PetPictures,
+  RecommendGoodsItem,
+  RecommendList,
+} from '@/types/home'
 import { http } from '@/utils/http'
 
 /**
@@ -37,5 +43,15 @@ export const getRecommendGoodsAPI = (data?: RecommendParams) => {
     method: 'GET',
     url: '/home/getRecommendGoods',
     data,
+  })
+}
+
+/**
+ * 获取宠物的图片
+ */
+export const getPetPictureAPI = () => {
+  return http<PetPictures[]>({
+    method: 'GET',
+    url: 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/Picture/getPetPicture',
   })
 }

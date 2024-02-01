@@ -127,6 +127,11 @@ const searchInput = () => {
     url: `/pages/index/shopMalls/shopProductsList?searchKeyWord=${searchKeyWord.value}`,
   })
 }
+// 测试
+const test = (val: number) => {
+  activeIndex.value = val
+  console.log(val)
+}
 onLoad(() => {
   getHotRecommendData()
 })

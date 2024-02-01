@@ -29,6 +29,7 @@
         </view>
         <view class="rs2">
           <view class="rs2-1">
+            <!-- 宠物标签 -->
             <view v-for="(item, index) in petLikeListTag" :key="index">
               <text>{{ item }}</text>
             </view>
@@ -40,27 +41,48 @@
       </view>
     </view>
     <view class="glass-content2">
+      <!-- 宠物信息TabBar -->
       <view
         v-for="(item, index) in petTabarList"
         hover-class="none"
         :key="index"
         :class="{ active: activeIndex === index }"
-        @click="activeIndex = index"
+        @tap="changeShowStatus(index)"
         >{{ item }}
       </view>
     </view>
   </view>
   <!-- 底部 -->
-  <view class="pic-v">
-    <view class="v1">
-      <view class="v1-1"></view>
-      <view class="v1-2"></view>
-    </view>
-    <view class="v2">
-      <view class="v2-1"></view>
-      <view class="v2-2"></view>
+  <!-- 宠物动态view -->
+  <view class="dyn-v" v-if="ChangeTabBar == 0">
+    <scroll-view scroll-y class="dyn-v-scroll">
+      <view class="dyn-v-1" v-for="index in 5" :key="index"> {{ index }}</view>
+    </scroll-view>
+  </view>
+  <!-- 宠物照片view -->
+  <view v-if="ChangeTabBar == 1">
+    <view class="pic-v" v-for="(item, index) in petPicFour" :key="index">
+      <view class="v1">
+        <view class="v1-1">
+          <image :src="item.first" mode="scaleToFill" class="petPic" />
+        </view>
+        <view class="v1-2">
+          <image :src="item.second" mode="scaleToFill" class="petPic" />
+        </view>
+      </view>
+      <view class="v2">
+        <view class="v2-1">
+          <image :src="item.third" mode="scaleToFill" class="petPic" />
+        </view>
+        <view class="v2-2">
+          <image :src="item.forth" mode="scaleToFill" class="petPic" />
+        </view>
+      </view>
     </view>
   </view>
+
+  <!-- 宠物视频view -->
+  <view></view>
   <!-- 弹窗 -->
   <view class="popup" v-show="showDialog">
     <view class="popup-info">
@@ -85,6 +107,9 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { ref } from 'vue'
+import { getPetPictureAPI } from '@/services/home'
+import { onLoad } from '@dcloudio/uni-app'
+import type { PetPictures } from '@/types/home'
 
 // 设置动态设置高亮的下标
 const activeIndex = ref(0)
@@ -117,8 +142,13 @@ let allPetLikeTag = ref([
   '活力四溢',
   '热情',
 ])
+// 动物信息TabBar切换标识
+let ChangeTabBar = ref(0)
 // 弹窗开启条件
 let showDialog = ref(false)
+
+// 宠物照片List
+let petPicFour = ref<PetPictures[]>([])
 
 let type = ref('center')
 let msgType = ref('success')
@@ -145,9 +175,11 @@ const chooseAddTag = (index: any) => {
 const chooseDeleteTag = (index: any) => {
   petLikeList.splice(index, 1)
 }
+// 取消选择标签
 const cancel = () => {
   showDialog.value = false
 }
+// 确认选择标签
 const affirm = () => {
   showDialog.value = false
   petLikeListTag.length = 0
@@ -155,13 +187,27 @@ const affirm = () => {
     petLikeListTag.push(petLikeList[i])
   }
 }
+// 点击切换宠物的信息tabBar列表
+const changeShowStatus = (index: any) => {
+  activeIndex.value = index
+  ChangeTabBar.value = index
+}
+// 从后端获取宠物的图片
+const getPetPIcturesData = async () => {
+  const res = await getPetPictureAPI()
+  petPicFour.value = res.result
+  console.log(res.result)
+}
+onLoad(() => {
+  getPetPIcturesData()
+})
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .glass-content {
   margin-top: 20rpx;
   margin-left: 20rpx;
   margin-right: 20rpx;
-  height: 110px;
+  height: 210rpx;
   background-color: rgba(255, 209, 93, 0.801); /* 半透明的背景色 */
   backdrop-filter: blur(10px); /* 模糊效果，根据需要调整模糊程度 */
 
@@ -312,7 +358,7 @@ const affirm = () => {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  background-color: #ffffff;
+  // background-color: #ffffff;
   padding: 0 20rpx 20rpx;
 
   .v1 {
@@ -327,7 +373,7 @@ const affirm = () => {
       width: 100%;
       height: 55%;
       border-radius: 10rpx;
-      background-color: #dcafaf;
+      // background-color: #dcafaf;
       display: flex;
 
       justify-content: space-between;
@@ -337,8 +383,8 @@ const affirm = () => {
       height: 45%;
       border-radius: 10rpx;
       margin-top: 20rpx;
-      margin-bottom: 20rpx;
-      background-color: #dcafaf;
+      // margin-bottom: 20rpx;
+      // background-color: #dcafaf;
       display: flex;
       justify-content: space-between;
     }
@@ -357,9 +403,8 @@ const affirm = () => {
       width: 100%;
       height: 40%;
       border-radius: 10rpx;
-      background-color: #dcafaf;
+      // background-color: #dcafaf;
       display: flex;
-
       justify-content: space-between;
     }
     .v2-2 {
@@ -367,12 +412,16 @@ const affirm = () => {
       height: 60%;
       border-radius: 10rpx;
       margin-top: 20rpx;
-      margin-bottom: 20rpx;
-      background-color: #dcafaf;
+      // margin-bottom: 20rpx;
+      // background-color: #dcafaf;
       display: flex;
       justify-content: space-between;
     }
   }
+}
+// 照片墙样式
+.petPic{
+  border-radius: 20rpx;
 }
 // 弹窗样式
 .popup-info {
@@ -391,13 +440,13 @@ const affirm = () => {
   display: flex;
   justify-content: space-around;
   margin-top: 10rpx;
-  .button1{
+  .button1 {
     width: 50%;
     border-radius: 0;
     border-bottom: 1rpx solid rgb(113, 113, 112);
     border-right: 1rpx solid rgb(113, 113, 112);
   }
-  .button2{
+  .button2 {
     width: 50%;
     border-radius: 0;
     border-bottom: 1rpx solid rgb(113, 113, 112);
@@ -467,4 +516,20 @@ const affirm = () => {
     }
   }
 }
+// 宠物动态view
+.dyn-v {
+  // background-color: #dcafaf;
+  height: 1100rpx;
+  padding: 20rpx;
+  .dyn-v-scroll {
+    .dyn-v-1 {
+      margin-bottom: 40rpx;
+      height: 400rpx;
+      width: 100%;
+      background-color: aqua;
+      border-radius: 20rpx;
+    }
+  }
+}
+
 </style>

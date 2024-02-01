@@ -141,7 +141,7 @@ onLoad(() => {
 @import url('../../styles/font1.css');
 
 page {
-  background: linear-gradient(to bottom, #82c3f8, #ffffff);
+  background: linear-gradient(to bottom, #6ebeff, #ffffff, #6ebeff);
   height: 100%;
 }
 .top {

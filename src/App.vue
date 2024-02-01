@@ -12,8 +12,6 @@ onHide(() => {
 })
 </script>
 
-
-
 <style lang="scss">
 view,
 navigator,

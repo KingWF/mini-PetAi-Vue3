@@ -31,14 +31,13 @@
   // left: 50%;
   // 阴影
   // box-shadow: 2px 2px 4px rgba(63, 63, 63, 0.2);
-  background-color: rgba(255, 255, 255, 0.801); /* 半透明的背景色 */
-  backdrop-filter: blur(10px); /* 模糊效果，根据需要调整模糊程度 */
   border-radius: 15px;
   // 边框
-  border-left: 2rpx solid #c5c5c5e5;
-  border-right: 2rpx solid #c5c5c5e5;
-  border-bottom: 2rpx solid #c5c5c5e5;
+  // border-left: 2rpx solid #c5c5c5e5;
+  // border-right: 2rpx solid #c5c5c5e5;
+  // border-bottom: 2rpx solid #c5c5c5e5;
   /* 其他样式属性 */
+  background-color: #ffffff;
 }
 .box {
   flex: 1;

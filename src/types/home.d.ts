@@ -42,3 +42,10 @@ export type GoodsItem = {
   pic: string
   text: string
 }
+// 宠物的图片
+export type PetPictures = {
+  first: string
+  second: string
+  third: string
+  forth: string
+}

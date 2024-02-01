@@ -94,16 +94,11 @@ const setName = () => {
 <style lang="scss" scoped>
 .glass-content {
   margin: 20rpx 20rpx;
-
-  // top: 20%;
-  // left: 50%;
-  // transform: translate(-50%, -50%);
-  // padding: 20px;
-  background-color: rgba(255, 255, 255, 0.947); /* 半透明的背景色 */
-  backdrop-filter: blur(10px); /* 模糊效果，根据需要调整模糊程度 */
+  padding: 4rpx;
+  background-color: rgb(255, 255, 255); /* 半透明的背景色 */
   border-radius: 15px;
   // 边框
-  border: 2rpx solid #c5c5c5e5;
+  // border: 2rpx solid #c5c5c5e5;
   /* 其他样式属性 */
 }
 .container {
@@ -117,6 +112,7 @@ const setName = () => {
 
 .left-section {
   display: flex;
+  // background-color: #0e0e0e93;
 }
 
 .circle {
@@ -135,7 +131,7 @@ const setName = () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: 40rpx;
+  margin-left: 20rpx;
   // background-color: #70bfff;
   padding: 10rpx;
   height: 150rpx;
@@ -166,7 +162,7 @@ const setName = () => {
 }
 
 .text02 {
-  font-size: 14px;
+  font-size: 12px;
   color: rgb(178, 178, 178);
   // background-color: antiquewhite;
 }
