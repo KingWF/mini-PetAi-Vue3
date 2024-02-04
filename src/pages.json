@@ -90,12 +90,6 @@
 			}
 		},
 		{
-			"path": "pages/my/components/Business",
-			"style": {
-				"navigationBarTitleText": "商家注册"
-			}
-		},
-		{
 			"path": "pages/my/components/EditInformation",
 			"style": {
 				"navigationStyle": "custom",
@@ -158,12 +152,42 @@
 				"navigationBarTitleText": "宠物信息"
 			}
 		},
-		{
-			"path": "pages/index/shopMalls/productDetails/productDetails",
+    {
+			"path": "pages/index/shopMalls/productDetail",
 			"style": {
 				"navigationBarTitleText": "商品详情"
 			}
-		}
+    },
+    {
+			"path": "pages/my/components/MySpace",
+			"style": {
+				"navigationBarTitleText": "个人空间"
+			}
+    },
+    {
+			"path": "pages/my/components/article",
+			"style": {
+				"navigationBarTitleText": "我的帖子"
+			}
+    },
+    {
+			"path": "pages/my/components/collection",
+			"style": {
+				"navigationBarTitleText": "我的收藏"
+			}
+    },
+    {
+			"path": "pages/my/components/history",
+			"style": {
+				"navigationBarTitleText": "浏览历史"
+			}
+    },
+    {
+      "path": "pages/my/components/message",
+			"style": {
+				"navigationBarTitleText": "消息中心"
+			}
+    }
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

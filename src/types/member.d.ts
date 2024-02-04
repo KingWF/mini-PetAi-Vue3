@@ -36,4 +36,12 @@ export type ProfileDetail = BaseProfile & {
   city?: string
 }
 /** 性别 */
-export type sex = '女' | '男'
+export type Sex = '女' | '男'
+
+/** 个人信息 修改请求体参数 */
+export type ProfileParams = Pick<
+  'id' | 'avatar' | 'account' | 'nickname' | 'sex' | 'birthday' | 'city'
+> & {
+  // /** 省份编码 */
+  // provinceName: string
+}

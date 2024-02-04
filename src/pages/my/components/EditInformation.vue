@@ -3,24 +3,7 @@ import { getMemberProfileAPI } from '@/services/profile'
 import { useMemberStore } from '@/stores/modules/member'
 import type { ProfileDetail } from '@/types/member'
 import { onLoad } from '@dcloudio/uni-app'
-import { reactive } from 'vue'
 import { ref } from 'vue'
-
-// 测试城市
-let cityList = reactive({
-  province: '',
-  city: '',
-  district: '',
-})
-let provinceName = ref('')
-// 测试
-const bindTimeChange = (e: any) => {
-  cityList.province = e.detail.value[0]
-  cityList.city = e.detail.value[1]
-  cityList.district = e.detail.value[2]
-  provinceName.value = e.detail.value[0] + '-' + e.detail.value[1] + '-' + e.detail.value[2]
-  console.log(cityList)
-}
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
@@ -127,15 +110,9 @@ onLoad(() => {
         </view>
         <view class="form-item">
           <text class="label">城市</text>
-          <picker mode="region" value="0" @change="bindTimeChange">
-            <input
-              placeholder="请选择省市区"
-              type="text"
-              readonly
-              v-model="provinceName"
-              suffixIcon="arrow-right"
-              suffixIconStyle="color: #B6B6B6"
-            />
+          <picker class="picker" :value="profile?.city?.split(' ')" mode="region">
+            <view v-if="profile?.city">{{ profile.city }}</view>
+            <view class="placeholder" v-else>请选择城市</view>
           </picker>
         </view>
       </view>

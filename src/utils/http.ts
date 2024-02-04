@@ -1,9 +1,11 @@
 import { useMemberStore } from '@/stores'
 
-const baseURL = 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/miniTest'
+const baseURL = 'http://localhost:8888/miniTest'
 // 终端服务器基地址：'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top'
 // 添加拦截器
 // 拦截reques请求和uploadFile文件上传
+//http://localhost:8888/miniTest
+//https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/miniTest
 
 // 添加拦截器
 const httpInterceptor = {
