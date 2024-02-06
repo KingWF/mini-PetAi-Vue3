@@ -40,7 +40,7 @@
         class="navigator"
         v-for="goods in item.goodsItems.items"
         :key="goods.id"
-        :url="`/pages/index/shopMalls/productDetails/productDetails?id=${goods.id}`"
+        :url="`/pages/index/shopMalls/productDetail?id=${goods.id}`"
       >
         <image class="picture" :src="goods.pic"></image>
         <view class="name ellipsis">{{ goods.name }}</view>
@@ -115,15 +115,9 @@ const onScrolltolower = async () => {
 }
 // 用户点击搜索框
 const searchInput = () => {
-  if (searchKeyWord.value == '') {
-    uni.showToast({
-      title: '请输入商品名字~',
-      icon: 'none',
-    })
-    return
-  }
+  console.log('点击了搜索框' + searchKeyWord.value)
   uni.navigateTo({
-    url: `/pages/index/shopMalls/shopProductsList?searchKeyWord=${searchKeyWord.value}`,
+    url: '/pages/index/shopMalls/shopProductsList',
   })
 }
 // 高亮下标
@@ -141,7 +135,22 @@ page {
   height: 100%;
   background: linear-gradient(to bottom, #6ebeff, #ffffff, #ffffff, #6ebeff);
 }
-
+.viewport {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 180rpx 0 0;
+  position: relative;
+}
+.cover {
+  width: 750rpx;
+  height: 225rpx;
+  border-radius: 0 0 40rpx 40rpx;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
 .scroll-view {
   border-radius: 20rpx;
   height: 1200rpx;
