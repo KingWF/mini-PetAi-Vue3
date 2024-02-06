@@ -163,18 +163,6 @@
 			"style": {
 				"navigationBarTitleText": "商品详情"
 			}
-		},
-		{
-			"path": "pages/index/SetPetMess/setAvatar/setAvatar",
-			"style": {
-				"navigationBarTitleText": "修改宠物头像"
-			}
-		},
-		{
-			"path": "pages/index/SetPetMess/setSex/setSex",
-			"style": {
-				"navigationBarTitleText": "修改宠物性别"
-			}
 		}
 	],
 	"globalStyle": {
