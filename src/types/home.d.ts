@@ -42,10 +42,24 @@ export type GoodsItem = {
   pic: string
   text: string
 }
-// 宠物的图片
+/**
+ * 宠物的图片
+ */
 export type PetPictures = {
   first: string
   second: string
   third: string
   forth: string
+}
+/**
+ * 宠物基本信息
+ */
+export type PetBaseInformation = {
+  id: number
+  photourl: string
+  name: string
+  sex: string
+  birthday: string
+  // 其他信息
+  text: string
 }

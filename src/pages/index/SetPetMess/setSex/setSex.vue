@@ -1,5 +1,5 @@
 <template>
-  <div class="SetPetMess">SetPetMess</div>
+  <div class="setSex">setSex</div>
 </template>
 
 <script lang="ts" setup>

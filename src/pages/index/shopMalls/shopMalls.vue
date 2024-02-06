@@ -13,6 +13,7 @@
     </view>
     <button class="but1" @click="searchInput">搜索</button>
   </view>
+  <view> </view>
   <!-- 推荐选项 -->
   <view class="tabs">
     <text
@@ -20,7 +21,7 @@
       :key="index"
       class="text"
       :class="{ active: index === activeIndex }"
-      @tap="test(index)"
+      @tap="hghlightSubscript(index)"
       >{{ recommendList[index].name }}</text
     >
   </view>
@@ -41,7 +42,7 @@
         :key="goods.id"
         :url="`/pages/index/shopMalls/productDetails/productDetails?id=${goods.id}`"
       >
-        <image class="thumb" :src="goods.pic"></image>
+        <image class="picture" :src="goods.pic"></image>
         <view class="name ellipsis">{{ goods.name }}</view>
         <view class="price">
           <text class="symbol">备注：</text>
@@ -63,8 +64,6 @@ import { reactive } from 'vue'
 
 // 搜索框关键词
 const searchKeyWord = ref('')
-// 设置tab集合
-const tabsName = reactive(['食谱', '保健', '出行'])
 // 设置动态设置高亮的下标
 const activeIndex = ref(0)
 
@@ -127,8 +126,8 @@ const searchInput = () => {
     url: `/pages/index/shopMalls/shopProductsList?searchKeyWord=${searchKeyWord.value}`,
   })
 }
-// 测试
-const test = (val: number) => {
+// 高亮下标
+const hghlightSubscript = (val: number) => {
   activeIndex.value = val
   console.log(val)
 }
@@ -137,13 +136,15 @@ onLoad(() => {
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 page {
   height: 100%;
-  background-color: #f4f4f4;
+  background: linear-gradient(to bottom, #6ebeff, #ffffff, #ffffff, #6ebeff);
 }
 
 .scroll-view {
+  border-radius: 20rpx;
+  height: 1200rpx;
   flex: 1;
 }
 .search {
@@ -220,20 +221,32 @@ page {
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 0 20rpx 20rpx;
+  background-color: #ffffff;
+  margin-top: 20rpx;
+  border-radius: 20rpx;
+
   .navigator {
-    width: 345rpx;
-    padding: 20rpx;
+    width: 49%;
+    // padding: 20rpx;
     margin-top: 20rpx;
-    border-radius: 10rpx;
-    background-color: #fff;
+    border-radius: 20rpx;
+    // background-color: #d32929;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    // border: 1px solid #adadad93;
   }
-  .thumb {
-    width: 305rpx;
-    height: 305rpx;
+  .picture {
+    width: 100%;
+    height: 350rpx;
+    border-radius: 20rpx;
   }
   .name {
+    margin-top: 10rpx;
     height: 88rpx;
-    font-size: 26rpx;
+    font-size: 30rpx;
+    align-self: left;
   }
   .price {
     line-height: 1;

@@ -60,7 +60,7 @@
 			}
 		},
 		{
-			"path": "pages/index/homePetMess/SetPetMess/SetPetMess",
+			"path": "pages/index/SetPetMess/SetPetMess",
 			"style": {
 				"navigationBarTitleText": "修改宠物信息"
 			}
@@ -162,6 +162,18 @@
 			"path": "pages/index/shopMalls/productDetails/productDetails",
 			"style": {
 				"navigationBarTitleText": "商品详情"
+			}
+		},
+		{
+			"path": "pages/index/SetPetMess/setAvatar/setAvatar",
+			"style": {
+				"navigationBarTitleText": "修改宠物头像"
+			}
+		},
+		{
+			"path": "pages/index/SetPetMess/setSex/setSex",
+			"style": {
+				"navigationBarTitleText": "修改宠物性别"
 			}
 		}
 	],
