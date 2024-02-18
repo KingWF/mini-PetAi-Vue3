@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
-
+// 在App.vue中
+import { provide, nextTick, ref } from 'vue'
+const isRouterActive = ref(true)
+provide('reload', () => {
+  isRouterActive.value = false
+  nextTick(() => {
+    isRouterActive.value = true
+  })
+})
 onLaunch(() => {
   console.log('App Launch')
 })

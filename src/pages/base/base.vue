@@ -8,7 +8,6 @@
       <DietManagement></DietManagement>
       <ExercisePlan></ExercisePlan>
       <IntelligentConsultation></IntelligentConsultation>
-      <image class="background-image" src="/static/base/矩形.png"></image>
     </view>
   </div>
 </template>
@@ -37,7 +36,10 @@ export default {
 
 <style lang="scss">
 /* pages/index/index.wxss */
-
+page {
+  background: linear-gradient(to bottom, #6ebeff, #ffffff, #6ebeff);
+  height: 100%;
+}
 .page-container {
   position: relative;
 }

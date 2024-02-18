@@ -98,10 +98,9 @@
 			}
 		},
 		{
-			"path": "pages/community/components/add",
+			"path": "pages/community/components/upInfo",
 			"style": {
-				"navigationBarTitleText": "发布",
-				"enablePullDownRefresh": true
+				"navigationBarTitleText": "发布"
 			}
 		},
 		{

@@ -1,14 +1,12 @@
+<!-- 社区 -->
 <template>
   <view class="page-container">
     <!-- 页面内容 -->
-    <Header></Header>
     <Card></Card>
-    <image class="background-image" src="/static/base/矩形.png"></image>
   </view>
 </template>
 
 <script>
-import Header from './components/header.vue'
 import Card from './components/card.vue'
 export default {
   data() {
@@ -16,19 +14,16 @@ export default {
   },
   components: {
     // eslint-disable-next-line vue/no-reserved-component-names
-    Header,
     Card,
   },
 }
 </script>
 
 <style lang="scss">
-//.box {
-//  background-color: #ffffff;
-//}
-//view {
-//  background-color: #e0e0e0;
-//}
+page {
+  background: linear-gradient(to bottom, #6ebeff, #ffffff, #6ebeff);
+  height: 100%;
+}
 .page-container {
   position: relative;
 }

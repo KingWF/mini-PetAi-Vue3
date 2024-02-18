@@ -1,3 +1,4 @@
+<!-- 智能咨询跳转按钮 -->
 <template>
   <navigator class="box" :url="`pages/base/assembly/IntelligentFunction`" @click="add">
     <p class="p1">智能咨询</p>
