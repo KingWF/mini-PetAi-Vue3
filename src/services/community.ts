@@ -11,3 +11,55 @@ export const getCommunityDataAPI = () => {
     url: '/getCommunity',
   })
 }
+
+export const changeConcern = (itemId: bigint, newConcern: number) => {
+  return http<number>({
+    method: 'GET',
+    url: '/updateConcern',
+    data: {
+      itemId,
+      newConcern,
+    },
+  })
+}
+/**
+ * 添加朋友圈
+ */
+export const addMomentsAPI = (
+  titlecontent: string,
+  info: string,
+  picList: string[],
+  userid: number,
+  cityName: string,
+) => {
+  return http({
+    method: 'GET',
+    url: '/setMoments',
+    data: {
+      /**
+       * 标题
+       */
+      titlecontent,
+
+      /**
+       * 正文
+       */
+      info,
+
+      /**
+       * 图片
+       */
+      picList,
+
+      /**
+       * 是否关心
+       */
+      cityName,
+
+      /**
+       * 用户的ID
+       */
+      userid,
+    },
+  })
+}

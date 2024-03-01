@@ -1,17 +1,34 @@
 <script setup lang="ts">
-import { getMemberProfileAPI } from '@/services/profile'
+import { getMemberProfileAPI, putMemberProfileAPI } from '@/services/profile'
 import { useMemberStore } from '@/stores/modules/member'
-import type { ProfileDetail } from '@/types/member'
+import type { ProfileDetail, Sex } from '@/types/member'
 import { onLoad } from '@dcloudio/uni-app'
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
+
+// 测试城市
+let cityList = reactive({
+  province: '',
+  cityname: '',
+  district: '',
+})
+// let city = ref('')
+// 测试
+const bindTimeChange = (e: any) => {
+  cityList.province = e.detail.value[0]
+  cityList.cityname = e.detail.value[1]
+  cityList.district = e.detail.value[2]
+  profile.value.city = e.detail.value[0] + '-' + e.detail.value[1] + '-' + e.detail.value[2]
+  console.log(cityList)
+}
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
 // 获取个人信息
-const profile = ref<ProfileDetail>()
+const profile = ref<ProfileDetail>({} as ProfileDetail)
+
 const getMemberProfileData = async () => {
-  const res = await getMemberProfileAPI()
+  const res = await getMemberProfileAPI(memberStore.profile!.id)
   profile.value = res.result
 }
 
@@ -52,6 +69,45 @@ const onAvatarChange = () => {
   })
 }
 
+// 修改性别
+const onGenderChange: UniHelper.RadioGroupOnChange = (ev) => {
+  profile.value.sex = ev.detail.value as Sex
+}
+
+// 修改生日
+const onBirthdayChange: UniHelper.DatePickerOnChange = (ev) => {
+  profile.value.birthday = ev.detail.value
+}
+
+// 修改城市
+let fullLocationCode: [string, string, string] = ['', '', '']
+const onFullLocationChange: UniHelper.RegionPickerOnChange = (ev) => {
+  // 修改前端界面
+  profile.value.city = ev.detail.value.join(' ')
+  // 提交后端更新
+  fullLocationCode = ev.detail.code!
+}
+
+// 点击保存提交表单
+const onSubmit = async () => {
+  const { id, account, avatar, nickname, sex, birthday, city } = profile.value
+  const res = await putMemberProfileAPI({
+    id,
+    account,
+    avatar,
+    nickname,
+    sex,
+    birthday,
+    city,
+  })
+  // 更新Store昵称
+  memberStore.profile!.nickname = res.result.nickname
+  uni.showToast({ icon: 'success', title: '保存成功' })
+  setTimeout(() => {
+    uni.navigateBack()
+  }, 400)
+}
+
 onLoad(() => {
   getMemberProfileData()
 })
@@ -80,11 +136,11 @@ onLoad(() => {
         </view>
         <view class="form-item">
           <text class="label">昵称</text>
-          <input class="input" type="text" placeholder="请填写昵称" :value="profile?.nickname" />
+          <input class="input" type="text" placeholder="请填写昵称" v-model="profile!.nickname" />
         </view>
         <view class="form-item">
           <text class="label">性别</text>
-          <radio-group>
+          <radio-group @change="onGenderChange">
             <label class="radio">
               <radio value="男" color="#27ba9b" :checked="profile?.sex === '男'" />
               男
@@ -103,6 +159,7 @@ onLoad(() => {
             start="1900-01-01"
             :end="new Date()"
             :value="profile?.birthday"
+            @change="onBirthdayChange"
           >
             <view v-if="profile?.birthday">{{ profile.birthday }}</view>
             <view class="placeholder" v-else>请选择日期</view>
@@ -110,14 +167,21 @@ onLoad(() => {
         </view>
         <view class="form-item">
           <text class="label">城市</text>
-          <picker class="picker" :value="profile?.city?.split(' ')" mode="region">
-            <view v-if="profile?.city">{{ profile.city }}</view>
-            <view class="placeholder" v-else>请选择城市</view>
+          <picker mode="region" value="0" @change="bindTimeChange">
+            <input
+              placeholder="请选择省市区"
+              type="text"
+              readonly
+              v-model="profile.city"
+              suffixIcon="arrow-right"
+              suffixIconStyle="color: #B6B6B6"
+            />
           </picker>
+          <view> </view>
         </view>
+        <!-- 提交按钮 -->
+        <button class="form-button" @tap="onSubmit">保 存</button>
       </view>
-      <!-- 提交按钮 -->
-      <button class="form-button">保 存</button>
     </view>
   </view>
 </template>

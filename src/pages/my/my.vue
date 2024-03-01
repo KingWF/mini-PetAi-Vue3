@@ -21,10 +21,17 @@
       <view class="orders">
         <view class="title" @tap="MyOrder">我的订单</view>
         <view class="sorts">
-          <text class="icon-bill">待付款</text>
-          <text class="icon-car">待收货</text>
-          <text class="icon-money">退款/退货</text>
-          <text class="icon-list">全部订单</text>
+          <!-- 订单 -->
+          <navigator
+            v-for="item in orderTypes"
+            :key="item.type"
+            :class="item.icon"
+            :url="`/pages/my/components/orderList?type=${item.type}`"
+            class="navigator"
+            hover-class="none"
+          >
+            {{ item.text }}
+          </navigator>
         </view>
       </view>
       <!-- 购物车 -->
@@ -82,6 +89,14 @@
 <script setup lang="ts">
 import { useMemberStore } from '@/stores/modules/member'
 
+// 订单选项
+const orderTypes = [
+  { type: 1, text: '待付款', icon: 'icon-currency' },
+  { type: 2, text: '待发货', icon: 'icon-gift' },
+  { type: 3, text: '待收货', icon: 'icon-check' },
+  { type: 4, text: '待评价', icon: 'icon-comment' },
+]
+
 const ShoppingCart = () => {
   uni.navigateTo({
     url: '/pages/my/components/ShoppingCart',
@@ -94,7 +109,7 @@ const Message = () => {
 }
 const MyOrder = () => {
   uni.navigateTo({
-    url: '/pages/my/components/MyOrder',
+    url: '/pages/my/components/orderList',
   })
 }
 const MyPrivacy = () => {

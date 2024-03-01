@@ -187,6 +187,37 @@
 			"style": {
 				"navigationBarTitleText": "消息中心"
 			}
+    },
+    {
+      "path": "pages/my/components/CreateOrder",
+			"style": {
+				"navigationBarTitleText": "填写订单"
+			}
+    },
+    {
+      "path": "pages/my/components/address",
+			"style": {
+				"navigationBarTitleText": "地址管理"
+			}
+    },
+    {
+      "path": "pages/my/components/address-form",
+			"style": {
+				"navigationBarTitleText": "修改地址"
+			}
+    },
+    {
+      "path": "pages/my/components/orderList",
+			"style": {
+				"navigationBarTitleText": "订单列表"
+			}
+    },
+    {
+      "path": "pages/my/components/payment",
+			"style": {
+				"navigationBarTitleText": "支付成功"
+			}
+    }
 		},
 		{
 			"path": "pages/index/SmartAnswers/SmartAnswers",

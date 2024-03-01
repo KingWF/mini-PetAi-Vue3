@@ -1,3 +1,4 @@
+<!-- 宠物展示 -->
 <template>
   <view v-for="(item, index) in 3" :key="index">
     <view class="box">
@@ -30,7 +31,7 @@ export default {
   border-top-left-radius: 50rpx;
   border-bottom-left-radius: 50rpx;
   position: relative;
-  background: linear-gradient(to right, rgb(195, 223, 230), rgb(255, 255, 255));
+  background: linear-gradient(to right, #b4d9f7dc, #e3f2ffed, rgba(255, 255, 255, 0.947));
 }
 .avatar {
   width: 77rpx;
@@ -39,7 +40,7 @@ export default {
   left: 0.5rpx;
   background-color: #ffffff;
   position: absolute;
-  border: 6rpx solid #a0c9cf;
+  border: 6rpx solid #b4d9f7dc;
 }
 .info {
   position: absolute;

@@ -1,3 +1,4 @@
+<!-- 运动计划跳转按钮 -->
 <template>
   <navigator class="box" :url="`pages/base/assembly/ExercisePlanFunction`" @click="add">
     <p class="p1">运动计划</p>
