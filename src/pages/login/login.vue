@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { getAllPetInformationAPI } from '@/services/home';
 import { postLoginWxMinSimpleAPI } from '@/services/login'
 import { useMemberStore } from '@/stores/modules/member'
+import { usepetlistStore } from '@/stores/petlist';
 import type { LoginResult } from '@/types/member'
 import { onLoad } from '@dcloudio/uni-app'
 
@@ -21,6 +23,10 @@ const loginSuccess = (profile: LoginResult) => {
   //保存会员信息
   const memberStore = useMemberStore() // [!code ++]
   memberStore.setProfile(profile) // [!code ++]
+
+  // 登录成功时获取该用户下的宠物信息
+  getPetBaseInformationData(profile.id)
+
   //成功提示
   uni.showToast({ icon: 'success', title: '登录成功' })
   setTimeout(() => {
@@ -28,6 +34,15 @@ const loginSuccess = (profile: LoginResult) => {
     // uni.switchTab({ url: '/pages/index/index' })
     uni.navigateBack()
   }, 500)
+}
+// 获取当前用户下所有的宠物信息
+const getPetBaseInformationData = async (masterId: number) => {
+  const res = await getAllPetInformationAPI(masterId)
+  // console.log('宠物基本信息--图片:', petList.value[0].photourl)
+  const petlistStore = usepetlistStore()
+  petlistStore.setProfile(res.result)
+  console.log('宠物数据',res.result);
+
 }
 </script>
 

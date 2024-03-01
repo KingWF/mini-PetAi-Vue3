@@ -24,7 +24,7 @@
     </scroll-view>
   </view> -->
   <view class="base">
-    <swiper :autoplay="true" :interval="12000" :circular="true" @change="handleChange">
+    <swiper :autoplay="true" :interval="12000" :circular="true">
       <swiper-item v-for="(item, index) in petList" :key="index">
         <view class="glass-content">
           <view class="container">
@@ -69,13 +69,20 @@
   </view>
 </template>
 <script lang="ts" setup>
-import {  getAllPetInformationAPI } from '@/services/home'
+import { getAllPetInformationAPI } from '@/services/home'
+import { useMemberStore } from '@/stores/modules/member'
+import { usepetlistStore } from '@/stores/petlist'
 import type { PetBaseInformation } from '@/types/home'
 import { onLoad, onShow } from '@dcloudio/uni-app'
+import { watch } from 'vue'
 import { reactive } from 'vue'
 import { ref } from 'vue'
 
+let currentIndex = ref(0)
+// 用户id
+let masterId = ref(0)
 // 宠物列表
+// let petList = ref<PetBaseInformation[]>([])
 let petList = ref<PetBaseInformation[]>([])
 
 const pic1 =
@@ -90,11 +97,12 @@ const toPetInformation = () => {
   })
 }
 // 获取当前用户下所有的宠物信息
-const getPetBaseInformationData = async (masterId: number) => {
-  const res = await getAllPetInformationAPI(masterId)
-  petList.value = res.result
-  console.log('宠物基本信息--图片:', petList.value[0].photourl)
-}
+// const getPetBaseInformationData = async (masterId: number) => {
+//   const res = await getAllPetInformationAPI(masterId)
+//   petList.value = res.result
+//   // console.log('宠物基本信息--图片:', petList.value[0].photourl)
+//   // 重置下标
+// }
 // 跳转信息管理界面
 const toManagePage = (index: any) => {
   uni.navigateTo({
@@ -102,13 +110,35 @@ const toManagePage = (index: any) => {
   })
 }
 onLoad(() => {
-  getPetBaseInformationData(1)
+  // petList.value=usepetlistStore().profile
+  const userMenber = useMemberStore()
+  const userid = userMenber.profile?.id
+  console.log('用户id', userid)
+
+  if (userid != undefined) {
+    console.log('用户点击')
+    getPetBaseInformationData(userid!)
+  }
+  // getPetBaseInformationData(useMemberStore().profile!.id)
 })
+
+// 获取当前用户下所有的宠物信息
+const getPetBaseInformationData = async (masterId: number) => {
+  const res = await getAllPetInformationAPI(masterId)
+  // console.log('宠物基本信息--图片:', petList.value[0].photourl)
+  const petlistStore = usepetlistStore()
+  petlistStore.setProfile(res.result)
+  petList.value = res.result
+}
 // 页面显示
 onShow(() => {
-  getPetBaseInformationData(1)
+  const petlistStore = usepetlistStore()
+  console.log('宠物页面数据', petlistStore.profile)
+  petList.value = petlistStore.profile
 })
-const handleChange = () => {}
+const handleChange = () => {
+  currentIndex.value = 0
+}
 </script>
 <style lang="scss">
 .base {

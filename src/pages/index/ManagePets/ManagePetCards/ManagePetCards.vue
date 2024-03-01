@@ -19,7 +19,7 @@
                 <text class="text02">
                   <text>生日 : {{ item.birthday }}</text>
                   <text>性别 : {{ item.sex }}</text>
-                  <text>年龄 : {{ item.text }}</text>
+                  <text>备注 : {{ item.text }}</text>
                 </text>
               </div>
             </div>
@@ -107,13 +107,15 @@ import {
   addPetInformationAPI,
   deletePetInformationAPI,
   getAllPetInformationAPI,
-uploadAavatarAPI,
+  uploadAavatarAPI,
 } from '@/services/home'
+import { useMemberStore } from '@/stores'
+import { usepetlistStore } from '@/stores/petlist'
 import type { PetBaseInformation } from '@/types/home'
 import { onLoad } from '@dcloudio/uni-app'
-import { watch } from 'vue'
 import { reactive, ref } from 'vue'
-const userId = 1
+// 当前用户的id
+let userId = ref(0)
 
 let DateValue = ref('请选择日期')
 const onDateChange = (e: any) => {
@@ -176,15 +178,50 @@ const test = () => {
 // 获取当前用户下所有的宠物信息
 const getPetBaseInformationData = async (masterId: number) => {
   const res = await getAllPetInformationAPI(masterId)
+  const petlistStore = usepetlistStore()
+  petlistStore.setProfile(res.result)
+  petList.value = []
   petList.value = res.result
-  console.log('宠物基本信息:', petList.value[0].id)
 }
 
 // 删除指定id的宠物
 const deletePetById = async (index: number) => {
   const res = await deletePetInformationAPI(index)
-  getPetBaseInformationData(userId)
+  getPetBaseInformationData(userId.value)
   console.log('结果：', res.msg)
+}
+// 上传头像
+const uploadAavatar = () => {
+  uni.chooseImage({
+    count: 1,
+    sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+    sourceType: ['album'], //从相册选择
+    success: (chooseImageRes) => {
+      avatar.value = chooseImageRes.tempFilePaths[0]
+    },
+  })
+}
+// 上传头像成功后，提交图片至后端
+const confirmUploadAavatarAndInformation = () => {
+  uni.uploadFile({
+    url: 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/miniTest/AddNewPet/unload', //仅为示例，非真实的接口地址
+    filePath: avatar.value,
+    name: 'file',
+    formData: {},
+    success: (uploadFileRes) => {
+      console.log('返回数据', uploadFileRes.data)
+      const filePath = uploadFileRes.data
+      // 图片储存链接生成成功后 将新增宠物信息保存至后端
+      newPet.photourl = filePath
+      addPetInformationAPI(newPet)
+      // 刷新宠物列表
+      getPetBaseInformationData(userId.value)
+    },
+  })
+}
+// 添加宠物
+const addPet = () => {
+  showPopup.value = !showPopup.value
 }
 // 取消
 const cancel = () => {
@@ -193,7 +230,7 @@ const cancel = () => {
 // 确认
 const confirmName = () => {
   // 将用户id赋值给该新增宠物的主人id
-  newPet.masterid = userId
+  newPet.masterid = userId.value
   // 校验输入是否全部符合规则
   if (newPet.name == '') {
     inputRule.nameWarningText = '宠物名字不能为空'
@@ -214,39 +251,9 @@ const confirmName = () => {
   // 上传头像至后端
 
   // 上传宠物数据至后端
-  let filePath =  confirmUploadAavatar(avatar.value)
-  addPetInformationAPI(newPet)
+  confirmUploadAavatarAndInformation()
 
   // 关闭弹窗
-  showPopup.value = !showPopup.value
-}
-// 上传头像
-const uploadAavatar = () => {
-  uni.chooseImage({
-    count: 1,
-    sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-    sourceType: ['album'], //从相册选择
-    success: (chooseImageRes) => {
-      avatar.value = chooseImageRes.tempFilePaths[0]
-    },
-  })
-}
-// 上传头像成功后，提交图片至后端
-const confirmUploadAavatar =async (filePath:string) => {
-  const res= await uploadAavatarAPI(filePath)
-  // uni.uploadFile({
-  //   url: 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/miniTest/AddNewPet/unload', //仅为示例，非真实的接口地址
-  //   filePath: avatar.value,
-  //   name: 'file',
-  //   formData: {},
-  //   success: (uploadFileRes) => {
-  //     console.log('返回数据', uploadFileRes.data)
-  //     return uploadFileRes.data
-  //   },
-//   })
-}
-// 添加宠物
-const addPet = () => {
   showPopup.value = !showPopup.value
 }
 // 监听输入name是否超出限制长度
@@ -257,8 +264,14 @@ const inputName = () => {
     inputRule.nameWarningText = ''
   }
 }
+// 获取当前用户的id
+const getUserId = () => {
+  const userMember = useMemberStore()
+  userId.value = userMember.profile!.id
+}
 onLoad(() => {
-  getPetBaseInformationData(userId)
+  getUserId()
+  getPetBaseInformationData(userId.value)
 })
 </script>
 

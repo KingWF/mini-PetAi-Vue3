@@ -42,6 +42,7 @@
       </view>
       <!-- 推荐轮播图+商城 -->
       <Function3></Function3>
+      <!-- <div><button @click="test">获取id</button>{{ userid }}</div> -->
     </view>
   </view>
 </template>
@@ -53,6 +54,9 @@ import Function3 from './componts/Function3.vue'
 import { ref } from 'vue'
 import { onLoad, onShow } from '@dcloudio/uni-app'
 import QQMapWX from '@/utils/qqmap-wx-jssdk.min.js'
+import { useMemberStore } from '@/stores'
+
+let userid = ref(0)
 
 // 问候语
 let Greetings = ref('')
@@ -159,6 +163,13 @@ onLoad(() => {
     getLocation()
   }
 })
+
+// 测试
+const test = () => {
+  const memberStore = useMemberStore()
+  const profile = memberStore.profile
+  userid.value = profile!.id
+}
 </script>
 <style lang="scss">
 // 导入自定义字体

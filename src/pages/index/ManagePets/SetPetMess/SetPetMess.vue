@@ -129,11 +129,17 @@
 </template>
 
 <script lang="ts" setup>
-import { onLoad } from '@dcloudio/uni-app'
+import { onBackPress, onHide, onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import type { PetBaseInformation } from '@/types/home'
-import { getPetBaseInformationAPI, setPetBaseInformationAPI } from '@/services/home'
+import {
+  getAllPetInformationAPI,
+  getPetBaseInformationAPI,
+  setPetBaseInformationAPI,
+} from '@/services/home'
 import { reactive } from 'vue'
+import { usepetlistStore } from '@/stores/petlist'
+import { useMemberStore } from '@/stores/modules/member'
 
 // 宠物基本信息
 let petBaseInformation = ref<PetBaseInformation>()
@@ -151,11 +157,6 @@ const id = ref(1)
 // 临时头像储存
 let avatar = ref('')
 
-onLoad((option) => {
-  id.value = option?.id
-  console.log(id.value)
-  getPetBaseInformationData(id.value)
-})
 // 获取宠物的基本信息
 const getPetBaseInformationData = async (id: number) => {
   const res = await getPetBaseInformationAPI(id)
@@ -240,6 +241,9 @@ const confirmName = async (index: any, option: string) => {
 
   // 重新获取宠物信息
   getPetBaseInformationData(id.value)
+  // 刷新所有宠物的信息
+  getAllPetInformationData()
+
   showPopup.value = 0
 }
 // 取消
@@ -247,6 +251,19 @@ const cancel = () => {
   avatar.value = ''
   showPopup.value = 0
 }
+// 获取当前用户下所有的宠物信息更新store
+const getAllPetInformationData = async () => {
+  const userMemberStore = useMemberStore()
+  const res = await getAllPetInformationAPI(userMemberStore.profile!.id)
+  // console.log('宠物基本信息--图片:', petList.value[0].photourl)
+  const petlistStore = usepetlistStore()
+  petlistStore.setProfile(res.result)
+}
+onLoad((option) => {
+  id.value = option?.id
+  console.log(id.value)
+  getPetBaseInformationData(id.value)
+})
 </script>
 
 <style lang="scss" scoped>

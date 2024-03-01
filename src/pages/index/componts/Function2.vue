@@ -27,7 +27,7 @@ const toSmartAnswer = () => {
 }
 const toOnlineConsultation = () => {
   uni.navigateTo({
-    url: '/pages/index/OnlineConsultation/OnlineConsultation',
+    url: '/pages/online/onlineDoctor/onlineDoctor',
   })
 }
 </script>

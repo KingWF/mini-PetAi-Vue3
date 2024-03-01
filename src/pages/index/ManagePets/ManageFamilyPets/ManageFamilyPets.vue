@@ -6,7 +6,6 @@
     <div class="d1" @tap="toManageAllPets">
       <text> 管理所有家庭宠物 >>> </text>
     </div>
-
   </div>
 </template>
 
@@ -27,10 +26,9 @@ const toManageAllPets = () => {
   uni.navigateTo({
     url: '/pages/index/ManagePets/ManagePetCards/ManagePetCards',
   })
-
 }
 onLoad((e: any) => {
-  console.log(e.id)
+  console.log('宠物id', e.id)
   PetId.value = e.id
 })
 </script>

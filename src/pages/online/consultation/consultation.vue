@@ -30,7 +30,7 @@
     <view class="chat-footer">
       <input type="text" class="msg-input" cursor-spacing="50" v-model="myInput" />
       <image class="img-chose" src="/static/communityImages/相册.png" @click="choseImgAndSend" />
-      <view class="send-btn" @click="sendMsg">发现</view>
+      <view class="send-btn" @click="sendMsg">发送</view>
     </view>
   </view>
 </template>

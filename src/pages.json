@@ -217,8 +217,7 @@
 			"style": {
 				"navigationBarTitleText": "支付成功"
 			}
-    }
-		},
+    },
 		{
 			"path": "pages/index/SmartAnswers/SmartAnswers",
 			"style": {
@@ -241,6 +240,24 @@
 			"path": "pages/index/ManagePets/ManagePetCards/ManagePetCards",
 			"style": {
 				"navigationBarTitleText": "管理所有宠物（增加、删除）"
+			}
+		},
+		{
+			"path": "pages/online/onlineDoctor/onlineDoctor",
+			"style": {
+				"navigationBarTitleText": "在线问诊"
+			}
+		},
+    {
+			"path": "pages/online/consultation/consultation",
+			"style": {
+				"navigationBarTitleText": "问诊咨询"
+			}
+		},
+    {
+			"path": "pages/community/components/upInfo",
+			"style": {
+				"navigationBarTitleText": "发布动态"
 			}
 		}
 	],
