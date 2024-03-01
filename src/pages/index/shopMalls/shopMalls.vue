@@ -117,7 +117,7 @@ const onScrolltolower = async () => {
 const searchInput = () => {
   console.log('点击了搜索框' + searchKeyWord.value)
   uni.navigateTo({
-    url: '/pages/index/shopMalls/shopProductsList',
+    url: `/pages/index/shopMalls/shopProductsList?searchKeyWord=${searchKeyWord.value}`,
   })
 }
 // 高亮下标

@@ -27,7 +27,7 @@
           <text>hello</text>
         </view>
         <view class="top-2-2">
-          <text>下午好</text>
+          <text>{{ Greetings }}</text>
         </view>
       </view>
     </view>
@@ -54,6 +54,8 @@ import { ref } from 'vue'
 import { onLoad, onShow } from '@dcloudio/uni-app'
 import QQMapWX from '@/utils/qqmap-wx-jssdk.min.js'
 
+// 问候语
+let Greetings = ref('')
 // 地址获取是否成功
 let isGetLocation = ref(false)
 // 城市名称
@@ -129,8 +131,30 @@ const RecaptureAddress = () => {
     })
   }
 }
+// 获取当前时间
+const getNowDate = () => {
+  // 获取当前时间
+  var currentTime = new Date()
+
+  // 获取当前小时
+  var currentHour = currentTime.getHours()
+  if (currentHour >= 1 && currentHour < 9) {
+    Greetings.value = '早上好'
+  } else if (currentHour >= 9 && currentHour < 12) {
+    Greetings.value = '上午好'
+  } else if (currentHour >= 12 && currentHour < 13) {
+    Greetings.value = '中午好'
+  } else if (currentHour >= 13 && currentHour < 18) {
+    Greetings.value = '下午好'
+  } else if (currentHour >= 18 && currentHour <= 24) {
+    Greetings.value = '晚上好'
+  }
+
+  console.log(currentHour) // 输出当前小时时间
+}
 // 页面加载时
 onLoad(() => {
+  getNowDate()
   if (cityName.value == '') {
     getLocation()
   }

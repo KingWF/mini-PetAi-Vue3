@@ -60,7 +60,7 @@
 			}
 		},
 		{
-			"path": "pages/index/SetPetMess/SetPetMess",
+			"path": "pages/index/ManagePets/SetPetMess/SetPetMess",
 			"style": {
 				"navigationBarTitleText": "修改宠物信息"
 			}
@@ -152,42 +152,66 @@
 				"navigationBarTitleText": "宠物信息"
 			}
 		},
-    {
+		{
 			"path": "pages/index/shopMalls/productDetail",
 			"style": {
 				"navigationBarTitleText": "商品详情"
 			}
-    },
-    {
+		},
+		{
 			"path": "pages/my/components/MySpace",
 			"style": {
 				"navigationBarTitleText": "个人空间"
 			}
-    },
-    {
+		},
+		{
 			"path": "pages/my/components/article",
 			"style": {
 				"navigationBarTitleText": "我的帖子"
 			}
-    },
-    {
+		},
+		{
 			"path": "pages/my/components/collection",
 			"style": {
 				"navigationBarTitleText": "我的收藏"
 			}
-    },
-    {
+		},
+		{
 			"path": "pages/my/components/history",
 			"style": {
 				"navigationBarTitleText": "浏览历史"
 			}
-    },
-    {
-      "path": "pages/my/components/message",
+		},
+		{
+			"path": "pages/my/components/message",
 			"style": {
 				"navigationBarTitleText": "消息中心"
 			}
-    }
+		},
+		{
+			"path": "pages/index/SmartAnswers/SmartAnswers",
+			"style": {
+				"navigationBarTitleText": "智能回答"
+			}
+		},
+		{
+			"path": "pages/index/OnlineConsultation/OnlineConsultation",
+			"style": {
+				"navigationBarTitleText": "OnlineConsultation"
+			}
+		},
+		{
+			"path": "pages/index/ManagePets/ManageFamilyPets/ManageFamilyPets",
+			"style": {
+				"navigationBarTitleText": "管理家庭宠物(增加、删除)"
+			}
+		},
+		{
+			"path": "pages/index/ManagePets/ManagePetCards/ManagePetCards",
+			"style": {
+				"navigationBarTitleText": "管理所有宠物（增加、删除）"
+			}
+		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

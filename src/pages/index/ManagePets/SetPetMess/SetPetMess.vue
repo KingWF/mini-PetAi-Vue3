@@ -67,13 +67,10 @@
 
       <view class="popup-view1" v-if="showPopup == 1">
         <view class="base-view">
-          <input
-            v-model="Modified.text"
-            placeholder="输入名称1~"
-            placeholder-class="input-placeholder"
-            @confirm="confirmName(Modified.index, Modified.text)"
-            class="base-input"
-          />
+          <button @tap="uploadAavatar">上传头像</button>
+        </view>
+        <view class="base-avatar">
+          <image :src="avatar" mode="scaleToFill" />
         </view>
       </view>
       <view class="popup-view1" v-if="showPopup == 2">
@@ -149,11 +146,14 @@ let Modified = reactive({
 let showPopup = ref(0)
 
 // 用户对应的宠物标识ID
-const id = ref()
+const id = ref(1)
+
+// 临时头像储存
+let avatar = ref('')
 
 onLoad((option) => {
   id.value = option?.id
-  console.log(id)
+  console.log(id.value)
   getPetBaseInformationData(id.value)
 })
 // 获取宠物的基本信息
@@ -161,6 +161,31 @@ const getPetBaseInformationData = async (id: number) => {
   const res = await getPetBaseInformationAPI(id)
   petBaseInformation.value = res.result
   console.log(res)
+}
+// 上传头像
+const uploadAavatar = () => {
+  uni.chooseImage({
+    count: 1,
+    sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+    sourceType: ['album'], //从相册选择
+    success: (chooseImageRes) => {
+      avatar.value = chooseImageRes.tempFilePaths[0]
+    },
+  })
+}
+// 上传头像成功后，提交图片至后端
+const confirmUploadAavatar = () => {
+  uni.uploadFile({
+    url: 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/miniTest/uploadFile', //仅为示例，非真实的接口地址
+    filePath: avatar.value,
+    name: 'file',
+    formData: {
+      id: id.value,
+    },
+    success: (uploadFileRes) => {
+      console.log(uploadFileRes.data)
+    },
+  })
 }
 // 设置宠物的信息
 const setInformation = (index: any) => {
@@ -182,8 +207,8 @@ const setInformation = (index: any) => {
   }
 }
 // 保存宠物基本信息至数据库
-const setPetBaseInformationData = async (index: any, option: string) => {
-  const res = await setPetBaseInformationAPI(index, option)
+const setPetBaseInformationData = async (id: number, index: any, option: string) => {
+  const res = await setPetBaseInformationAPI(id, index, option)
   console.log('结果:' + res.msg)
 }
 
@@ -194,26 +219,32 @@ const togglePopup = (index: number, option: any) => {
   showPopup.value = index
 }
 // 确认提交
-const confirmName = (index: any, option: string) => {
+const confirmName = async (index: any, option: string) => {
   if (index == 1) {
     console.log('修改图片')
-  } else if (index == 2) {
-    console.log('修改名字:' + option)
-  } else if (index == 3) {
-    console.log('修改出生日期')
-  } else if (index == 4) {
-    console.log('点击了性别~')
-  } else if (index == 5) {
-    console.log('点击了备注~')
+    confirmUploadAavatar()
+  } else {
+    if (index == 2) {
+      console.log('修改名字:' + option)
+    } else if (index == 3) {
+      console.log('修改出生日期')
+    } else if (index == 4) {
+      console.log('点击了性别~')
+    } else if (index == 5) {
+      console.log('点击了备注~')
+    }
+    // 设置宠物信息
+    await setPetBaseInformationData(id.value, index, option)
+    avatar.value = ''
   }
-  // 设置宠物信息
-  setPetBaseInformationData(index, option)
+
   // 重新获取宠物信息
   getPetBaseInformationData(id.value)
   showPopup.value = 0
 }
 // 取消
 const cancel = () => {
+  avatar.value = ''
   showPopup.value = 0
 }
 </script>
@@ -412,6 +443,18 @@ const cancel = () => {
     background-color: rgb(217, 218, 218);
     width: 150rpx;
     font-size: 25rpx;
+  }
+}
+.base-avatar {
+  height: 400rpx;
+  width: 100%;
+  background-color: rgb(212, 212, 212);
+  display: flex;
+  justify-content: center;
+  image {
+    border-radius: 50%;
+    height: 400rpx;
+    width: 400rpx;
   }
 }
 </style>

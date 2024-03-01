@@ -2,7 +2,7 @@
   "name": "uni-app-petai",
   "version": "0.0.0",
   "author": {
-    "name": "xx"
+    "name": "黎明"
   },
   "scripts": {
     "dev:app": "uni -p app",

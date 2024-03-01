@@ -4,6 +4,7 @@ import type {
   GuessItem,
   PetBaseInformation,
   PetPictures,
+  Question,
   RecommendGoodsItem,
   RecommendList,
 } from '@/types/home'
@@ -57,6 +58,18 @@ export const getPetPictureAPI = () => {
   })
 }
 /**
+ * 获取当前用户下的所有宠物
+ */
+export const getAllPetInformationAPI = (masterId: number) => {
+  return http<PetBaseInformation[]>({
+    method: 'GET',
+    url: '/AllPetInformation',
+    data: {
+      masterId,
+    },
+  })
+}
+/**
  * 获取宠物基本信息
  */
 export const getPetBaseInformationAPI = (id: number) => {
@@ -71,13 +84,81 @@ export const getPetBaseInformationAPI = (id: number) => {
 /**
  * 修改宠物基本信息
  */
-export const setPetBaseInformationAPI = (index: number, text: string) => {
+export const setPetBaseInformationAPI = (id: number, index: number, text: string) => {
   return http({
     method: 'GET',
     url: '/setBasePetInformation',
     data: {
+      id,
       index,
       text,
+    },
+  })
+}
+/**
+ * 删除指定宠物的信息
+ */
+export const deletePetInformationAPI = (index: number) => {
+  return http({
+    method: 'GET',
+    url: '/deletePetInformation',
+    data: {
+      index,
+    },
+  })
+}
+/**
+ * 新增宠物的信息
+ */
+export const addPetInformationAPI = (newPet: any) => {
+  return http({
+    method: 'POST',
+    url: '/AddNewPet/petInformation',
+    data: newPet,
+  })
+}
+/**
+ * 智能回答---发送问题
+ */
+export const sendQuestions = (userId: string, message: string) => {
+  return http({
+    method: 'POST',
+    url: 'http://localhost:8888/chatgpt/test001',
+    data: {
+      userId,
+      message,
+    },
+  })
+}
+// 测试
+export const GPTTest = (userId: string) => {
+  return http({
+    method: 'GET',
+    url: 'http://localhost:8888/chatgpt/Test',
+    data: {
+      userId,
+    },
+  })
+}
+// 获取与gpt历史聊天内容
+export const getHistoryChatData = (userId: string) => {
+  return http<string[]>({
+    method: 'GET',
+    url: 'http://localhost:8888/chatgpt/ChatData',
+    data: {
+      userId,
+    },
+  })
+}
+export const uploadAavatarAPI = (filePath: string) => {
+  uni.uploadFile({
+    url: 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/miniTest/AddNewPet/unload', //仅为示例，非真实的接口地址
+    filePath: filePath,
+    name: 'file',
+    formData: {},
+    success: (uploadFileRes) => {
+      console.log('返回数据', uploadFileRes.data)
+      return uploadFileRes.data
     },
   })
 }

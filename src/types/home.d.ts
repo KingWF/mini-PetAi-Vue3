@@ -56,10 +56,18 @@ export type PetPictures = {
  */
 export type PetBaseInformation = {
   id: number
+  masterid: number
   photourl: string
   name: string
   sex: string
   birthday: string
   // 其他信息
   text: string
+}
+/**
+ * 智能咨询的问题
+ */
+export type Question = {
+  userId: string
+  message: string
 }

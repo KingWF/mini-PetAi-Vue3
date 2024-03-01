@@ -1,30 +1,41 @@
 <template>
   <view class="glass-content">
     <!-- 内容区域 -->
-    <view class="box">
+    <!-- <view class="box">
       <image src="@\static\picture\Find_pic.png" />
       <view class="caption">丢失查找</view>
     </view>
     <view class="box">
       <image src="@\static\picture\Doc_pic.png" />
       <view class="caption">在线就诊</view>
+    </view> -->
+    <view class="box" @click="toSmartAnswer">
+      <image src="@\static\icon\咨询2.png" />
+      <text class="caption">智能咨询</text>
     </view>
     <view class="box">
-      <image src="@\static\picture\Cons_pic.png" />
-      <view class="caption">智能咨询</view>
-    </view>
-    <view class="box">
-      <image src="@\static\picture\Alarm_pic.png" />
-      <view class="caption">紧急情况处理</view>
+      <image src="@\static\icon\问诊.png" @click="toOnlineConsultation" />
+      <text class="caption">在线问诊</text>
     </view>
   </view>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const toSmartAnswer = () => {
+  uni.navigateTo({
+    url: '/pages/index/SmartAnswers/SmartAnswers',
+  })
+}
+const toOnlineConsultation = () => {
+  uni.navigateTo({
+    url: '/pages/index/OnlineConsultation/OnlineConsultation',
+  })
+}
+</script>
 <style lang="scss" scoped>
 .glass-content {
   margin: 0 20rpx 20rpx 20rpx;
-  height: 205rpx;
-  padding: 24rpx 20rpx 20rpx;
+  height: 200rpx;
+  // padding: 20rpx 20rpx 20rpx 20rpx;
   display: flex;
   justify-content: center;
   // top: 50%;
@@ -41,14 +52,22 @@
 }
 .box {
   flex: 1;
+  display: flex;
+  justify-content: space-between;
+  // background-color: #5c0a0a;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   margin: 10px;
 }
-.box image{
-  width: 70rpx;
-  height: 70rpx;
+.box image {
+  width: 100rpx;
+  height: 100rpx;
 }
-
+.box text {
+  // margin-left: 20rpx;
+  font-size: larger;
+}
 .caption {
   margin-top: 10px;
   font-size: 20rpx;

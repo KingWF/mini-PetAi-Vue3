@@ -23,47 +23,60 @@
       </view>
     </scroll-view>
   </view> -->
-  <view class="glass-content">
-    <view class="container">
-      <view class="left-section">
-        <view class="circle">
-          <image mode="scaleToFill" :src="petBaseInformation?.photourl" />
-        </view>
-        <view class="text1">
-          <view class="text01">
-            <!-- 宠物姓名 -->
-            <view class="text01-2">
-              <text>{{ petBaseInformation?.name }}</text>
+  <view class="base">
+    <swiper :autoplay="true" :interval="12000" :circular="true" @change="handleChange">
+      <swiper-item v-for="(item, index) in petList" :key="index">
+        <view class="glass-content">
+          <view class="container">
+            <view class="left-section">
+              <view class="circle">
+                <image mode="scaleToFill" :src="item.photourl" />
+              </view>
+              <view class="text1">
+                <view class="text01">
+                  <!-- 宠物姓名 -->
+                  <view class="text01-2">
+                    <text>{{ item.name }}</text>
+                  </view>
+                </view>
+                <!-- 宠物信息-底部灰色其他信息 -->
+                <text class="text02">
+                  <text>生日 : {{ item.birthday }}</text>
+                  <text>性别 : {{ item.sex }}</text>
+                  <text>年龄 : {{ item.text }}</text>
+                </text>
+              </view>
             </view>
-            <view class="text01-3" @click="setBaseInformation">
-              <image src="/static/icon/set-Icon.png" mode="scaleToFill" />
+            <view class="right-section">
+              <view class="right-setting">
+                <image
+                  src="/static/icon/设置 (1).png"
+                  mode="scaleToFill"
+                  @tap="toManagePage(item.id)"
+                />
+              </view>
             </view>
           </view>
-          <!-- 宠物信息-底部灰色其他信息 -->
-          <text class="text02">
-            <text>生日 : {{ petBaseInformation?.birthday }}</text>
-            <text>性别 : {{ petBaseInformation?.sex }}</text>
-            <text>年龄 : {{ petBaseInformation?.text }}</text>
-          </text>
+          <view class="bottom">
+            <view class="bottom-1">
+              <view class="bottom-1-1"> 记录宠物生活 分享日常趣事 </view>
+              <button class="but1" @click="toPetInformation">宠物动态</button>
+            </view>
+          </view>
         </view>
-      </view>
-    </view>
-    <view class="bottom">
-      <view class="bottom-1">
-        <view class="bottom-1-1"> 记录宠物生活 分享日常趣事 </view>
-        <button class="but1" @click="toPetInformation">宠物动态</button>
-      </view>
-    </view>
+      </swiper-item>
+    </swiper>
   </view>
 </template>
 <script lang="ts" setup>
-import { getPetBaseInformationAPI } from '@/services/home'
+import {  getAllPetInformationAPI } from '@/services/home'
 import type { PetBaseInformation } from '@/types/home'
 import { onLoad, onShow } from '@dcloudio/uni-app'
+import { reactive } from 'vue'
 import { ref } from 'vue'
 
-//宠物名字
-let petBaseInformation = ref<PetBaseInformation>()
+// 宠物列表
+let petList = ref<PetBaseInformation[]>([])
 
 const pic1 =
   'https://ts1.cn.mm.bing.net/th/id/R-C.727bd959dac97a2cdd2200de0546fc48?rik=uf%2bQn0NfSuwqdw&riu=http%3a%2f%2fwww.deskcar.com%2fdesktop%2felse%2f2018529201241%2f15.jpg&ehk=E9oLjp552WFha0R57Y2BJ2Lz5ZEmlgss1qOACunmmpQ%3d&risl=&pid=ImgRaw&r=0'
@@ -76,29 +89,32 @@ const toPetInformation = () => {
     url: '/pages/index/petInformation/petInformation',
   })
 }
-// 修改宠物基本信息
-const setBaseInformation = () => {
-  uni.navigateTo({
-    url: `/pages/index/SetPetMess/SetPetMess?id=${petBaseInformation.value?.id}`,
-  })
+// 获取当前用户下所有的宠物信息
+const getPetBaseInformationData = async (masterId: number) => {
+  const res = await getAllPetInformationAPI(masterId)
+  petList.value = res.result
+  console.log('宠物基本信息--图片:', petList.value[0].photourl)
 }
-// 获取宠物的基本信息
-const getPetBaseInformationData = async (id: number) => {
-  const res = await getPetBaseInformationAPI(id)
-  petBaseInformation.value = res.result
-  console.log('宠物基本信息:' + petBaseInformation.value.photourl)
-
-  console.log(petBaseInformation.value)
+// 跳转信息管理界面
+const toManagePage = (index: any) => {
+  uni.navigateTo({
+    url: '/pages/index/ManagePets/ManageFamilyPets/ManageFamilyPets?id=' + index,
+  })
 }
 onLoad(() => {
   getPetBaseInformationData(1)
 })
 // 页面显示
-onShow(()=>{
+onShow(() => {
   getPetBaseInformationData(1)
 })
+const handleChange = () => {}
 </script>
 <style lang="scss">
+.base {
+  height: 400rpx;
+  width: 100%;
+}
 .glass-content {
   margin: 20rpx 20rpx;
   padding: 4rpx;
@@ -115,6 +131,7 @@ onShow(()=>{
   border-bottom: 2rpx solid #c5c5c5e5;
   padding-top: 10rpx;
   margin: 30rpx;
+  // background-color: #70bfff;
 }
 
 .left-section {
@@ -180,9 +197,19 @@ onShow(()=>{
 }
 
 .right-section {
-  margin-left: auto;
-  margin-top: 50rpx;
-  margin-right: 10rpx;
+  height: 150rpx;
+  width: 100rpx;
+  // background-color: rgb(118, 75, 19);
+}
+.right-setting {
+  height: 100%;
+  // background-color: #e9f5ff;
+  padding-top: 20rpx;
+  image {
+    margin-left: 40rpx;
+    height: 50rpx;
+    width: 50rpx;
+  }
 }
 // 宠物档案--文本样式
 .text-s1 {

@@ -100,7 +100,7 @@ const onScrolltolower = async () => {
 onLoad(async (option: any) => {
   // console.log('进入了商品列表页' + option.searchKeyWord)
 
-  await Promise.all([getHotRecommendData()])
+  await getHotRecommendData()
   KeyWord.value = option.searchKeyWord
 })
 
