@@ -3,7 +3,7 @@ export type communityItem = {
   id: bigint
   /** 头像 */
   comAva: string
-  /** 头像 */
+  /** 名称 */
   comName: string
   /** 个人简介*/
   comIntro: string
@@ -15,4 +15,6 @@ export type communityItem = {
   comPic: string
   /** 图片数组*/
   comPics: string[]
+  /** 是否关注*/
+  concern: int
 }

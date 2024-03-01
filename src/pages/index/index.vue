@@ -51,7 +51,7 @@ import Function from './componts/Function.vue'
 import Function2 from './componts/Function2.vue'
 import Function3 from './componts/Function3.vue'
 import { ref } from 'vue'
-import { onLoad } from '@dcloudio/uni-app'
+import { onLoad, onShow } from '@dcloudio/uni-app'
 import QQMapWX from '@/utils/qqmap-wx-jssdk.min.js'
 
 // 地址获取是否成功

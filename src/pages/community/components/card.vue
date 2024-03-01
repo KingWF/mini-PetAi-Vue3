@@ -1,6 +1,18 @@
+<!-- 朋友圈界面 -->
 <template>
+  <view class="top">
+    <div class="COM_search left">
+      <input v-model="inputValue" type="text" placeholder="搜索" id="one" />
+      <image src="/static/communityImages/查找.png"></image>
+    </div>
+    <div class="right">
+      <div class="recommend">推荐</div>
+      <div class="myFollow">关注</div>
+      <div class="nearby">附近</div>
+    </div>
+  </view>
   <view class="box" v-for="(item, index) in communityData" :key="index">
-    <div class="box1">
+    <div class="info">
       <div class="left">
         <div class="COM_ava">
           <image :src="item.comAva" />
@@ -10,7 +22,22 @@
           <div class="COM_Intro">{{ item.comIntro }}</div>
         </div>
       </div>
-      <div class="right">关注</div>
+      <view
+        v-if="item.concern === 0"
+        class="right"
+        id="concern"
+        @click="concern(item.id, item.concern)"
+      >
+        关注
+      </view>
+      <view
+        v-else-if="item.concern === 1"
+        class="right"
+        id="concern"
+        @click="concern(item.id, item.concern)"
+      >
+        已关注
+      </view>
     </div>
     <div class="title">{{ item.titlecontent }}</div>
     <div class="text">{{ item.text }}</div>
@@ -28,43 +55,115 @@
       </div>
     </div>
     <div class="bottom">
-      <image src="/static/communityImages/点赞.png"></image>
-      <image src="/static/communityImages/消息.png"></image>
-      <image src="/static/communityImages/分享.png"></image>
+      <view v-if="!isGood">
+        <image src="/static/communityImages/点赞.png" @click="clickGood"></image>
+      </view>
+      <view v-else>
+        <image src="/static/communityImages/like.png" @click="clickGood"></image>
+      </view>
+      <view>
+        <image src="/static/communityImages/消息.png"></image>
+      </view>
+      <view>
+        <image src="/static/communityImages/分享.png"></image>
+      </view>
     </div>
   </view>
-  <navigator :url="`pages/community/components/add`" class="add" @click="add">+</navigator>
+  <navigator :url="`/pages/community/components/upInfo`" class="add" @click="add">+</navigator>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { communityItem } from '@/types/community'
-import { getCommunityDataAPI } from '@/services/community'
+import { changeConcern, getCommunityDataAPI } from '@/services/community'
 import { onLoad } from '@dcloudio/uni-app'
 
+//获取全部朋友圈数据
 const communityData = ref<communityItem[]>([])
 const getCommunityData = async () => {
   const res = await getCommunityDataAPI()
   for (let i = 0; i < res.result.length; i++) {
     res.result[i].comPics = res.result[i].comPic.split(',')
+    console.log(res.result[i].concern)
   }
   //反转获取的信息，保证用户发表说说后，是出现在页面的第一个位置
   res.result = res.result.slice().reverse()
   communityData.value = res.result
 }
-
+//搜索框内容
+const inputValue = ref('')
+//发布朋友圈
 const add = () => {
   uni.navigateTo({
-    url: '/pages/community/components/add',
+    url: '/pages/community/components/upInfo',
   })
 }
-
+//是否点赞
+let isGood = ref(false)
+const clickGood = () => {
+  isGood.value = !isGood.value
+}
+//点击关注触发事件
+const concern = (itemId: bigint, newConcern: number) => {
+  changeConcern(itemId, newConcern)
+}
 onLoad(() => {
   getCommunityData()
 })
 </script>
 
 <style lang="scss">
+.top {
+  width: 100%;
+  height: 79rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.5);
+  .COM_search {
+    width: 300rpx;
+    height: 50rpx;
+    float: left;
+    position: relative;
+    margin-left: 30rpx;
+    & input {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      font-size: 20rpx;
+      border: 1rpx solid #797979;
+      border-radius: 30rpx;
+      background-color: #ffffff;
+    }
+    & image {
+      width: 25rpx;
+      height: 25rpx;
+      position: absolute;
+      top: 12rpx;
+      left: 12rpx;
+    }
+  }
+  .right {
+    display: flex;
+    float: right;
+    .recommend,
+    .myFollow,
+    .nearby {
+      border-radius: 20rpx;
+      margin-right: 8rpx;
+      width: 100rpx;
+      height: 50rpx;
+      font-size: 20rpx;
+      line-height: 50rpx;
+      border: 1rpx solid #797979;
+      text-align: center;
+      background-color: #ffffff;
+    }
+    .nearby {
+      margin-right: 30rpx;
+    }
+  }
+}
 .box {
   width: 600rpx;
   height: 477rpx;
@@ -74,12 +173,12 @@ onLoad(() => {
   border: 1rpx solid #797979;
   background-color: rgba(255, 255, 255, 0.5);
 }
-.box .box1 {
+.box .info {
   display: flex;
   justify-content: space-between;
   border-radius: 42rpx;
 }
-.box .box1 .left {
+.box .info .left {
   float: left;
   display: flex;
   border-radius: 42rpx;
@@ -110,7 +209,7 @@ onLoad(() => {
     }
   }
 }
-.box .box1 .right {
+.box .info .right {
   float: right;
   width: 100rpx;
   height: 40rpx;
@@ -181,14 +280,14 @@ onLoad(() => {
   border-radius: 42rpx;
   width: 550rpx;
   margin-left: 20rpx;
-  & image {
+  & view {
     width: 50rpx;
     height: 50rpx;
   }
-  & image:first-child {
+  & view:first-child {
     margin-left: 68rpx;
   }
-  & image:last-child {
+  & view:last-child {
     margin-right: 68rpx;
   }
 }

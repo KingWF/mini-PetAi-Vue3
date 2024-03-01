@@ -3,7 +3,7 @@
     <!-- 内容区域 -->
     <view class="container" @tap="toNavgetor1">
       <view class="bottom-content-1">
-        <image src="@\static\picture\carme.png"></image>
+        <image src="@\static\icon\拍照.png"></image>
       </view>
       <view class="bottom-text">宠物识别</view>
     </view>
@@ -14,7 +14,7 @@
 
     <view class="container" @tap="toNavgetor2">
       <view class="bottom-content-2">
-        <image src="@\static\picture\voice.png"></image>
+        <image src="@\static\icon\录音.png"></image>
       </view>
       <view class="bottom-text">情绪分析</view>
     </view>
@@ -71,10 +71,10 @@ const toNavgetor2 = () => {
   justify-content: center;
   height: 180rpx;
   width: 180rpx;
-  background-color: rgb(39, 243, 209);
+  background-color: rgb(48, 244, 212);
   image {
-    width: 120rpx; /* 调整图片的宽度 */
-    height: 120rpx;
+    width: 150rpx; /* 调整图片的宽度 */
+    height: 150rpx;
     will-change: transform;
   }
 }
@@ -85,10 +85,10 @@ const toNavgetor2 = () => {
   justify-content: center;
   height: 180rpx;
   width: 180rpx;
-  background-color: rgb(250, 216, 81);
+  background-color: rgb(255, 163, 163);
   image {
-    width: 120rpx; /* 调整图片的宽度 */
-    height: 120rpx;
+    width: 150rpx; /* 调整图片的宽度 */
+    height: 150rpx;
     will-change: transform;
   }
 }

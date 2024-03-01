@@ -7,7 +7,7 @@ import { http } from '@/utils/http'
 export const getSearchGoodsAPI = (keyword: any) => {
   return http<BannerItem[]>({
     method: 'GET',
-    url: 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/Shop/searchGoods',
+    url: '/searchGoods',
     data: {
       keyword,
     },

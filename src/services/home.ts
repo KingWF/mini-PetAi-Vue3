@@ -2,6 +2,7 @@ import type { PageParams, PageResult } from '@/types/global'
 import type {
   BannerItem,
   GuessItem,
+  PetBaseInformation,
   PetPictures,
   RecommendGoodsItem,
   RecommendList,
@@ -53,5 +54,30 @@ export const getPetPictureAPI = () => {
   return http<PetPictures[]>({
     method: 'GET',
     url: 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/Picture/getPetPicture',
+  })
+}
+/**
+ * 获取宠物基本信息
+ */
+export const getPetBaseInformationAPI = (id: number) => {
+  return http<PetBaseInformation>({
+    method: 'GET',
+    url: '/basePetInformation',
+    data: {
+      id,
+    },
+  })
+}
+/**
+ * 修改宠物基本信息
+ */
+export const setPetBaseInformationAPI = (index: number, text: string) => {
+  return http({
+    method: 'GET',
+    url: '/setBasePetInformation',
+    data: {
+      index,
+      text,
+    },
   })
 }

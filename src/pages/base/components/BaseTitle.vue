@@ -1,3 +1,4 @@
+<!-- 标题 -->
 <template>
   <view class="box"> 宠物档案管理 </view>
 </template>

@@ -1,3 +1,4 @@
+<!-- 饮食管理跳转按钮 -->
 <template>
   <navigator class="box" :url="`pages/base/assembly/DietManagementFunction`" @click="add">
     <p class="p1">饮食管理</p>

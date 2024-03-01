@@ -86,14 +86,21 @@
   <!-- 弹窗 -->
   <view class="popup" v-show="showDialog">
     <view class="popup-info">
-      <view class="popup-main">
-        <view v-for="(item, index) in allPetLikeTag" :key="index" @click="chooseAddTag(index)">
-          <text>{{ item }}</text>
-        </view>
+      <view class="popup-info-text">
+        <text class="text-1">添加标签</text>
+        <text class="text-2"
+          >已选择{{ petLikeList.length }}个标签,还可以选择{{ 3 - petLikeList.length }}个标签</text
+        >
       </view>
       <!-- 备选框 -->
       <view class="choose-tag">
         <view v-for="(item, index) in petLikeList" :key="index" @click="chooseDeleteTag(index)">
+          <text>{{ item }}</text>
+        </view>
+      </view>
+      <!-- 可选择的所有标签 -->
+      <view class="popup-main">
+        <view v-for="(item, index) in allPetLikeTag" :key="index" @click="chooseAddTag(index)">
           <text>{{ item }}</text>
         </view>
       </view>
@@ -304,7 +311,7 @@ onLoad(() => {
       // background-color: #666;
       view {
         height: 50rpx;
-        background-color: #dcafaf;
+        background-color: #6ebeff;
         border-radius: 25rpx;
         padding-top: 8rpx;
         padding-left: 10rpx;
@@ -420,7 +427,7 @@ onLoad(() => {
   }
 }
 // 照片墙样式
-.petPic{
+.petPic {
   border-radius: 20rpx;
 }
 // 弹窗样式
@@ -435,6 +442,20 @@ onLoad(() => {
   border-radius: 20upx;
   background-color: #fff;
   z-index: 9999;
+}
+// 弹窗顶部文字
+.popup-info-text {
+  display: flex;
+  flex-direction: column;
+  padding-left: 15rpx;
+  margin-bottom: 20rpx;
+  .text-1 {
+    font-size: 40rpx;
+  }
+  .text-2 {
+    font-size: 26rpx;
+    color: #a7a7a7e5;
+  }
 }
 .popup-btn {
   display: flex;
@@ -458,7 +479,7 @@ onLoad(() => {
   flex-wrap: wrap;
   view {
     height: 50rpx;
-    background-color: #dcafaf;
+    background-color: #eeaaaa;
     border-radius: 25rpx;
     margin: 10rpx;
     padding: 10rpx;
@@ -486,14 +507,15 @@ onLoad(() => {
   width: 100%;
   height: 70rpx;
   background-color: #eaeaea00;
-  border: 0.5rpx solid #828282e5;
-  border-radius: 20rpx;
+  border-bottom: 0.5rpx solid #828282e5;
+  // border-radius: 20rpx;
   margin-top: 20rpx;
+  margin-bottom: 15rpx;
   display: flex;
   flex-wrap: wrap;
   view {
     height: 50rpx;
-    background-color: #dcafaf;
+    background-color: #6ebeff;
     border-radius: 25rpx;
     margin: 10rpx;
     padding: 10rpx;
@@ -531,5 +553,4 @@ onLoad(() => {
     }
   }
 }
-
 </style>

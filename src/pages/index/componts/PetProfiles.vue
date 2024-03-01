@@ -27,33 +27,23 @@
     <view class="container">
       <view class="left-section">
         <view class="circle">
-          <image
-            src="https://ts1.cn.mm.bing.net/th/id/R-C.be1895b6cc60526df6bd79aef4005208?rik=v29k4ZW3ZVFq8g&riu=http%3a%2f%2fpic.baike.soso.com%2fp%2f20140328%2f20140328093026-679114537.jpg&ehk=EPX8WPV2D9J4aUmNtfgcN2KN3X%2fUk2BgISQsCaHMZ2Q%3d&risl=&pid=ImgRaw&r=0"
-          />
+          <image mode="scaleToFill" :src="petBaseInformation?.photourl" />
         </view>
         <view class="text1">
           <view class="text01">
-            <view v-if="IsNameSetting" class="text01-1">
-              <input
-                v-model="petName"
-                placeholder="输入新姓名~"
-                placeholder-class="input-placeholder"
-                :maxlength="maxName"
-                @confirm="setName"
-                ref="myInput"
-              />
+            <!-- 宠物姓名 -->
+            <view class="text01-2">
+              <text>{{ petBaseInformation?.name }}</text>
             </view>
-            <view class="text01-2" v-else>
-              <text>{{ petName }}</text>
-            </view>
-            <view class="text01-3" @click="setName">
+            <view class="text01-3" @click="setBaseInformation">
               <image src="/static/icon/set-Icon.png" mode="scaleToFill" />
             </view>
           </view>
+          <!-- 宠物信息-底部灰色其他信息 -->
           <text class="text02">
-            <text>生日 : 2020.1.13</text>
-            <text>性别 : 公</text>
-            <text>年龄 : 1</text>
+            <text>生日 : {{ petBaseInformation?.birthday }}</text>
+            <text>性别 : {{ petBaseInformation?.sex }}</text>
+            <text>年龄 : {{ petBaseInformation?.text }}</text>
           </text>
         </view>
       </view>
@@ -67,31 +57,48 @@
   </view>
 </template>
 <script lang="ts" setup>
+import { getPetBaseInformationAPI } from '@/services/home'
+import type { PetBaseInformation } from '@/types/home'
+import { onLoad, onShow } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 
 //宠物名字
-let petName = ref('柯基')
-// 宠物名字修改标识
-let IsNameSetting = ref(false)
-// 宠物名字最大长度
-let maxName = ref(5)
+let petBaseInformation = ref<PetBaseInformation>()
 
 const pic1 =
   'https://ts1.cn.mm.bing.net/th/id/R-C.727bd959dac97a2cdd2200de0546fc48?rik=uf%2bQn0NfSuwqdw&riu=http%3a%2f%2fwww.deskcar.com%2fdesktop%2felse%2f2018529201241%2f15.jpg&ehk=E9oLjp552WFha0R57Y2BJ2Lz5ZEmlgss1qOACunmmpQ%3d&risl=&pid=ImgRaw&r=0'
-const onClick = (e: any) => {
-  console.log(e)
-}
+
+/**
+ * 点击-宠物动态-跳转对应页面
+ */
 const toPetInformation = () => {
   uni.navigateTo({
     url: '/pages/index/petInformation/petInformation',
   })
 }
-// 修改宠物名字
-const setName = () => {
-  IsNameSetting.value = !IsNameSetting.value
+// 修改宠物基本信息
+const setBaseInformation = () => {
+  uni.navigateTo({
+    url: `/pages/index/SetPetMess/SetPetMess?id=${petBaseInformation.value?.id}`,
+  })
 }
+// 获取宠物的基本信息
+const getPetBaseInformationData = async (id: number) => {
+  const res = await getPetBaseInformationAPI(id)
+  petBaseInformation.value = res.result
+  console.log('宠物基本信息:' + petBaseInformation.value.photourl)
+
+  console.log(petBaseInformation.value)
+}
+onLoad(() => {
+  getPetBaseInformationData(1)
+})
+// 页面显示
+onShow(()=>{
+  getPetBaseInformationData(1)
+})
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .glass-content {
   margin: 20rpx 20rpx;
   padding: 4rpx;
@@ -119,6 +126,7 @@ const setName = () => {
   width: 150rpx;
   height: 150rpx;
   border-radius: 50%;
+  // background-color: #70bfff;
   overflow: hidden;
 }
 .circle image {
