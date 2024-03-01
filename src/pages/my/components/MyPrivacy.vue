@@ -1,17 +1,19 @@
+// src/pagesMember/settings/settings.vue
+
 <script setup lang="ts">
 import { useMemberStore } from '@/stores'
 
 const memberStore = useMemberStore()
-//退出登录
+// 退出登录
 const onLogout = () => {
-  //模态弹窗
+  // 模态弹窗
   uni.showModal({
-    content: '是否退出登录',
+    content: '是否退出登录？',
     success: (res) => {
       if (res.confirm) {
-        //清理用户信息
+        // 清理用户信息
         memberStore.clearProfile()
-        //返回上一页
+        // 返回上一页
         uni.navigateBack()
       }
     },
@@ -23,7 +25,7 @@ const onLogout = () => {
   <view class="viewport">
     <!-- 列表1 -->
     <view class="list" v-if="memberStore.profile">
-      <navigator url="/pagesMember/address/address" hover-class="none" class="item arrow">
+      <navigator url="/pages/my/components/address" hover-class="none" class="item arrow">
         我的收货地址
       </navigator>
     </view>

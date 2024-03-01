@@ -4,10 +4,13 @@ import { http } from '@/utils/http'
 /**
  * 获取个人信息
  */
-export const getMemberProfileAPI = () => {
+export const getMemberProfileAPI = (id: number) => {
   return http<ProfileDetail>({
     method: 'GET',
     url: '/user/profile',
+    data: {
+      id,
+    },
   })
 }
 
