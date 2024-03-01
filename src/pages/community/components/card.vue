@@ -77,7 +77,6 @@ import { ref } from 'vue'
 import type { communityItem } from '@/types/community'
 import { changeConcern, getCommunityDataAPI } from '@/services/community'
 import { onLoad } from '@dcloudio/uni-app'
-import UnInfo from './upInfo.vue'
 
 //获取全部朋友圈数据
 const communityData = ref<communityItem[]>([])
@@ -96,7 +95,7 @@ const inputValue = ref('')
 //发布朋友圈
 const add = () => {
   uni.navigateTo({
-    url: '/pages/community/components/add',
+    url: '/pages/community/components/upInfo',
   })
 }
 //是否点赞

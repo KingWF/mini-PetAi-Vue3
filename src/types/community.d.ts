@@ -3,7 +3,7 @@ export type communityItem = {
   id: bigint
   /** 头像 */
   comAva: string
-  /** 头像 */
+  /** 名称 */
   comName: string
   /** 个人简介*/
   comIntro: string

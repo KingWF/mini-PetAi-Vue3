@@ -26,9 +26,11 @@
       </div>
     </div>
     <div class="up">
-      <button class="up-box" @click="sendMessage" :url="`pages/community/community`">发送</button>
-    </div> </view
-  >pp
+      <navigator :url="`/pages/community/community`" class="up-box" @click="sendMessage"
+        >发送</navigator
+      >
+    </div>
+  </view>
 </template>
 
 <script>
@@ -85,10 +87,11 @@ export default {
       )
     },
     sendMessage() {
-      // this.$emit('childEvent', this.info)
       this.addMomentsData()
-      uni.navigateTo('/pages/community/community')
       console.log(' 测试数据: ' + this.info)
+      uni.switchTab({
+        url: '/pages/community/community',
+      })
     },
   },
 }
