@@ -56,7 +56,37 @@
   <!-- 宠物动态view -->
   <view class="dyn-v" v-if="ChangeTabBar == 0">
     <scroll-view scroll-y class="dyn-v-scroll">
-      <view class="dyn-v-1" v-for="index in 5" :key="index"> {{ index }}</view>
+      <view class="dyn-v-1" v-for="(item, index) in communityData" :key="index">
+        <div class="title">{{ item.titlecontent }}</div>
+        <div class="text">{{ item.text }}</div>
+        <div class="picture">
+          <div
+            v-for="(image, index) in item.comPics.slice(0, 3)"
+            :key="index"
+            class="image-wrapper"
+            :style="{ zIndex: index === 2 ? '2' : '1' }"
+          >
+            <image :src="image" alt="Image" />
+            <div v-if="index === 2 && item.comPics.length > 3" class="overlay">
+              +{{ item.comPics.length - 3 }}
+            </div>
+          </div>
+        </div>
+        <div class="bottom">
+          <view v-if="!isGood">
+            <image src="/static/communityImages/点赞.png" @click="clickGood"></image>
+          </view>
+          <view v-else>
+            <image src="/static/communityImages/like.png" @click="clickGood"></image>
+          </view>
+          <view>
+            <image src="/static/communityImages/消息.png"></image>
+          </view>
+          <view>
+            <image src="/static/communityImages/分享.png"></image>
+          </view>
+        </div>
+      </view>
     </scroll-view>
   </view>
   <!-- 宠物照片view -->
@@ -117,6 +147,8 @@ import { ref } from 'vue'
 import { getPetPictureAPI } from '@/services/home'
 import { onLoad } from '@dcloudio/uni-app'
 import type { PetPictures } from '@/types/home'
+import type { communityItem } from '@/types/community'
+import { getCommunityDataAPI } from '@/services/community'
 
 // 设置动态设置高亮的下标
 const activeIndex = ref(0)
@@ -205,8 +237,31 @@ const getPetPIcturesData = async () => {
   petPicFour.value = res.result
   console.log(res.result)
 }
+
+//获取全部朋友圈数据
+const communityData = ref<communityItem[]>([])
+const getCommunityData = async () => {
+  const res = await getCommunityDataAPI()
+  for (let i = 0; i < res.result.length; i++) {
+    res.result[i].comPics = res.result[i].comPic.split(',')
+    if (res.result[i].choosepetid === 15) {
+      communityData.value.push(res.result[i])
+    }
+  }
+  console.log(communityData.value)
+  // //反转获取的信息，保证用户发表说说后，是出现在页面的第一个位置
+  // res.result = res.result.slice().reverse()
+  // communityData.value = res.result
+}
+
+//是否点赞
+let isGood = ref(false)
+const clickGood = () => {
+  isGood.value = !isGood.value
+}
 onLoad(() => {
   getPetPIcturesData()
+  getCommunityData()
 })
 </script>
 <style lang="scss" scoped>
@@ -545,11 +600,81 @@ onLoad(() => {
   padding: 20rpx;
   .dyn-v-scroll {
     .dyn-v-1 {
-      margin-bottom: 40rpx;
+      width: 600rpx;
       height: 400rpx;
-      width: 100%;
-      background-color: aqua;
-      border-radius: 20rpx;
+      margin-left: 73rpx;
+      margin-top: 25rpx;
+      border-radius: 42rpx;
+      border: 1rpx solid #797979;
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    .dyn-v-1 .title {
+      margin-left: 30rpx;
+      height: 28rpx;
+      font-size: 28rpx;
+      line-height: 28rpx;
+      font-weight: 600;
+    }
+    .dyn-v-1 .text {
+      white-space: pre-wrap;
+      width: 550rpx;
+      height: 42rpx;
+      line-height: 20rpx;
+      font-size: 20rpx;
+      margin-left: 30rpx;
+      margin-top: 16rpx;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .dyn-v-1 .picture {
+      display: flex;
+      flex-wrap: wrap;
+      width: 555rpx;
+      height: 180rpx;
+      margin-left: 30rpx;
+      margin-top: 32rpx;
+      position: relative;
+      .image-wrapper {
+        width: 180rpx;
+        height: 180rpx;
+        box-sizing: border-box;
+        border: 1rpx solid #797979;
+        margin: 1rpx;
+        .overlay {
+          position: absolute;
+          top: 0;
+          right: 8rpx;
+          width: 180rpx;
+          height: 180rpx;
+          background: rgba(0, 0, 0, 0.7);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #fff;
+          font-size: 18px;
+        }
+      }
+    }
+    .dyn-v-1 .bottom {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 22rpx;
+      border-radius: 42rpx;
+      width: 550rpx;
+      margin-left: 20rpx;
+      & view {
+        width: 50rpx;
+        height: 50rpx;
+      }
+      & view:first-child {
+        margin-left: 68rpx;
+      }
+      & view:last-child {
+        margin-right: 68rpx;
+      }
     }
   }
 }

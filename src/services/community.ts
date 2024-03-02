@@ -31,6 +31,7 @@ export const addMomentsAPI = (
   picList: string[],
   userid: number,
   cityName: string,
+  choosePetId: number,
 ) => {
   return http({
     method: 'GET',
@@ -60,6 +61,10 @@ export const addMomentsAPI = (
        * 用户的ID
        */
       userid,
+      /**
+       * 选择宠物的ID
+       */
+      choosePetId,
     },
   })
 }

@@ -98,13 +98,6 @@
 			}
 		},
 		{
-			"path": "pages/community/components/add",
-			"style": {
-				"navigationBarTitleText": "发布",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
 			"path": "pages/index/homePetMess/PetIdentification/IndentificationImage",
 			"style": {
 				"navigationBarTitleText": "拍摄宠物图片"

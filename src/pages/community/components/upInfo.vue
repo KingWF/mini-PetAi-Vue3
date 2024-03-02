@@ -24,6 +24,20 @@
         <image src="/static/communityImages/地点 (1).png"></image>
         所在位置
       </div>
+      <div @click="test" class="one">宠物</div>
+      <div class="petList">
+        <div
+          v-for="(item, index) in petList"
+          :key="index"
+          class="pet"
+          @click="choosePet(item, index)"
+          :style="{
+            backgroundColor: activeIndex === index ? 'lightblue' : 'rgb(110, 190, 255, 0.5)',
+          }"
+        >
+          {{ item.name }}
+        </div>
+      </div>
     </div>
     <div class="up">
       <navigator :url="`/pages/community/community`" class="up-box" @click="sendMessage"
@@ -35,6 +49,9 @@
 
 <script>
 import { addMomentsAPI } from '@/services/community'
+import { getAllPetInformationAPI } from '@/services/home'
+import { usepetlistStore } from '@/stores/petlist'
+import { useMemberStore } from '@/stores'
 
 export default {
   data() {
@@ -49,6 +66,9 @@ export default {
       titlecontent: '',
       //用户ID
       userid: 1,
+      petList: [],
+      choosePetId: 0,
+      activeIndex: null, // 初始时没有任何方块被点击
     }
   },
   methods: {
@@ -84,7 +104,20 @@ export default {
         this.picList,
         this.userid,
         this.cityName,
+        this.choosePetId,
       )
+    },
+    test() {
+      this.getPetBaseInformationData()
+    },
+    async getPetBaseInformationData() {
+      const memberStore = useMemberStore()
+      const masterId = memberStore.profile?.id
+      const res = await getAllPetInformationAPI(masterId)
+      const petlistStore = usepetlistStore()
+      console.log(petlistStore.profile)
+      petlistStore.setProfile(res.result)
+      this.petList = petlistStore.profile
     },
     sendMessage() {
       this.addMomentsData()
@@ -92,6 +125,15 @@ export default {
       uni.switchTab({
         url: '/pages/community/community',
       })
+    },
+    choosePet(item, index) {
+      this.activeIndex = index === this.activeIndex ? null : index
+      if (this.choosePetId === item.id) {
+        this.choosePetId = 0
+      } else {
+        this.choosePetId = item.id
+      }
+      console.log(this.choosePetId)
     },
   },
 }
@@ -152,6 +194,21 @@ page {
       & input {
         border: none;
         margin-left: 15rpx;
+      }
+    }
+    .petList {
+      display: flex;
+      padding-left: 40rpx;
+      .pet {
+        margin-right: 20rpx;
+        width: 100rpx;
+        height: 60rpx;
+        line-height: 60rpx;
+        font-size: 20rpx;
+        background: rgb(110, 190, 255, 0.5);
+        text-align: center;
+        border-radius: 20rpx;
+        margin-bottom: 20rpx;
       }
     }
   }
