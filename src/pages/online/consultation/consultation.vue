@@ -94,7 +94,7 @@ export default {
         let Msg1 = {
           isMe: false,
           type: 'txt',
-          content: '我草泥马',
+          content: '请您稍等',
         }
         this.chatList.push(Msg1)
       }
