@@ -16,5 +16,7 @@ export type communityItem = {
   /** 图片数组*/
   comPics: string[]
   /** 是否关注*/
-  concern: int
+  concern: number
+  /** 选择宠物ID*/
+  choosepetid: number
 }

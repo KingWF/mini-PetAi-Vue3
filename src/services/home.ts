@@ -4,8 +4,6 @@ import type {
   GuessItem,
   PetBaseInformation,
   PetPictures,
-  Question,
-  RecommendGoodsItem,
   RecommendList,
 } from '@/types/home'
 import { http } from '@/utils/http'
