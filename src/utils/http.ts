@@ -1,7 +1,7 @@
 import { useMemberStore } from '@/stores'
 
 // java后端的接口
-const baseURL = 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/miniTest'
+const baseURL = 'http://localhost:8888'
 // py端的接口
 const PythonbaseURL = 'http://127.0.0.1:5000'
 // 终端服务器基地址：'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top'

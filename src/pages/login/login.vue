@@ -13,6 +13,7 @@ onLoad(async () => {
   code = res.code
 })
 
+const memberStore = useMemberStore()
 // 模拟手机号码快捷登录（开发练习）
 const onGetphonenumberSimple = async () => {
   const res = await postLoginWxMinSimpleAPI('13693482742')

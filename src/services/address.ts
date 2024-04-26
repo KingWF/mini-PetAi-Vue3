@@ -8,7 +8,7 @@ import { http } from '@/utils/http'
 export const postMemberAddressAPI = (data: AddressParams) => {
   return http({
     method: 'POST',
-    url: '/member/address',
+    url: '/miniTest/member/address',
     data,
   })
 }
@@ -19,6 +19,6 @@ export const postMemberAddressAPI = (data: AddressParams) => {
 export const getMemberAddressAPI = () => {
   return http<AddressItem[]>({
     method: 'GET',
-    url: '/member/get/address',
+    url: '/miniTest/member/get/address',
   })
 }
