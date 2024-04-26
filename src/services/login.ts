@@ -8,7 +8,7 @@ import { http } from '@/utils/http'
 export const postLoginWxMinSimpleAPI = (phoneNumber: string) => {
   return http<LoginResult>({
     method: 'POST',
-    url: '/login/wxMin/simple',
+    url: '/miniTest/login/wxMin/simple',
     data: {
       phoneNumber,
     },

@@ -58,6 +58,7 @@
 </template>
 
 <script setup lang="ts">
+import { useMemberStore } from '@/stores';
 import { ref } from 'vue'
 
 // 设置动态设置高亮的下标
@@ -67,6 +68,7 @@ const test = (val: number) => {
   console.log(val)
 }
 const recommendList = ref(['足迹', '点赞'])
+const memberStore = useMemberStore()
 </script>
 
 <style scoped lang="scss">

@@ -16,7 +16,7 @@ export const postMemberCartAPI = (data: {
 }) => {
   return http({
     method: 'POST',
-    url: '/member/cart',
+    url: '/miniTest/member/cart',
     data,
   })
 }
@@ -27,7 +27,7 @@ export const postMemberCartAPI = (data: {
 export const getMemberCartAPI = () => {
   return http<CartItem[]>({
     method: 'GET',
-    url: '/get/cart',
+    url: '/miniTest/get/cart',
   })
 }
 
