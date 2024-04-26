@@ -96,7 +96,7 @@ const confirmUploadAavatarAndInformation = () => {
 const getgetPetBreedInformation = async (uid: number) => {
   const res = await getPetBreedInformationAPI(uid)
   petuid.value = uid
-  // petImage1.value = res.result[0].petImagefirst
+  petImage1.value = res.result[0].petImagefirst
   petImage2.value = res.result[0].petImagesecond
   petDesc.value = res.result[0].petDesc
   petFeature.value = res.result[0].petFeature
