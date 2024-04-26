@@ -76,7 +76,7 @@
 import { ref } from 'vue'
 import type { communityItem } from '@/types/community'
 import { changeConcern, getCommunityDataAPI } from '@/services/community'
-import { onLoad } from '@dcloudio/uni-app'
+import { onLoad, onShow } from '@dcloudio/uni-app'
 
 //获取全部朋友圈数据
 const communityData = ref<communityItem[]>([])
@@ -108,6 +108,9 @@ const concern = (itemId: bigint, newConcern: number) => {
   changeConcern(itemId, newConcern)
 }
 onLoad(() => {
+  getCommunityData()
+})
+onShow(() => {
   getCommunityData()
 })
 </script>
