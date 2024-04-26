@@ -124,6 +124,8 @@ const sendClick = () => {
   getAnswer()
   content.value = ''
 }
+
+
 // 获取ChatGPT的回答
 const getAnswer = async () => {
   const res = await sendQuestions(login.id, content.value)
@@ -153,6 +155,7 @@ const scrollToBottom = () => {
     })
   }, 300)
 }
+
 // 获取用户与gpt历史聊天内容
 const getChatData = async () => {
   const res = await getHistoryChatData(login.id)
@@ -184,12 +187,6 @@ const getChatData = async () => {
       scrollToBottom()
     }
 }
-// 测试
-const test = async () => {
-  // const res = await GPTTest('2023')
-  const res = await getHistoryChatData(login.id)
-  console.log(res.result)
-}
 </script>
 
 <style scoped>
@@ -198,15 +195,15 @@ page {
 }
 
 .scroll-list {
-  padding-bottom: 220rpx;
+  padding-bottom: 20px;
   background-color: #ffffff;
 }
 
 /* 显示时间 */
 .show-date {
   text-align: center;
-  font-size: 24rpx;
-  padding: 15rpx 0;
+  font-size: 24px;
+  padding: 15px 0;
   color: gray;
 }
 
@@ -227,6 +224,7 @@ page {
 
 .row-self {
   flex-direction: row-reverse;
+  height: 100px;
 }
 
 /* 头像 */

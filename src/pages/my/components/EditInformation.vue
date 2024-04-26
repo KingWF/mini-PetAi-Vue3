@@ -30,6 +30,7 @@ const profile = ref<ProfileDetail>({} as ProfileDetail)
 const getMemberProfileData = async () => {
   const res = await getMemberProfileAPI(memberStore.profile!.id)
   profile.value = res.result
+  console.log(res.result)
 }
 
 const memberStore = useMemberStore()

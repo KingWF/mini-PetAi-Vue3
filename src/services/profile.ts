@@ -7,7 +7,7 @@ import { http } from '@/utils/http'
 export const getMemberProfileAPI = (id: number) => {
   return http<ProfileDetail>({
     method: 'GET',
-    url: '/user/profile',
+    url: '/miniTest/user/profile',
     data: {
       id,
     },
@@ -21,7 +21,7 @@ export const getMemberProfileAPI = (id: number) => {
 export const putMemberProfileAPI = (data: ProfileParams) => {
   return http<ProfileDetail>({
     method: 'PUT',
-    url: '/update/profile',
+    url: '/miniTest/update/profile',
     data,
   })
 }

@@ -1,8 +1,9 @@
 import { useMemberStore } from '@/stores'
 
 // java后端的接口
-const baseURL = 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top'
-const PythonbaseURL = 'http://38gbfla9clgu.ngrok.xiaomiqiu123.top'
+const baseURL = 'http://localhost:8888'
+// py端的接口
+const PythonbaseURL = 'http://127.0.0.1:5000'
 // 终端服务器基地址：'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top'
 // 添加拦截器
 // 拦截reques请求和uploadFile文件上传
@@ -50,7 +51,7 @@ uni.addInterceptor('uploadFile', httpInterceptor)
  *    3.3 网络错误 -> 提示用户换网络
  */
 interface Data<T> {
-  name(name: any): unknown
+name(name: any): unknown
   code: string
   msg: string
   result: T

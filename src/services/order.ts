@@ -6,7 +6,7 @@ import { http } from '@/utils/http'
 export const getMemberOrderPreAPI = () => {
   return http<OrderPreResult>({
     method: 'GET',
-    url: '/member/order/pre',
+    url: '/miniTest/member/order/pre',
   })
 }
 
@@ -24,7 +24,7 @@ export const getMemberOrderPreNowAPI = (data: {
 }) => {
   return http<OrderPreResult>({
     method: 'GET',
-    url: '/member/order/pre/now',
+    url: '/miniTest/member/order/pre/now',
     data,
   })
 }
@@ -36,7 +36,7 @@ export const getMemberOrderPreNowAPI = (data: {
 export const postMemberOrderAPI = (data: OrderCreateParams) => {
   return http<{ id: string }>({
     method: 'POST',
-    url: '/member/order',
+    url: '/miniTest/member/order',
     data,
   })
 }
@@ -48,7 +48,7 @@ export const postMemberOrderAPI = (data: OrderCreateParams) => {
 export const getMemberOrderByIdAPI = (id: string) => {
   return http<OrderResult[]>({
     method: 'GET',
-    url: `/get/order/${id}`,
+    url: `/miniTest/get/order/${id}`,
   })
 }
 
@@ -59,7 +59,7 @@ export const getMemberOrderByIdAPI = (id: string) => {
 export const getPayWxPayMiniPayAPI = (data: { orderId: string }) => {
   return http<WechatMiniprogram.RequestPaymentOption>({
     method: 'GET',
-    url: '/pay/wxPay/miniPay',
+    url: '/miniTest/pay/wxPay/miniPay',
     data,
   })
 }
@@ -71,7 +71,7 @@ export const getPayWxPayMiniPayAPI = (data: { orderId: string }) => {
 export const getPayMockAPI = (data: { orderId: string }) => {
   return http({
     method: 'GET',
-    url: '/pay/mock',
+    url: '/miniTest/pay/mock',
     data,
   })
 }
@@ -84,7 +84,7 @@ export const getPayMockAPI = (data: { orderId: string }) => {
 export const getMemberOrderConsignmentByIdAPI = (data: { orderId: string }) => {
   return http({
     method: 'GET',
-    url: `/order/consignment`,
+    url: `/miniTest/order/consignment`,
     data,
   })
 }
@@ -97,7 +97,7 @@ export const getMemberOrderConsignmentByIdAPI = (data: { orderId: string }) => {
 export const putMemberOrderReceiptByIdAPI = (id: string) => {
   return http<OrderResult>({
     method: 'PUT',
-    url: `/member/order/${id}/receipt`,
+    url: `/miniTest/member/order/${id}/receipt`,
   })
 }
 
@@ -109,7 +109,7 @@ export const putMemberOrderReceiptByIdAPI = (id: string) => {
 export const deleteMemberOrderAPI = (data: { ids: string }) => {
   return http({
     method: 'GET',
-    url: `/order/delete`,
+    url: `/miniTest/order/delete`,
     data,
   })
 }
@@ -121,7 +121,7 @@ export const deleteMemberOrderAPI = (data: { ids: string }) => {
 export const getMemberOrderAPI = (data: OrderListParams) => {
   return http<OrderResult[]>({
     method: 'GET',
-    url: `/order`,
+    url: `/miniTest/order`,
     data,
   })
 }
@@ -133,6 +133,6 @@ export type OrderListParams = PageParams & { orderState: number }
 export const getOrderAPI = () => {
   return http<OrderResult[]>({
     method: 'GET',
-    url: `/order/all`,
+    url: `/miniTest/order/all`,
   })
 }
