@@ -86,13 +86,14 @@
       </view>
       <view class="popup-view1" v-if="showPopup == 3">
         <view class="base-view">
-          <input
-            v-model="Modified.text"
-            placeholder="输入名称3~"
-            placeholder-class="input-placeholder"
-            @confirm="confirmName(Modified.index, Modified.text)"
-            class="base-input"
-          />
+          <text>生日:</text>
+          <view class="SelectDate">
+            <view class="DateText">
+              <picker mode="date" @change="onDateChange" :value="Modified.text">
+                <view class="date-picker">{{ Modified.text }}</view>
+              </picker>
+            </view>
+          </view>
         </view>
       </view>
       <view class="popup-view1" v-if="showPopup == 4">
@@ -223,7 +224,7 @@ const togglePopup = (index: number, option: any) => {
 const confirmName = async (index: any, option: string) => {
   if (index == 1) {
     console.log('修改图片')
-    confirmUploadAavatar()
+    await confirmUploadAavatar()
   } else {
     if (index == 2) {
       console.log('修改名字:' + option)
@@ -258,6 +259,9 @@ const getAllPetInformationData = async () => {
   // console.log('宠物基本信息--图片:', petList.value[0].photourl)
   const petlistStore = usepetlistStore()
   petlistStore.setProfile(res.result)
+}
+const onDateChange = (e: any) => {
+  Modified.text = e.detail.value
 }
 onLoad((option) => {
   id.value = option?.id

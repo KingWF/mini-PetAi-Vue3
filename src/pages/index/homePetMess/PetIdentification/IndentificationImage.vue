@@ -6,21 +6,13 @@
       <view class="vie-mesg">
         <view class="vie-v2">
           <view class="child">
-            <text class="t1">威尔士柯基犬</text>
+            <text class="t1">{{ petKind }}</text>
             <text class="t2">犬种</text>
           </view>
           <div class="petInfo">
             <div class="petInfo-image">
-              <image
-                src="https://bkimg.cdn.bcebos.com/pic/9345d688d43f879410276ff6d81b0ef41ad53a09?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080"
-                mode="scaleToFill"
-                class="img-1"
-              />
-              <image
-                src="https://bkimg.cdn.bcebos.com/pic/caef76094b36acaf2edd8ea94c8f9a1001e939013612?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080"
-                mode="scaleToFill"
-                class="img-1"
-              />
+              <image :src="petImage1" mode="scaleToFill" class="img-1" />
+              <image :src="petImage2" mode="scaleToFill" class="img-1" />
             </div>
           </div>
         </view>
@@ -28,18 +20,18 @@
           <div class="v3-info">
             <div class="info1">
               <div class="info-1">
-                <text>{{ petText[0].name }}</text>
+                <text>动物学史</text>
               </div>
               <div class="info-2">
-                <text>{{ petText[0].text }}</text>
+                <text>{{ petDesc }}</text>
               </div>
             </div>
             <div class="info1">
               <div class="info-1">
-                <text>{{ petText[1].name }}</text>
+                <text>形态特征</text>
               </div>
               <div class="info-2">
-                <text>{{ petText[1].text }}</text>
+                <text>{{ petFeature }}</text>
               </div>
             </div>
           </div>
@@ -51,22 +43,25 @@
 </template>
 
 <script lang="ts" setup>
+import { getPetBreedInformationAPI, testPyIdentifyAPI } from '@/services/home'
 import { onLoad } from '@dcloudio/uni-app'
-import { reactive } from 'vue'
 import { ref } from 'vue'
+
+let petName = ref()
+// 拍摄的图片的临时路径
 let src = ref('')
 let showPopup = ref(false)
 
-let petText = reactive([
-  {
-    name: '动物学史',
-    text: '威尔士柯基犬是原产于英国威尔士的古老犬种，其存在时间有1000多年。威尔士柯基犬为1107年由法兰德斯工人携带过来的犬种，根据其近似狐狸的头部，有人认为本犬与尖嘴犬祖先关系密切。但也有人认为是随着威尔士与瑞典贸易传至威尔士的瑞典短脚长身犬和土著犬交配，产生了柯基犬。 [6]威尔士柯基犬名字来自威尔士语“corrci”娇小之犬的意思 [1]。',
-  },
-  {
-    name: '形态特征',
-    text: '威尔士柯基犬，是食肉目犬科犬属哺乳动物。 [5]耳中等大小，直立，耳尖呈圆形；棕褐色眼睛中等大小，呈卵圆形；眼睛中等大小，不突出，眼圈为暗黑色，眼角清晰；嘴鼻部优美且紧凑，缺毛，为先天性特征；胸部宽度适中，向下逐渐变细，在前肢之间放松；后驱的肌肉发达且结实，但宽度略小于肩部；体躯比卡狄犬略小 [1].被毛长度适中，绒毛层短而厚，外层被毛较长而粗糙，能抵御各种环境条件；全身毛长度不等，颈圈、胸部和肩部稍厚而长，躯干被毛平伏。前肢腹面、下腹部与后躯腹面毛比较长；被毛最好是直的，该犬容易褪毛；毛色有淡黄色短毛，金色短毛，红色短毛，黄褐色和白色短毛 [1]。'
-  }
-])
+let petuid = ref(-1)
+let petKind = ref()
+let petImage1 = ref(
+  'https://bkimg.cdn.bcebos.com/pic/9d82d158ccbf6c81800a78aa8c68a63533fa828bea61?x-bce-process=image/format,f_auto/resize,m_lfit,limit_1,h_336',
+)
+let petImage2 = ref(
+  'https://th.bing.com/th/id/OIP.rrf-DSrddfPmdnHtSQcT5wAAAA?w=220&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7',
+)
+let petFeature = ref('sdasdaddc上的发达的')
+let petDesc = ref()
 
 onLoad((e: any) => {
   console.log(e.src)
@@ -74,8 +69,39 @@ onLoad((e: any) => {
   setTimeout(function () {
     togglePopup()
   }, 700) // 这里的 1000 表示延时的时间，单位是毫秒
+  // 测试py端识别代码
+  testPyIdentifyBase()
 })
-
+// 宠物识别
+const testPyIdentifyBase = () => {
+  confirmUploadAavatarAndInformation()
+}
+// 上传拍摄的图片至python端服务器
+const confirmUploadAavatarAndInformation = () => {
+  uni.uploadFile({
+    url: 'http://127.0.0.1:5000/uploadFile', //仅为示例，非真实的接口地址
+    filePath: src.value,
+    name: 'file',
+    formData: {},
+    dataType: 'json',
+    success: (uploadFileRes) => {
+      const data = JSON.parse(uploadFileRes.data) // 解析 JSON 数据
+      console.log('解析后的数据', data)
+      petKind.value = data.petName
+      // 根据宠物分类uid获取该品种信息
+      getgetPetBreedInformation(data.uid)
+    },
+  })
+}
+const getgetPetBreedInformation = async (uid: number) => {
+  const res = await getPetBreedInformationAPI(uid)
+  petuid.value = uid
+  // petImage1.value = res.result[0].petImagefirst
+  petImage2.value = res.result[0].petImagesecond
+  petDesc.value = res.result[0].petDesc
+  petFeature.value = res.result[0].petFeature
+  console.log(res.result)
+}
 const togglePopup = () => {
   showPopup.value = !showPopup.value
 }
@@ -181,10 +207,10 @@ const cancel = () => {
     }
   }
 }
-.info-2{
+.info-2 {
   margin-left: 20rpx;
   margin-right: 20rpx;
-  text{
+  text {
     font-size: smaller;
     color: #2f2f2f;
   }

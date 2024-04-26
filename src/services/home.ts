@@ -2,6 +2,7 @@ import type { PageParams, PageResult } from '@/types/global'
 import type {
   BannerItem,
   GuessItem,
+  IndentifyPetImfo,
   PetBaseInformation,
   PetPictures,
   RecommendList,
@@ -157,6 +158,26 @@ export const uploadAavatarAPI = (filePath: string) => {
     success: (uploadFileRes) => {
       console.log('返回数据', uploadFileRes.data)
       return uploadFileRes.data
+    },
+  })
+}
+// 宠物识别
+export const testPyIdentifyAPI = () => {
+  return http({
+    method: 'GET',
+    url: 'http://127.0.0.1:5000/identify/pet',
+    data: {
+      petName: '张三',
+    },
+  })
+}
+// 根据传入的宠物分类uid获取该类品种信息
+export const getPetBreedInformationAPI = (uid: number) => {
+  return http<IndentifyPetImfo[]>({
+    method: 'GET',
+    url: '/IdentifyPet/petInformation',
+    data: {
+      uid: uid,
     },
   })
 }

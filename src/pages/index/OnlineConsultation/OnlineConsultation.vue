@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 
-const docterList = reactive([
+ const docterList = reactive([
   {
     avatar: 'https://img.zcool.cn/community/0117825857a100a801219c778d2554.jpg@2o.jpg',
     name: '张三',

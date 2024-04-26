@@ -71,3 +71,15 @@ export type Question = {
   userId: string
   message: string
 }
+/**
+ * 宠物品种信息
+ */
+export type IndentifyPetImfo = {
+  id: number
+  petDesc: string
+  petFeature: string
+  petImagefirst: string
+  petImagesecond: string
+  petKind: string
+  uid: number
+}
