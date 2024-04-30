@@ -1,7 +1,8 @@
 <script setup lang="ts">
 // 获取页面参数
 const query = defineProps<{
-  id: string[]
+  id: string
+  now: number
 }>()
 // 猜你喜欢
 </script>
@@ -23,7 +24,7 @@ const query = defineProps<{
         <navigator
           hover-class="none"
           class="button navigator"
-          :url="`/pages/my/components/MyOrder?id=${query.id}`"
+          :url="`/pages/my/components/MyOrder?id=${query.id}&now=${query.now}`"
           open-type="redirect"
         >
           查看订单

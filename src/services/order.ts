@@ -1,4 +1,4 @@
-import type { OrderCreateParams, OrderPreResult, OrderResult } from '@/types/order'
+import type { OrderCreateParams, OrderPreResult, OrderResult, Order } from '@/types/order'
 import { http } from '@/utils/http'
 /**
  * 填写订单-获取预付订单
@@ -9,21 +9,30 @@ export const getMemberOrderPreAPI = () => {
     url: '/miniTest/member/order/pre',
   })
 }
+/**
+ * 填写订单-获取立即支付订单
+ */
+export const getOrderNowAPI = () => {
+  return http<OrderPreResult>({
+    method: 'GET',
+    url: '/miniTest/member/buy/now',
+  })
+}
 
 /**
  * 填写订单-获取立即购买订单
  */
-export const getMemberOrderPreNowAPI = (data: {
+export const postBuyNowAPI = (data: {
   skuId: string
   count: number
-  addressId?: string
-  name?: string
-  image?: string
-  price?: number
-  skuList?: string
+  name: string
+  image: string
+  price: number
+  skuArr: string[]
+  id: string
 }) => {
-  return http<OrderPreResult>({
-    method: 'GET',
+  return http({
+    method: 'POST',
     url: '/miniTest/member/order/pre/now',
     data,
   })
@@ -46,7 +55,7 @@ export const postMemberOrderAPI = (data: OrderCreateParams) => {
  * @param id 订单id
  */
 export const getMemberOrderByIdAPI = (id: string) => {
-  return http<OrderResult[]>({
+  return http<OrderResult>({
     method: 'GET',
     url: `/miniTest/get/order/${id}`,
   })
@@ -119,7 +128,7 @@ export const deleteMemberOrderAPI = (data: { ids: string }) => {
  * @param data orderState 订单状态
  */
 export const getMemberOrderAPI = (data: OrderListParams) => {
-  return http<OrderResult[]>({
+  return http<Order[]>({
     method: 'GET',
     url: `/miniTest/order`,
     data,
@@ -134,5 +143,12 @@ export const getOrderAPI = () => {
   return http<OrderResult[]>({
     method: 'GET',
     url: `/miniTest/order/all`,
+  })
+}
+
+export const getOrderAgainAPI = (id: string) => {
+  return http<OrderPreResult>({
+    method: 'GET',
+    url: `/miniTest/order/again/${id}`,
   })
 }

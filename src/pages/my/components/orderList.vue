@@ -1,6 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import list from './list.vue'
+import { ref, onMounted } from 'vue'
+import { type OrderListParams, getMemberOrderAPI, getPayMockAPI } from '@/services/order'
+import { OrderState } from '@/services/constants'
+import { orderStateList } from '@/services/constants'
+import type { OrderResult, Order } from '@/types/order'
+
+// 获取屏幕边界到安全区域距离
+const { safeAreaInsets } = uni.getSystemInfoSync()
+
 // tabs 数据
 const orderTabs = ref([
   { orderState: 0, title: '全部' },
@@ -17,29 +24,117 @@ const activeIndex = ref(orderTabs.value.findIndex((v) => v.orderState === Number
 const query = defineProps<{
   type: string
 }>()
+
+// 请求参数
+const queryParams: OrderListParams = {
+  page: 1,
+  pageSize: 5,
+  orderState: activeIndex.value,
+}
+
+// 获取订单列表
+const orderList = ref<Order[]>([]) // 将类型声明为 OrderResult[] 数组类型
+const getMemberOrderData = async () => {
+  const res = await getMemberOrderAPI(queryParams)
+  console.log(res)
+  orderList.value = res.result
+}
+
+// tab切换
+const tabchange = async (index: number) => {
+  activeIndex.value = index
+  queryParams.orderState = activeIndex.value
+  const res = await getMemberOrderAPI(queryParams)
+  orderList.value = res.result
+}
+
+// 订单支付
+const pay = async (orderId: string) => {
+  // 关闭当前页面，跳转到订单详情，传递订单id
+  uni.redirectTo({ url: `/pages/my/components/MyOrder?id=${orderId}` })
+}
+
+onMounted(() => {
+  getMemberOrderData()
+})
 </script>
 
 <template>
   <view class="viewport">
-    <!-- tabs -->
     <view class="tabs">
       <text
         class="item"
         v-for="(item, index) in orderTabs"
         :key="item.title"
-        @tap="activeIndex = index"
+        @tap="tabchange(index)"
       >
         {{ item.title }}
       </text>
-      <!-- 游标 -->
       <view class="cursor" :style="{ left: activeIndex * 20 + '%' }"></view>
     </view>
+
     <!-- 滑动容器 -->
     <swiper class="swiper" :current="activeIndex" @change="activeIndex = $event.detail.current">
       <!-- 滑动项 -->
       <swiper-item v-for="item in orderTabs" :key="item.title">
         <!-- 订单列表 -->
-        <list :order-state="item.orderState" />
+        <scroll-view scroll-y class="orders">
+          <view class="card" v-for="order in orderList" :key="order.id">
+            <!-- 订单信息 -->
+            <view class="status">
+              <text class="date">{{ order.createTime }}</text>
+              <!-- 订单状态文字 -->
+              <text>{{ orderStateList[order.orderState].text }}</text>
+              <!-- 待评价/已完成/已取消 状态: 展示删除订单 -->
+              <text v-if="order.orderState >= OrderState.DaiPingJia" class="icon-delete"></text>
+            </view>
+
+            <!-- 商品信息，点击商品跳转到订单详情，不是商品详情 -->
+            <navigator
+              class="goods"
+              :url="`/pages/my/components/CreateOrder?id=${order.id}`"
+              hover-class="none"
+            >
+              <view class="cover">
+                <image mode="aspectFit" :src="order.skus[0].image"></image>
+              </view>
+              <view class="meta">
+                <view class="name ellipsis">{{ order.skus[0].name }}</view>
+              </view>
+            </navigator>
+
+            <!-- 支付信息 -->
+            <view class="payment">
+              <text class="quantity">共{{ order.skus.length }}件商品</text>
+              <text>实付</text>
+              <text class="amount"> <text class="symbol">¥</text>{{ order.totalMoney }}</text>
+            </view>
+            <!-- 订单操作按钮 -->
+            <view class="action">
+              <!-- 待付款状态：显示去支付按钮 -->
+              <template v-if="order.orderState === OrderState.DaiFuKuan">
+                <view class="button primary" @tap="pay(order.id)">去支付</view>
+              </template>
+              <template v-else>
+                <navigator
+                  class="button secondary"
+                  :url="`/pages/my/components/CreateOrder?id=${order.id}`"
+                  hover-class="none"
+                >
+                  再次购买
+                </navigator>
+                <!-- 待收货状态: 展示确认收货 -->
+                <view v-if="order.orderState === OrderState.DaiShouHuo" class="button primary"
+                  >确认收货</view
+                >
+              </template>
+            </view>
+          </view>
+          <!-- 底部提示文字 -->
+          <view class="loading-text" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }">
+            {{ true ? '没有更多数据~' : '正在加载...' }}
+          </view>
+        </scroll-view>
       </swiper-item>
     </swiper>
   </view>

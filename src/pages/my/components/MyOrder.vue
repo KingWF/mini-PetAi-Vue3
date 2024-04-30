@@ -4,10 +4,12 @@ import {
   getMemberOrderByIdAPI,
   getMemberOrderConsignmentByIdAPI,
   getPayMockAPI,
-  getPayWxPayMiniPayAPI,
+  getOrderNowAPI,
   putMemberOrderReceiptByIdAPI,
 } from '@/services/order'
+import { getOrderAgainAPI } from '@/services/order'
 import type { OrderResult } from '@/types/order'
+import type { OrderPreResult } from '@/types/order'
 import { onLoad, onReady } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import { OrderState, orderStateList } from '@/services/constants'
@@ -34,6 +36,7 @@ const onCopy = (id: string) => {
 // 获取页面参数
 const query = defineProps<{
   id: string
+  now: number
 }>()
 
 // 获取页面栈
@@ -71,14 +74,18 @@ onReady(() => {
   })
 })
 
+// 获取订单信息
+const orderPre = ref<OrderPreResult>()
+const getMemberOrderPreData = async () => {
+  const res = await getOrderAgainAPI(query.id)
+  orderPre.value = res.result
+}
+
 // 获取订单详情
-const orderList = ref<OrderResult[]>([])
-const order = ref<OrderResult>()
+const order = ref<OrderResult>() // 确保 OrderResult 类型定义与后端返回数据结构匹配
 const getMemberOrderByIdData = async () => {
   const res = await getMemberOrderByIdAPI(query.id)
-  orderList.value = res.result
-  order.value = orderList.value[0]
-  console.log(order.value.orderState)
+  order.value = res.result as OrderResult // 强制类型转换为 OrderResult
 }
 
 // 倒计时结束事件
@@ -89,22 +96,15 @@ const onTimeup = () => {
 
 onLoad(() => {
   getMemberOrderByIdData()
+  getMemberOrderPreData()
 })
 
 // 订单支付
 const onOrderPay = async () => {
-  // 通过环境变量区分开发环境
-  if (import.meta.env.DEV) {
-    // 开发环境：模拟支付，修改订单状态为已支付
-    await getPayMockAPI({ orderId: query.id })
-  } else {
-    // 生产环境：获取支付参数 + 发起微信支付
-    const res = await getPayWxPayMiniPayAPI({ orderId: query.id })
-    await wx.requestPayment(res.result)
-  }
+  // 开发环境：模拟支付，修改订单状态为已支付
+  await getPayMockAPI({ orderId: query.id })
   // 关闭当前页，再跳转支付结果页src\pages\my\components\payment.vue
-  const oId = query.id.split(',')
-  uni.redirectTo({ url: `/pages/my/components/payment?id=${oId}` })
+  uni.redirectTo({ url: `/pages/my/components/payment?id=${query.id}` })
   order.value!.orderState = OrderState.DaiFaHuo
 }
 
@@ -133,19 +133,19 @@ const onOrderConfirm = () => {
   })
 }
 //订单删除
-const onOrderDelete = () => {
-  //二次确认弹窗
-  uni.showModal({
-    content: '是否删除订单',
-    success: async (success) => {
-      if (success.confirm) {
-        deleteMemberOrderAPI({ ids: query.id })
-        uni.redirectTo({ url: '/pages/my/components/orderList' })
-      }
-    },
-  })
-  console.log(query.id)
-}
+// const onOrderDelete = () => {
+//   //二次确认弹窗
+//   uni.showModal({
+//     content: '是否删除订单',
+//     success: async (success) => {
+//       if (success.confirm) {
+//         deleteMemberOrderAPI({ ids: query.id })
+//         uni.redirectTo({ url: '/pages/my/components/orderList' })
+//       }
+//     },
+//   })
+//   console.log(query.id)
+// }
 </script>
 
 <template>
@@ -170,12 +170,7 @@ const onOrderDelete = () => {
         <template v-if="order?.orderState === OrderState.DaiFuKuan">
           <view class="status icon-clock">等待付款</view>
           <view class="tips">
-            <text class="money"
-              >应付金额: ¥
-              {{
-                orderList.reduce((total, item) => total + item.totalMoney, 0) + order.postFee
-              }}</text
-            >
+            <text class="money">应付金额: ¥{{ order.totalMoney }}</text>
             <text class="time">支付剩余</text>
             <!-- 倒计时组件 -->
             <uni-countdown
@@ -196,7 +191,7 @@ const onOrderDelete = () => {
           <view class="button-group">
             <navigator
               class="button"
-              :url="`/pages/my/components/CreateOrder?orderId=${query.id}`"
+              :url="`/pages/my/components/CreateOrder?id=${query.id}&is_now=${query.now}`"
               hover-class="none"
             >
               再次购买
@@ -221,63 +216,41 @@ const onOrderDelete = () => {
         </template>
       </view>
       <!-- 配送状态 -->
-      <view class="shipment">
+      <view class="shipment" v-if="order.orderState == OrderState.DaiPingJia">
         <!-- 订单物流信息 -->
         <view v-for="item in 1" :key="item" class="item">
-          <view class="message">
-            您已在{{ order.receiverAddress }}完成取件，感谢使用菜鸟驿站，期待再次为您服务。
-          </view>
+          <view class="message"> 您已在完成取件，感谢使用菜鸟驿站，期待再次为您服务。 </view>
           <view class="date"> 2023-04-14 13:14:20 </view>
         </view>
         <!-- 用户收货地址 -->
         <view class="locate">
-          <view class="user"> {{ order.receiver }} {{ order.receiverMobile }} </view>
-          <view class="address"> {{ order.receiverAddress }} </view>
+          <view class="user">{{ orderPre?.userAddresses?.[0]?.receiver }}</view>
+          <view class="address"
+            >{{ orderPre?.userAddresses?.[0]?.fullLocation
+            }}{{ orderPre?.userAddresses?.[0]?.address }}</view
+          >
         </view>
       </view>
 
       <!-- 商品信息 -->
       <view class="goods">
-        <view class="item">
-          <navigator class="navigator" v-for="item in orderList" :key="item.id" hover-class="none">
-            <image class="cover" :src="item.picture"></image>
-            <view class="meta">
-              <view class="name ellipsis">{{ item.name }}</view>
-              <view class="type">{{ item.attrsText }}</view>
-              <view class="price">
-                <view class="actual">
-                  <text class="symbol">¥</text>
-                  <text>{{ item.totalMoney }}</text>
-                </view>
-              </view>
-              <view class="quantity">x{{ item.count }}</view>
+        <navigator
+          v-for="item in orderPre?.goods"
+          :key="item.skuId"
+          class="item"
+          hover-class="none"
+        >
+          <image class="picture" :src="item.picture" />
+          <view class="meta">
+            <view class="name ellipsis"> {{ item.name }} </view>
+            <view class="attrs">{{ item.attrsText }}</view>
+            <view class="prices">
+              <view class="pay-price symbol">{{ item.price }}</view>
+              <view class="price symbol">{{ item.price }}</view>
             </view>
-          </navigator>
-          <!-- 待评价状态:展示按钮 -->
-          <view class="action" v-if="true">
-            <view class="button primary">申请售后</view>
-            <navigator url="" class="button"> 去评价 </navigator>
+            <view class="count">x{{ item.count }}</view>
           </view>
-        </view>
-        <!-- 合计 -->
-        <view class="total">
-          <view class="row">
-            <view class="text">商品总价: </view>
-            <view class="symbol">
-              {{ orderList.reduce((total, item) => total + item.totalMoney, 0) }}</view
-            >
-          </view>
-          <view class="row">
-            <view class="text">运费: </view>
-            <view class="symbol">{{ order.postFee }}</view>
-          </view>
-          <view class="row">
-            <view class="text">应付金额: </view>
-            <view class="symbol primary">{{
-              orderList.reduce((total, item) => total + item.totalMoney, 0) + order.postFee
-            }}</view>
-          </view>
-        </view>
+        </navigator>
       </view>
 
       <!-- 订单信息 -->
@@ -291,9 +264,6 @@ const onOrderDelete = () => {
           <view class="item">下单时间: {{ order.createTime }}</view>
         </view>
       </view>
-
-      <!-- 猜你喜欢 -->
-      <XtxGuess ref="guessRef" />
 
       <!-- 底部操作栏 -->
       <view class="toolbar-height" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }"></view>
@@ -498,21 +468,21 @@ page {
 }
 
 .goods {
-  margin: 20rpx 20rpx 0;
+  margin: 20rpx;
   padding: 0 20rpx;
   border-radius: 10rpx;
   background-color: #fff;
 
   .item {
+    display: flex;
     padding: 30rpx 0;
-    border-bottom: 1rpx solid #eee;
+    border-top: 1rpx solid #eee;
 
-    .navigator {
-      display: flex;
-      margin: 20rpx 0;
+    &:first-child {
+      border-top: none;
     }
 
-    .cover {
+    .picture {
       width: 170rpx;
       height: 170rpx;
       border-radius: 10rpx;
@@ -533,7 +503,7 @@ page {
       color: #444;
     }
 
-    .type {
+    .attrs {
       line-height: 1.8;
       padding: 0 15rpx;
       margin-top: 6rpx;
@@ -544,86 +514,30 @@ page {
       background-color: #f7f7f8;
     }
 
-    .price {
+    .prices {
       display: flex;
+      align-items: baseline;
       margin-top: 6rpx;
-      font-size: 24rpx;
+      font-size: 28rpx;
+
+      .pay-price {
+        margin-right: 10rpx;
+        color: #cf4444;
+      }
+
+      .price {
+        font-size: 24rpx;
+        color: #999;
+        text-decoration: line-through;
+      }
     }
 
-    .symbol {
-      font-size: 20rpx;
-    }
-
-    .original {
-      color: #999;
-      text-decoration: line-through;
-    }
-
-    .actual {
-      margin-left: 10rpx;
-      color: #444;
-    }
-
-    .text {
-      font-size: 22rpx;
-    }
-
-    .quantity {
+    .count {
       position: absolute;
       bottom: 0;
       right: 0;
-      font-size: 24rpx;
+      font-size: 26rpx;
       color: #444;
-    }
-
-    .action {
-      display: flex;
-      flex-direction: row-reverse;
-      justify-content: flex-start;
-      padding: 30rpx 0 0;
-
-      .button {
-        width: 200rpx;
-        height: 60rpx;
-        text-align: center;
-        justify-content: center;
-        line-height: 60rpx;
-        margin-left: 20rpx;
-        border-radius: 60rpx;
-        border: 1rpx solid #ccc;
-        font-size: 26rpx;
-        color: #444;
-      }
-
-      .primary {
-        color: #27ba9b;
-        border-color: #27ba9b;
-      }
-    }
-  }
-
-  .total {
-    line-height: 1;
-    font-size: 26rpx;
-    padding: 20rpx 0;
-    color: #666;
-
-    .row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10rpx 0;
-    }
-
-    .symbol::before {
-      content: '¥';
-      font-size: 80%;
-      margin-right: 3rpx;
-    }
-
-    .primary {
-      color: #cf4444;
-      font-size: 36rpx;
     }
   }
 }

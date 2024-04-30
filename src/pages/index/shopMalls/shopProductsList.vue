@@ -81,7 +81,7 @@ const onScrolltolower = async () => {
       return
     }
   }
-  console.log(curr)
+
   // 增加页码
   curr.goodsItems.page++
   const res = await getRecommendGoodsAPI({
@@ -89,7 +89,7 @@ const onScrolltolower = async () => {
     page: curr.goodsItems.page,
     pageSize: curr.goodsItems.pageSize,
   })
-  console.log(res)
+
   curr.goodsItems.items.push(...res.result.items[0].goodsItems.items)
   // 判断是否到底了
   if (curr.goodsItems.page >= curr.goodsItems.pages) {
@@ -103,8 +103,8 @@ onLoad(async (option: any) => {
   await getHotRecommendData()
   KeyWord.value = option.searchKeyWord
 })
-
 </script>
+
 <style lang="scss">
 .top {
 }

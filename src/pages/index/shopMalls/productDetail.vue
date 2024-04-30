@@ -12,7 +12,7 @@ import type {
   SkuPopupLocaldata,
 } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
 import { postMemberCartAPI } from '@/services/cart'
-
+import { postBuyNowAPI } from '@/services/order'
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
@@ -28,6 +28,7 @@ const getGoodsByIdData = async () => {
   const res = await getGoodsByIdAPI(query.id)
   ids.value = res.result.id
   goods.value = res.result
+  console.log(res.result.skus)
 
   // SKU组件所需格式
   localdata.value = {
@@ -36,7 +37,7 @@ const getGoodsByIdData = async () => {
     goods_thumb: res.result.mainPictures[0],
     spec_list: res.result.specs.map((v) => ({ name: v.name, list: v.values })),
     sku_list: res.result.skus.map((v) => ({
-      _id: v.id,
+      _id: v.skuCode,
       goods_id: res.result.id,
       goods_name: res.result.name,
       image: v.picture,
@@ -109,7 +110,6 @@ const onAddCart = async (ev: SkuPopupEvent) => {
     name: ev.goods_name,
     image: ev.image,
     price: ev.price,
-    stock: ev.stock,
     skuArr: ev.sku_name_arr,
     id: ids.value,
   })
@@ -129,11 +129,18 @@ onLoad(() => {
 })
 
 // 立即购买
-const onBuyNow = (ev: SkuPopupEvent) => {
-  const skuList = ev.sku_name_arr.join(', ')
-
+const onBuyNow = async (ev: SkuPopupEvent) => {
+  await postBuyNowAPI({
+    skuId: ev._id,
+    count: ev.buy_num,
+    name: ev.goods_name,
+    image: ev.image,
+    price: ev.price,
+    skuArr: ev.sku_name_arr,
+    id: ids.value,
+  })
   uni.navigateTo({
-    url: `/pages/my/components/CreateOrder?skuId=${ev._id}&count=${ev.buy_num}&name=${ev.goods_name}&image=${ev.image}&price=${ev.price}&skuList=${skuList}`,
+    url: `/pages/my/components/CreateOrder?skuId=${ev._id}`,
   })
 }
 </script>
