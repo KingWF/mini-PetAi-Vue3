@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { type OrderListParams, getMemberOrderAPI, getPayMockAPI } from '@/services/order'
+import { type OrderListParams, getMemberOrderAPI } from '@/services/order'
 import { OrderState } from '@/services/constants'
 import { orderStateList } from '@/services/constants'
-import type { OrderResult, Order } from '@/types/order'
+import type { Order } from '@/types/order'
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
