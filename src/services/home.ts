@@ -149,9 +149,10 @@ export const getHistoryChatData = (userId: string) => {
     },
   })
 }
+// 上传宠物头像
 export const uploadAavatarAPI = (filePath: string) => {
   uni.uploadFile({
-    url: '/miniTest/AddNewPet/unload', //仅为示例，非真实的接口地址
+    url: '/miniTest/AddNewPet/unload',
     filePath: filePath,
     name: 'file',
     formData: {},
@@ -165,7 +166,7 @@ export const uploadAavatarAPI = (filePath: string) => {
 export const testPyIdentifyAPI = () => {
   return http({
     method: 'GET',
-    url: 'http://38gbfla9clgu.ngrok.xiaomiqiu123.top/identify/pet',
+    url: 'https://u5pelpracijm.ngtest.guyubao.com/identify/pet',
     data: {
       petName: '张三',
     },

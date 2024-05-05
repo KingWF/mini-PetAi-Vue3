@@ -32,19 +32,22 @@
   <view class="footer">
     <view class="row">
       <view class="input-box">
-        <textarea
+        <!-- <textarea
           class="text-area"
           placeholder-class="textarea-placeholder"
-          :show-confirm-bar="false"
+          style="-webkit-user-select: text !important"
+          contenteditable="true"
+          :show-confirm-bar="true"
           :cursor-spacing="30"
           :maxlength="500"
           :confirm-hold="true"
           placeholder="输入信息"
           :disabled="ifSentQuestion"
           v-model="content"
-        ></textarea>
+        ></textarea> -->
+        <input class="input1" auto-focus placeholder="请输入你的问题~" v-model="content" />
       </view>
-      <view class="send-btn" v-if="content != ''">
+      <view class="send-btn">
         <button class="send-text" @click="sendClick">发 送</button>
       </view>
     </view>
@@ -105,6 +108,12 @@ const getNowDate = () => {
 }
 // 发送问题
 const sendClick = () => {
+  if (content.value == '') {
+    return uni.showToast({
+      title: '问题不能为空哦',
+      icon: 'none',
+    })
+  }
   // 发送问题期间禁止再次提问
   ifSentQuestion.value = true
   // 组装数据
@@ -124,7 +133,6 @@ const sendClick = () => {
   getAnswer()
   content.value = ''
 }
-
 
 // 获取ChatGPT的回答
 const getAnswer = async () => {
@@ -189,9 +197,12 @@ const getChatData = async () => {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 page {
   background-color: #f1f1f1;
+}
+.input1 {
+  -webkit-user-select: none;
 }
 
 .scroll-list {
@@ -202,7 +213,7 @@ page {
 /* 显示时间 */
 .show-date {
   text-align: center;
-  font-size: 24px;
+  font-size: 24rpx;
   padding: 15px 0;
   color: gray;
 }
@@ -293,6 +304,7 @@ page {
   flex: 5;
   border: 1rpx solid #cecece;
   border-radius: 10rpx;
+  -webkit-user-select: text !important;
 }
 
 .send-btn {
