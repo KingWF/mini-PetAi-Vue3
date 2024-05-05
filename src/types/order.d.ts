@@ -3,7 +3,7 @@ import type { AddressItem } from './address'
 /** 获取预付订单 返回信息 */
 export type OrderPreResult = {
   /** 商品集合 [ 商品信息 ] */
-  carts: OrderPreGoods[]
+  goods: OrderPreGoods[]
   /** 结算信息 */
   summary: {
     /** 商品总价 */
@@ -68,6 +68,8 @@ export type OrderCreateParams = {
   payChannel: 1 | 2
   /** 支付方式，1为在线支付，2为货到付款 */
   payType: 1 | 2
+  totalPrice: string
+  totalPayPrice: string
 }
 
 /** 提交订单 返回信息 */
@@ -83,25 +85,7 @@ export type OrderResult = {
   /** 订单状态，1为待付款、2为待发货、3为待收货、4为待评价、5为已完成、6为已取消 */
   orderState: number
   /** 倒计时--剩余的秒数 -1 表示已经超时，正数表示倒计时未结束 */
-  countdown: number
-  /** sku id */
-  skuId: string
-  /** 商品名称 */
-  name: string
-  /** 商品属性文字 */
-  attrsText: string
-  /** 数量 */
-  count: number
-  /** 购买时单价 */
-  price: number
-  /** 图片地址 */
-  picture: string
-  /** 收货人 */
-  receiver: string
-  /** 收货人手机 */
-  receiverMobile: string
-  /** 收货人完整地址 */
-  receiverAddress: string
+  countdown: number | null // 此处可以根据后台返回的数据结构，判断是否为 null
   /** 下单时间 */
   createTime: string
   /** 商品总价 */
@@ -110,4 +94,34 @@ export type OrderResult = {
   postFee: number
   /** 应付金额 */
   payMoney: number
+  /** 支付类型 */
+  payType: number // 根据后台返回的数据结构确定是否需要
+  /** 支付通道 */
+  payChannel: number // 根据后台返回的数据结构确定是否需要
+  /** 最晚支付时间 */
+  payLatestTime: string
+}
+
+/** 提交订单 请求参数 */
+export type Order = {
+  createTime: string
+  id: string
+  orderState: number
+  skus: {
+    /** 数量 */
+    count: number
+    /** skuId */
+    shuId: string
+    /** 商品名称 */
+    name: string
+    /** 商品图片 */
+    image: string
+    /** 商品价格 */
+    price: string
+    /** 商品规格 */
+    attrsText: string
+  }[]
+  payMoney: string
+  postFee: string
+  totalMoney: string
 }

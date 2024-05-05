@@ -127,8 +127,6 @@ export type SkuPopupSkuItem = {
   price: number
   /** SKU 规格组成, 注意：需要与 spec_list 数组顺序对应 */
   sku_name_arr: string[]
-  /** SKU 库存 */
-  stock: number
 }
 
 /** 当前选择的sku数据 */

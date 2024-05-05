@@ -1,4 +1,4 @@
-import type { BannerItem, GuessItem, RecommendGoodsItem, RecommendList } from '@/types/home'
+import type { BannerItem } from '@/types/home'
 import { http } from '@/utils/http'
 
 /**
@@ -7,7 +7,7 @@ import { http } from '@/utils/http'
 export const getSearchGoodsAPI = (keyword: any) => {
   return http<BannerItem[]>({
     method: 'GET',
-    url: '/searchGoods',
+    url: '/miniTest/searchGoods',
     data: {
       keyword,
     },

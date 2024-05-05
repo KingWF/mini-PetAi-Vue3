@@ -10,7 +10,6 @@ export const postMemberCartAPI = (data: {
   name: string
   image: string
   price: number
-  stock: number
   skuArr: string[]
   id: string
 }) => {
@@ -38,7 +37,7 @@ export const getMemberCartAPI = () => {
 export const deleteMemberCartAPI = (data: { ids: string }) => {
   return http({
     method: 'DELETE',
-    url: '/delete/cart',
+    url: '/miniTest/delete/cart',
     data,
   })
 }
@@ -49,7 +48,7 @@ export const deleteMemberCartAPI = (data: { ids: string }) => {
 export const putMemberCartBySkuIdAPI = (skuId: string, data: { count?: number }) => {
   return http({
     method: 'PUT',
-    url: `/cart/count/${skuId}`,
+    url: `/miniTest/cart/count/${skuId}`,
     data,
   })
 }
@@ -57,7 +56,7 @@ export const putMemberCartBySkuIdAPI = (skuId: string, data: { count?: number })
 export const putSelectedBySkuIdAPI = (skuId: string, data: { selected?: boolean }) => {
   return http({
     method: 'PUT',
-    url: `/cart/selected/${skuId}`,
+    url: `/miniTest/cart/selected/${skuId}`,
     data,
   })
 }
@@ -69,7 +68,7 @@ export const putSelectedBySkuIdAPI = (skuId: string, data: { selected?: boolean 
 export const putMemberCartSelectedAPI = (data: { selected: boolean }) => {
   return http({
     method: 'PUT',
-    url: '/member/cart/selected',
+    url: '/miniTest/member/cart/selected',
     data,
   })
 }

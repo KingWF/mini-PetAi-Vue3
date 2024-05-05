@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { getMemberOrderPreAPI, getMemberOrderPreNowAPI, postMemberOrderAPI } from '@/services/order'
+import {
+  getMemberOrderPreAPI,
+  getOrderAgainAPI,
+  postMemberOrderAPI,
+  getOrderNowAPI,
+} from '@/services/order'
 import { useAddressStore } from '@/stores/modules/address'
 import type { OrderPreGoods, OrderPreResult } from '@/types/order'
 import { onLoad } from '@dcloudio/uni-app'
@@ -24,26 +29,24 @@ const onChangeDelivery: UniHelper.SelectorPickerOnChange = (ev) => {
   activeIndex.value = ev.detail.value
 }
 
+const now = ref(0)
+
 // 获取订单信息
 const orderPre = ref<OrderPreResult>()
 const getMemberOrderPreData = async () => {
-  // 是否有立即购买参数
-  if (query.count && query.skuId) {
-    // 调用立即购买 API
-    const res = await getMemberOrderPreNowAPI({
-      count: query.count,
-      skuId: query.skuId,
-      name: query.name,
-      image: query.image,
-      price: query.price,
-      skuList: query.skuList,
-    })
+  //如果是从订单列表传来一个订单id
+  if (query.id) {
+    const res = await getOrderAgainAPI(query.id)
     orderPre.value = res.result
-  } else {
-    // 调用预付订单 API
-    const res = await getMemberOrderPreAPI()
-    orderPre.value = res.result
+    return
   }
+  if (query.skuId) {
+    const res = await getOrderNowAPI()
+    orderPre.value = res.result
+    return
+  }
+  const res = await getMemberOrderPreAPI()
+  orderPre.value = res.result
 }
 
 onLoad(() => {
@@ -56,14 +59,11 @@ const selecteAddress = computed(() => {
   return addressStore.selectedAddress || orderPre.value?.userAddresses.find((v) => v.isDefault)
 })
 
-// 页面参数
+// 获取页面参数
 const query = defineProps<{
-  skuId?: string
-  count?: number
-  name?: string
-  image?: string
-  price?: number
-  skuList?: string
+  id: string
+  is_now: number
+  skuId: string
 }>()
 
 // 提交订单
@@ -77,7 +77,7 @@ const onOrderSubmit = async () => {
     addressId: selecteAddress.value?.id,
     buyerMessage: buyerMessage.value,
     deliveryTimeType: activeDelivery.value.type,
-    goods: orderPre.value!.carts.map((v) => ({
+    goods: orderPre.value!.goods.map((v) => ({
       count: v.count,
       skuId: v.skuId,
       name: v.name,
@@ -87,6 +87,7 @@ const onOrderSubmit = async () => {
     })),
     payChannel: 2,
     payType: 1,
+    totalPrice: orderPre.value?.summary.totalPrice.toFixed(2),
   })
   // 关闭当前页面，跳转到订单详情，传递订单id
   uni.redirectTo({ url: `/pages/my/components/MyOrder?id=${res.result}` })
@@ -113,13 +114,7 @@ const onOrderSubmit = async () => {
 
     <!-- 商品信息 -->
     <view class="goods">
-      <navigator
-        v-for="item in orderPre?.carts"
-        :key="item.skuId"
-        :url="`/pages/index/shopMalls/productDetail?id=${item.id}`"
-        class="item"
-        hover-class="none"
-      >
+      <navigator v-for="item in orderPre?.goods" :key="item.skuId" class="item" hover-class="none">
         <image class="picture" :src="item.picture" />
         <view class="meta">
           <view class="name ellipsis"> {{ item.name }} </view>
@@ -282,6 +277,13 @@ page {
         color: #999;
         text-decoration: line-through;
       }
+    }
+    .total {
+      position: absolute;
+      bottom: 0;
+      right: 70rpx;
+      font-size: 20px;
+      color: #cf4444;
     }
 
     .count {

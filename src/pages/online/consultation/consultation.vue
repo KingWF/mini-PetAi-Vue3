@@ -58,6 +58,7 @@ export default {
       ],
       myInput: '',
       count: 1,
+      websocket: null,
     }
   },
   methods: {
@@ -82,31 +83,57 @@ export default {
         },
       })
     },
-    sendMsg() {
-      if (!this.myInput) return null
-      let Msg = {
-        isMe: true,
-        type: 'txt',
-        content: this.myInput,
+    sendMsg: function () {
+      let message = this.myInput.trim()
+      if (message === '') {
+        return
       }
-      this.chatList.push(Msg)
-      if (this.count === 1) {
-        let Msg1 = {
-          isMe: false,
-          type: 'txt',
-          content: '请您稍等',
-        }
-        this.chatList.push(Msg1)
-      }
-      this.count++
-      this.myInput = ''
-      setTimeout(() => {
-        uni.pageScrollTo({
-          scrollTop: 999999999999,
-          duration: 0,
+
+      if (this.websocket && this.websocket.readyState === 1) {
+        // 确保 WebSocket 连接已经打开
+        // 发送消息到 WebSocket 服务器
+        this.websocket.send({
+          // data: {
+          //   isMe: false,
+          //   type: 'txt',
+          //   content: message,
+          // },
+          data: message,
+          success: () => {
+            console.log('Message sent successfully')
+            this.chatList.push({
+              isMe: true,
+              type: 'txt',
+              content: message,
+            })
+            // 存储聊天记录到本地存储
+            uni.setStorageSync('chatList', JSON.stringify(this.chatList))
+            this.myInput = '' // 清空输入框内容
+            this.receiveMessage() // 你可以根据实际情况进行调整
+          },
+          fail: (error) => {
+            console.error('Failed to send message:', error)
+          },
         })
-      }, 0)
-      uni.setStorageSync('chatList', JSON.stringify(this.chatList))
+      } else {
+        console.error('WebSocket connection is not open')
+      }
+    },
+    // 模拟接收消息
+    receiveMessage() {
+      // 这里可以模拟接收到的消息
+      setTimeout(() => {
+        // const receivedMsg = {
+        //   isMe: false,
+        //   type: 'txt',
+        //   content: '这是接收到的消息',
+        // }
+        //
+        // // 添加到聊天列表
+        // this.chatList.push(receivedMsg)
+        // 存储聊天记录到本地存储
+        uni.setStorageSync('chatList', JSON.stringify(this.chatList))
+      }, 1000)
     },
   },
   onLoad(option) {
@@ -119,15 +146,68 @@ export default {
     })
   },
   onShow() {
-    if (!uni.getStorageSync('chatList')) {
-      this.chatList = JSON.parse(uni.getStorageSync('chatList'))
-      setTimeout(() => {
-        uni.pageScrollTo({
-          scrollTop: 999999999999,
-          duration: 0,
-        })
-      }, 50)
+    const storedChatList = uni.getStorageSync('chatList')
+    if (storedChatList) {
+      this.chatList = JSON.parse(storedChatList)
+      // 更新界面显示等操作
     }
+    setTimeout(() => {
+      uni.pageScrollTo({
+        scrollTop: 999999999999,
+        duration: 0,
+      })
+    }, 50)
+  },
+  created() {
+    // 连接 WebSocket
+    this.websocket = wx.connectSocket({
+      url: 'ws://localhost:8888/websocket-endpoint',
+      success: () => {
+        console.log('WebSocket connected')
+      },
+      fail: (error) => {
+        console.error('WebSocket connection error:', error)
+      },
+    })
+
+    // 监听 WebSocket 打开事件
+    this.websocket.onOpen(() => {
+      console.log('WebSocket connection opened')
+    })
+
+    // 监听 WebSocket 接收消息事件
+    this.websocket.onMessage((res) => {
+      console.log('Received raw message:', res.data)
+
+      try {
+        let chat = {
+          isMe: false,
+          type: 'txt',
+          content: res.data,
+        }
+        this.chatList.push(chat)
+        // 更新界面显示等操作
+      } catch (error) {
+        console.error('Error parsing JSON:', error)
+      }
+    })
+
+    // 监听 WebSocket 关闭事件
+    this.websocket.onClose(() => {
+      console.log('WebSocket connection closed')
+    })
+
+    // 监听 WebSocket 错误事件
+    this.websocket.onError((error) => {
+      console.error('WebSocket error:', error)
+    })
+  },
+
+  // 输入框内容变化时更新数据
+  onInputMessageChange: function (event) {
+    this.setData({
+      inputMessage: event.detail.value,
+    })
   },
 }
 </script>

@@ -31,6 +31,7 @@ const queryParams: OrderListParams = {
 const orderList = ref<OrderResult[]>([]) // 将类型声明为 OrderResult[] 数组类型
 
 const getMemberOrderData = async () => {
+  console.log(queryParams.orderState)
   if (queryParams.orderState == 0) {
     const res = await getOrderAPI()
     orderList.value = res.result
