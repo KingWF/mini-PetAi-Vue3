@@ -8,14 +8,14 @@ import type { communityItem } from '@/types/community'
 export const getCommunityDataAPI = () => {
   return http<communityItem[]>({
     method: 'GET',
-    url: '/getCommunity',
+    url: '/miniTest/getCommunity',
   })
 }
 
 export const changeConcern = (itemId: bigint, newConcern: number) => {
   return http<number>({
     method: 'GET',
-    url: '/updateConcern',
+    url: '/miniTest/updateConcern',
     data: {
       itemId,
       newConcern,
@@ -35,7 +35,7 @@ export const addMomentsAPI = (
 ) => {
   return http({
     method: 'GET',
-    url: '/setMoments',
+    url: '/miniTest/setMoments',
     data: {
       /**
        * 标题

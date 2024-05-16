@@ -1,14 +1,15 @@
 import { useMemberStore } from '@/stores'
 
-// java后端的接口
 const baseURL = 'http://localhost:8888'
 // py端的接口
 const PythonbaseURL = 'http://127.0.0.1:5000'
-// 终端服务器基地址：'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top'
-// 添加拦截器
-// 拦截reques请求和uploadFile文件上传
-//http://localhost:8888/miniTest
-//https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/miniTest
+// java端
+//http://localhost:8888
+//https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top
+
+// python端
+// http://38gbfla9clgu.ngrok.xiaomiqiu123.top
+// http://127.0.0.1:5000
 
 // 添加拦截器
 const httpInterceptor = {

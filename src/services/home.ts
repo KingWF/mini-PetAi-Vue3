@@ -16,7 +16,7 @@ import { http } from '@/utils/http'
 export const getHomeBannerAPI = (distributionSite = 1) => {
   return http<BannerItem[]>({
     method: 'GET',
-    url: '/home/swiper',
+    url: '/miniTest/home/swiper',
     data: {
       distributionSite,
     },
@@ -53,7 +53,7 @@ export const getRecommendGoodsAPI = (data?: RecommendParams) => {
 export const getPetPictureAPI = () => {
   return http<PetPictures[]>({
     method: 'GET',
-    url: 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/Picture/getPetPicture',
+    url: '/Picture/getPetPicture',
   })
 }
 /**
@@ -62,7 +62,7 @@ export const getPetPictureAPI = () => {
 export const getAllPetInformationAPI = (masterId: number) => {
   return http<PetBaseInformation[]>({
     method: 'GET',
-    url: '/AllPetInformation',
+    url: '/miniTest/AllPetInformation',
     data: {
       masterId,
     },
@@ -74,7 +74,7 @@ export const getAllPetInformationAPI = (masterId: number) => {
 export const getPetBaseInformationAPI = (id: number) => {
   return http<PetBaseInformation>({
     method: 'GET',
-    url: '/basePetInformation',
+    url: '/miniTest/basePetInformation',
     data: {
       id,
     },
@@ -86,7 +86,7 @@ export const getPetBaseInformationAPI = (id: number) => {
 export const setPetBaseInformationAPI = (id: number, index: number, text: string) => {
   return http({
     method: 'GET',
-    url: '/setBasePetInformation',
+    url: '/miniTest/setBasePetInformation',
     data: {
       id,
       index,
@@ -100,7 +100,7 @@ export const setPetBaseInformationAPI = (id: number, index: number, text: string
 export const deletePetInformationAPI = (index: number) => {
   return http({
     method: 'GET',
-    url: '/deletePetInformation',
+    url: '/miniTest/deletePetInformation',
     data: {
       index,
     },
@@ -112,7 +112,7 @@ export const deletePetInformationAPI = (index: number) => {
 export const addPetInformationAPI = (newPet: any) => {
   return http({
     method: 'POST',
-    url: '/AddNewPet/petInformation',
+    url: '/miniTest/AddNewPet/petInformation',
     data: newPet,
   })
 }
@@ -122,7 +122,7 @@ export const addPetInformationAPI = (newPet: any) => {
 export const sendQuestions = (userId: string, message: string) => {
   return http({
     method: 'POST',
-    url: 'http://localhost:8888/chatgpt/test001',
+    url: '/chatgpt/test001',
     data: {
       userId,
       message,
@@ -133,7 +133,7 @@ export const sendQuestions = (userId: string, message: string) => {
 export const GPTTest = (userId: string) => {
   return http({
     method: 'GET',
-    url: 'http://localhost:8888/chatgpt/Test',
+    url: '/chatgpt/Test',
     data: {
       userId,
     },
@@ -143,7 +143,7 @@ export const GPTTest = (userId: string) => {
 export const getHistoryChatData = (userId: string) => {
   return http<string[]>({
     method: 'GET',
-    url: 'http://localhost:8888/chatgpt/ChatData',
+    url: '/chatgpt/ChatData',
     data: {
       userId,
     },
@@ -151,7 +151,7 @@ export const getHistoryChatData = (userId: string) => {
 }
 export const uploadAavatarAPI = (filePath: string) => {
   uni.uploadFile({
-    url: 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/miniTest/AddNewPet/unload', //仅为示例，非真实的接口地址
+    url: '/miniTest/AddNewPet/unload', //仅为示例，非真实的接口地址
     filePath: filePath,
     name: 'file',
     formData: {},
@@ -175,7 +175,7 @@ export const testPyIdentifyAPI = () => {
 export const getPetBreedInformationAPI = (uid: number) => {
   return http<IndentifyPetImfo[]>({
     method: 'GET',
-    url: '/IdentifyPet/petInformation',
+    url: '/miniTest/IdentifyPet/petInformation',
     data: {
       uid: uid,
     },
