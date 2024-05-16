@@ -147,9 +147,11 @@ const CancelOrder = async () => {
   uni.showToast({
     title: '订单取消成功',
     icon: 'none',
+    duration: 2000, // 设置显示持续时间为2秒
   })
-  uni.navigateTo({
-    url: '/pages/my/components/ShoppingCart',
+
+  uni.switchTab({
+    url: '/pages/index/index',
   })
 }
 </script>
