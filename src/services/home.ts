@@ -118,11 +118,13 @@ export const addPetInformationAPI = (newPet: any) => {
 }
 /**
  * 智能回答---发送问题
+ * 使用openai的api      /chatgpt/GPT001
+ * 使用文心一言的api    /wenxinyiyan/chat
  */
 export const sendQuestions = (userId: string, message: string) => {
   return http({
     method: 'POST',
-    url: '/chatgpt/test001',
+    url: '/wenxinyiyan/chat',
     data: {
       userId,
       message,
@@ -143,7 +145,7 @@ export const GPTTest = (userId: string) => {
 export const getHistoryChatData = (userId: string) => {
   return http<string[]>({
     method: 'GET',
-    url: '/chatgpt/ChatData',
+    url: '/wenxinyiyan/ChatData',
     data: {
       userId,
     },

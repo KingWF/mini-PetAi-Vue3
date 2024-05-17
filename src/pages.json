@@ -23,6 +23,13 @@
 				"navigationBarTitleText": "我的"
 			}
 		},
+    {
+      "path": "pages/discovery/Article/Article",
+      "style": {
+        "navigationBarTitleText": "文章",
+        "navigationStyle": "custom"
+      }
+    },
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -252,6 +259,12 @@
 			"style": {
 				"navigationBarTitleText": "发布动态"
 			}
+		},
+    {
+			"path": "pages/discovery/ArticleDetails/ArticleDetails",
+			"style": {
+				"navigationBarTitleText": "文章详情"
+			}
 		}
 	],
 	"globalStyle": {
@@ -274,7 +287,7 @@
 			},
 			{
 				"text": "社区",
-				"pagePath": "pages/community/community",
+				"pagePath": "pages/discovery/Article/Article",
 				"iconPath": "static/tabs/社区.png",
 				"selectedIconPath": "static/tabs/社区 (1).png"
 			},
