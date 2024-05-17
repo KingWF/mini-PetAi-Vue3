@@ -115,11 +115,10 @@ export const putMemberOrderReceiptByIdAPI = (id: string) => {
  * @description 仅在订单状态为待评价，已完成，已取消时，可删除订单。
  * @param data ids 订单集合
  */
-export const deleteMemberOrderAPI = (data: { ids: string }) => {
+export const deleteOrderAPI = (orderId: string) => {
   return http({
     method: 'GET',
-    url: `/miniTest/order/delete`,
-    data,
+    url: `/miniTest/cancel/order/${orderId}`,
   })
 }
 

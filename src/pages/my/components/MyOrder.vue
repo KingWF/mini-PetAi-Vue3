@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import {
-  deleteMemberOrderAPI,
+  deleteOrderAPI,
   getMemberOrderByIdAPI,
   getMemberOrderConsignmentByIdAPI,
   getPayMockAPI,
-  getOrderNowAPI,
   putMemberOrderReceiptByIdAPI,
 } from '@/services/order'
 import { getOrderAgainAPI } from '@/services/order'
@@ -132,20 +131,29 @@ const onOrderConfirm = () => {
     },
   })
 }
-//订单删除
-// const onOrderDelete = () => {
-//   //二次确认弹窗
-//   uni.showModal({
-//     content: '是否删除订单',
-//     success: async (success) => {
-//       if (success.confirm) {
-//         deleteMemberOrderAPI({ ids: query.id })
-//         uni.redirectTo({ url: '/pages/my/components/orderList' })
-//       }
-//     },
-//   })
-//   console.log(query.id)
-// }
+//订单取消
+const CancelOrder = async () => {
+  console.log(reason.value)
+
+  if (!reason.value) {
+    uni.showToast({
+      title: '请选择取消订单的原因',
+      icon: 'none',
+    })
+    return
+  }
+  const orderId = query.id.split(',')[0]
+  const res = await deleteOrderAPI(orderId)
+  uni.showToast({
+    title: '订单取消成功',
+    icon: 'none',
+    duration: 2000, // 设置显示持续时间为2秒
+  })
+
+  uni.switchTab({
+    url: '/pages/index/index',
+  })
+}
 </script>
 
 <template>
@@ -313,7 +321,7 @@ const onOrderConfirm = () => {
       </view>
       <view class="footer">
         <view class="button" @tap="popup?.close?.()">取消</view>
-        <view class="button primary">确认</view>
+        <view class="button primary" @tap="CancelOrder" :disabled="!reason">确认</view>
       </view>
     </view>
   </uni-popup>

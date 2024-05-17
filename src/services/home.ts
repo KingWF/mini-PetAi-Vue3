@@ -183,3 +183,11 @@ export const getPetBreedInformationAPI = (uid: number) => {
     },
   })
 }
+
+export const getPictureApi = (data: { picture: string; desc: string }) => {
+  return http<string>({
+    method: 'GET',
+    url: 'http://127.0.0.1:5000/test',
+    data,
+  })
+}
