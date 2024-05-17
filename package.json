@@ -64,6 +64,7 @@
     "@dcloudio/uni-quickapp-webview": "3.0.0-alpha-3090720231104001",
     "@dcloudio/uni-ui": "^1.5.5",
     "@types/ws": "^8.5.10",
+    "element-ui": "^2.15.14",
     "express": "^4.19.2",
     "pinia": "2.0.27",
     "pinia-plugin-persistedstate": "^3.2.1",
