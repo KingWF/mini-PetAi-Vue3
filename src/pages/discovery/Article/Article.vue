@@ -20,10 +20,10 @@
           <ExploreNature></ExploreNature>
         </scroll-view>
       </div>
-      <!-- 点击"发现"显示的页面 -->
+      <!-- 点击"商城"显示的页面 -->
       <div v-else-if="activeIndex == 1" class="base-2">
         <scroll-view :scroll-y="false" class="scollerView-view" :style="{ height: heights + 'px' }">
-          <Discovery></Discovery>
+          <ShopMail></ShopMail>
         </scroll-view>
       </div>
     </div>
@@ -34,6 +34,7 @@
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import ExploreNature from '../component/ExploreNature.vue'
+import ShopMail from '../component/ShopMail.vue'
 
 // 获取顶部tab高度
 const tabHeigh = uni.getMenuButtonBoundingClientRect().bottom + 10
@@ -59,7 +60,7 @@ onLoad(() => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 page {
   // background: linear-gradient(to bottom, #89ffa2, #ffffff);
   background-color: rgb(255, 255, 255);

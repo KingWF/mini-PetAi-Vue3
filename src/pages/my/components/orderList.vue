@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { type OrderListParams, getMemberOrderAPI } from '@/services/order'
+import { type OrderListParams, getMemberOrderAPI, deleteOrderAPI } from '@/services/order'
 import { OrderState } from '@/services/constants'
 import { orderStateList } from '@/services/constants'
 import type { Order } from '@/types/order'
@@ -36,7 +36,6 @@ const queryParams: OrderListParams = {
 const orderList = ref<Order[]>([]) // 将类型声明为 OrderResult[] 数组类型
 const getMemberOrderData = async () => {
   const res = await getMemberOrderAPI(queryParams)
-  console.log(res)
   orderList.value = res.result
 }
 
@@ -52,6 +51,34 @@ const tabchange = async (index: number) => {
 const pay = async (orderId: string) => {
   // 关闭当前页面，跳转到订单详情，传递订单id
   uni.redirectTo({ url: `/pages/my/components/MyOrder?id=${orderId}` })
+}
+
+const deleteOrder = async (orderId: string) => {
+  // 弹出确认删除提示框
+  const res = await uni.showModal({
+    title: '确认删除',
+    content: '是否确认删除该订单？',
+    showCancel: true,
+  })
+
+  // 用户点击确定按钮
+  if (res.confirm) {
+    // 调用删除订单的API
+    const res = await deleteOrderAPI(orderId)
+    if (res) {
+      // 删除成功，提示用户
+      uni.showToast({
+        title: '订单已删除',
+        icon: 'success',
+      })
+    } else {
+      // 删除失败，提示用户
+      uni.showToast({
+        title: '订单删除失败',
+        icon: 'none',
+      })
+    }
+  }
 }
 
 onMounted(() => {
@@ -86,7 +113,11 @@ onMounted(() => {
               <!-- 订单状态文字 -->
               <text>{{ orderStateList[order.orderState].text }}</text>
               <!-- 待评价/已完成/已取消 状态: 展示删除订单 -->
-              <text v-if="order.orderState >= OrderState.DaiPingJia" class="icon-delete"></text>
+              <text
+                v-if="order.orderState >= OrderState.DaiPingJia"
+                class="icon-delete"
+                @tap="deleteOrder(order.id)"
+              ></text>
             </view>
 
             <!-- 商品信息，点击商品跳转到订单详情，不是商品详情 -->
@@ -96,7 +127,11 @@ onMounted(() => {
               hover-class="none"
             >
               <view class="cover">
-                <image mode="aspectFit" :src="order.skus[0].image"></image>
+                <image
+                  mode="aspectFit"
+                  :src="order.skus[0].picture"
+                  style="height: 200rpx; width: 250rpx"
+                ></image>
               </view>
               <view class="meta">
                 <view class="name ellipsis">{{ order.skus[0].name }}</view>
@@ -234,8 +269,8 @@ page {
     margin-bottom: 20rpx;
 
     .cover {
-      width: 170rpx;
-      height: 170rpx;
+      width: 200rpx;
+      height: 200rpx;
       margin-right: 20rpx;
       border-radius: 10rpx;
       overflow: hidden;

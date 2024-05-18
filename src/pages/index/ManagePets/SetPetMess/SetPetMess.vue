@@ -6,7 +6,9 @@
         <text>宠物头像</text>
       </view>
       <view class="v1-2">
-        <view class="v1-2-1"><image :src="petBaseInformation?.photourl" mode="scaleToFill" /></view>
+        <view class="v1-2-1"
+          ><image :src="petBaseInformation?.photourl" mode="scaleToFill" v-if="ifshowimg"
+        /></view>
         <view class="v1-2-2"> <image src="/static/icon/arrow-right.png" mode="scaleToFill" /></view>
       </view>
     </view>
@@ -142,8 +144,11 @@ import { reactive } from 'vue'
 import { usepetlistStore } from '@/stores/petlist'
 import { useMemberStore } from '@/stores/modules/member'
 
+// 图片刷新
+let ifshowimg = ref(true)
 // 宠物基本信息
 let petBaseInformation = ref<PetBaseInformation>()
+let petBaseInformation2 = ref<PetBaseInformation[]>()
 // 预存修改字段信息
 let Modified = reactive({
   index: 0,
@@ -157,12 +162,27 @@ const id = ref(1)
 
 // 临时头像储存
 let avatar = ref('')
-
+let avatartext = ref('')
 // 获取宠物的基本信息
+// const getPetBaseInformationData = async (id: number) => {
+//   const res = await getPetBaseInformationAPI(id)
+//   petBaseInformation.value = res.result
+//   avatar.value = petBaseInformation.value.photourl
+//   avatartext.value = petBaseInformation.value.photourl
+//   console.log(res)
+// }
 const getPetBaseInformationData = async (id: number) => {
+  console.log('宠物id' + id)
+
+  // const petlistStore = usepetlistStore()
+  // console.log(petlistStore.getPetImf())
+  // petBaseInformation2.value = petlistStore.getPetImf()
+  // console.log(petBaseInformation2.value.find((item) => item.id === 15))
+  // petBaseInformation.value = petBaseInformation2.value.find((item) => item.id === 15)
   const res = await getPetBaseInformationAPI(id)
   petBaseInformation.value = res.result
-  console.log(res)
+  avatar.value = petBaseInformation.value!.photourl
+  avatartext.value = petBaseInformation.value!.photourl
 }
 // 上传头像
 const uploadAavatar = () => {
@@ -177,8 +197,11 @@ const uploadAavatar = () => {
 }
 // 上传头像成功后，提交图片至后端
 const confirmUploadAavatar = () => {
+  // uni.showLoading({
+  //   mask: true,
+  // })
   uni.uploadFile({
-    url: 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/miniTest/uploadFile', //仅为示例，非真实的接口地址
+    url: 'http://localhost:8888/miniTest/uploadFile', //仅为示例，非真实的接口地址
     filePath: avatar.value,
     name: 'file',
     formData: {
@@ -186,6 +209,7 @@ const confirmUploadAavatar = () => {
     },
     success: (uploadFileRes) => {
       console.log(uploadFileRes.data)
+      // uni.hideLoading()
     },
   })
 }
@@ -222,43 +246,57 @@ const togglePopup = (index: number, option: any) => {
 }
 // 确认提交
 const confirmName = async (index: any, option: string) => {
+  uni.showLoading({
+    title: '加载中',
+    mask: true,
+  })
   if (index == 1) {
     console.log('修改图片')
-    await confirmUploadAavatar()
+    if (avatar.value != avatartext.value) {
+      confirmUploadAavatar()
+    }
   } else {
     if (index == 2) {
       console.log('修改名字:' + option)
+      petBaseInformation.value!.name = option
     } else if (index == 3) {
+      petBaseInformation.value!.birthday = option
       console.log('修改出生日期')
     } else if (index == 4) {
+      petBaseInformation.value!.sex = option
       console.log('点击了性别~')
     } else if (index == 5) {
+      petBaseInformation.value!.text = option
       console.log('点击了备注~')
     }
     // 设置宠物信息
     await setPetBaseInformationData(id.value, index, option)
-    avatar.value = ''
   }
 
   // 重新获取宠物信息
-  getPetBaseInformationData(id.value)
+  // await getPetBaseInformationData(id.value)
+  petBaseInformation.value!.photourl = avatar.value
   // 刷新所有宠物的信息
-  getAllPetInformationData()
+  await getAllPetInformationData()
 
   showPopup.value = 0
 }
 // 取消
 const cancel = () => {
-  avatar.value = ''
+  avatar.value = avatartext.value
   showPopup.value = 0
 }
 // 获取当前用户下所有的宠物信息更新store
 const getAllPetInformationData = async () => {
+  ifshowimg.value = false
+
   const userMemberStore = useMemberStore()
   const res = await getAllPetInformationAPI(userMemberStore.profile!.id)
   // console.log('宠物基本信息--图片:', petList.value[0].photourl)
   const petlistStore = usepetlistStore()
   petlistStore.setProfile(res.result)
+  uni.hideLoading()
+  ifshowimg.value = true
 }
 const onDateChange = (e: any) => {
   Modified.text = e.detail.value

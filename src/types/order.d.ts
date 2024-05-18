@@ -115,7 +115,7 @@ export type Order = {
     /** 商品名称 */
     name: string
     /** 商品图片 */
-    image: string
+    picture: string
     /** 商品价格 */
     price: string
     /** 商品规格 */

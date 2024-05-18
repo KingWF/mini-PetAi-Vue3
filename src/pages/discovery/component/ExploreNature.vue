@@ -253,7 +253,7 @@ const getScranWidth = () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 page {
   background-color: rgb(241, 241, 241);
 }
