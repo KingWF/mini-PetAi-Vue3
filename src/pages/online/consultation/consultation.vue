@@ -3,26 +3,23 @@
     <!-- 聊天列表 -->
     <view class="chat-body">
       <block v-for="(item, index) in chatList" :key="index">
-        <view class="chat-one" v-if="!item.isMe">
+        <view class="chat-one" v-if="item.sender === 'doctor'">
           <image class="chat-face" :src="doctor.comava" />
           <view class="chat-box">
             <view class="chat-sender">{{ doctor.comname }}</view>
-            <view class="chat-content" v-if="item.type === 'txt' && item.content == null"
-              >您好，我是{{ doctor.comname }}医生，请问您想咨询什么呢？</view
-            >
-            <view v-else class="chat-content">{{ item.content }}</view>
-            <image class="chat-img" v-if="item.type === 'img'" :src="item.content"></image>
+            <view class="chat-content" v-if="item.type === 'txt'">{{ item.content }}</view>
+            <image class="chat-img" v-if="item.type === 'img'" :src="item.content" />
           </view>
         </view>
         <view v-else class="chat-one chat-one-mine">
           <view class="chat-box">
             <view class="chat-content" v-if="item.type === 'txt'">{{ item.content }}</view>
-            <image class="chat-img" v-if="item.type === 'img'" :src="item.content"></image>
+            <image class="chat-img" v-if="item.type === 'img'" :src="item.content" />
           </view>
           <image
             class="chat-face"
             src="https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/uploads/avatar_3.jpg"
-          ></image>
+          />
         </view>
       </block>
     </view>
@@ -49,16 +46,8 @@ export default {
         cases: 0,
         acclaim: 0,
       },
-      chatList: [
-        {
-          isMe: false,
-          type: 'txt',
-          content: null,
-        },
-      ],
+      chatList: [],
       myInput: '',
-      count: 1,
-      websocket: null,
     }
   },
   methods: {
@@ -71,77 +60,74 @@ export default {
         sizeType: ['original', 'compressed'],
         sourceType: ['album', 'camera'],
         success: (res) => {
-          console.log(res.tempFilePaths[0])
-
-          let sendMsg = {
-            isMe: true,
+          const sendMsg = {
+            sender: 'user',
             type: 'img',
             content: res.tempFilePaths[0],
           }
-          this.chatList.push(sendMsg)
-          uni.setStorageSync('chatList', JSON.stringify(this.chatList))
+          try {
+            wx.sendSocketMessage({
+              data: JSON.stringify(sendMsg),
+              success: () => {
+                this.chatList.push(sendMsg)
+              },
+              fail: (error) => {
+                console.error('发送图片消息出错:', error)
+              },
+            })
+          } catch (error) {
+            console.error('发送图片消息出错:', error)
+          }
         },
       })
     },
-    sendMsg: function () {
-      let message = this.myInput.trim()
-      if (message === '') {
+    sendMsg() {
+      const message = this.myInput.trim()
+      if (!message) {
+        console.log('消息为空，不发送')
+        return
+      }
+      const sendMsg = {
+        sender: 'user',
+        type: 'txt',
+        content: message,
+      }
+      try {
+        wx.sendSocketMessage({
+          data: JSON.stringify(sendMsg),
+          success: () => {
+            this.chatList.push(sendMsg)
+            this.myInput = ''
+          },
+          fail: (error) => {
+            console.error('发送消息出错:', error)
+          },
+        })
+      } catch (error) {
+        console.error('发送消息出错:', error)
+      }
+    },
+    receiveMessage(message) {
+      console.log('接收到原始消息:', message) // 输出原始消息内容
+
+      if (!message) {
+        console.error('接收到的消息是未定义或空')
         return
       }
 
-      if (this.websocket && this.websocket.readyState === 1) {
-        // 确保 WebSocket 连接已经打开
-        // 发送消息到 WebSocket 服务器
-        this.websocket.send({
-          // data: {
-          //   isMe: false,
-          //   type: 'txt',
-          //   content: message,
-          // },
-          data: message,
-          success: () => {
-            console.log('Message sent successfully')
-            this.chatList.push({
-              isMe: true,
-              type: 'txt',
-              content: message,
-            })
-            // 存储聊天记录到本地存储
-            uni.setStorageSync('chatList', JSON.stringify(this.chatList))
-            this.myInput = '' // 清空输入框内容
-            this.receiveMessage() // 你可以根据实际情况进行调整
-          },
-          fail: (error) => {
-            console.error('Failed to send message:', error)
-          },
-        })
-      } else {
-        console.error('WebSocket connection is not open')
+      try {
+        const parsedMessage = JSON.parse(message)
+        if (parsedMessage.sender !== 'user') {
+          this.chatList.push(parsedMessage)
+        }
+      } catch (error) {
+        console.error('解析消息失败:', message, error)
       }
-    },
-    // 模拟接收消息
-    receiveMessage() {
-      // 这里可以模拟接收到的消息
-      setTimeout(() => {
-        // const receivedMsg = {
-        //   isMe: false,
-        //   type: 'txt',
-        //   content: '这是接收到的消息',
-        // }
-        //
-        // // 添加到聊天列表
-        // this.chatList.push(receivedMsg)
-        // 存储聊天记录到本地存储
-        uni.setStorageSync('chatList', JSON.stringify(this.chatList))
-      }, 1000)
     },
   },
   onLoad(option) {
     const eventChannel = this.getOpenerEventChannel()
-    // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
     eventChannel.on('acceptDataFromOpenerPage', (data) => {
-      console.log(data)
-      // 在数据可用时更新组件的data
       this.updateComputedVariable(data.data)
     })
   },
@@ -149,7 +135,6 @@ export default {
     const storedChatList = uni.getStorageSync('chatList')
     if (storedChatList) {
       this.chatList = JSON.parse(storedChatList)
-      // 更新界面显示等操作
     }
     setTimeout(() => {
       uni.pageScrollTo({
@@ -159,54 +144,35 @@ export default {
     }, 50)
   },
   created() {
-    // 连接 WebSocket
-    this.websocket = wx.connectSocket({
+    wx.connectSocket({
       url: 'ws://localhost:8888/websocket-endpoint',
       success: () => {
-        console.log('WebSocket connected')
+        console.log('WebSocket 连接已打开')
       },
       fail: (error) => {
-        console.error('WebSocket connection error:', error)
+        console.error('WebSocket 连接错误:', error)
       },
     })
 
-    // 监听 WebSocket 打开事件
-    this.websocket.onOpen(() => {
-      console.log('WebSocket connection opened')
+    wx.onSocketOpen(() => {
+      console.log('WebSocket 连接已打开')
     })
 
-    // 监听 WebSocket 接收消息事件
-    this.websocket.onMessage((res) => {
-      console.log('Received raw message:', res.data)
-
-      try {
-        let chat = {
-          isMe: false,
-          type: 'txt',
-          content: res.data,
-        }
-        this.chatList.push(chat)
-        // 更新界面显示等操作
-      } catch (error) {
-        console.error('Error parsing JSON:', error)
+    wx.onSocketMessage((res) => {
+      console.log('接收到消息:', res)
+      if (res.data) {
+        this.receiveMessage(res.data)
+      } else {
+        console.error('接收到空消息')
       }
     })
 
-    // 监听 WebSocket 关闭事件
-    this.websocket.onClose(() => {
-      console.log('WebSocket connection closed')
+    wx.onSocketClose(() => {
+      console.log('WebSocket 连接已关闭')
     })
 
-    // 监听 WebSocket 错误事件
-    this.websocket.onError((error) => {
-      console.error('WebSocket error:', error)
-    })
-  },
-
-  // 输入框内容变化时更新数据
-  onInputMessageChange: function (event) {
-    this.setData({
-      inputMessage: event.detail.value,
+    wx.onSocketError((error) => {
+      console.error('WebSocket 错误:', error)
     })
   },
 }
@@ -223,7 +189,6 @@ export default {
   .chat-one {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-start;
     padding: 20upx 0;
@@ -237,9 +202,6 @@ export default {
     }
     .chat-box {
       margin-right: 20upx;
-    }
-    .chat-img {
-      float: right;
     }
   }
 
@@ -270,7 +232,6 @@ export default {
   }
 
   .chat-img {
-    float: left;
     max-width: 60%;
     border-radius: 5px;
     width: 400rpx;
@@ -286,8 +247,6 @@ export default {
   left: 0;
   background-color: #f1f1f1;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   border-top: 1upx solid #ddd;
