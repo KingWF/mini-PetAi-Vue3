@@ -59,8 +59,8 @@
           </view>
           <view class="bottom">
             <view class="bottom-1">
-              <view class="bottom-1-1"> 记录宠物生活 分享日常趣事 </view>
-              <button class="but1" @click="toPetInformation">宠物动态</button>
+              <view class="bottom-1-1"> 记录宠物健康 让你更了解宠物 </view>
+              <button class="but1" @click="toPetInformation">健康档案</button>
             </view>
           </view>
         </view>

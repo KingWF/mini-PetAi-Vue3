@@ -265,13 +265,7 @@
 			"style": {
 				"navigationBarTitleText": "文章详情"
 			}
-		},
-    {
-      "path": "pages/discovery/component/ShopMail",
-			"style": {
-				"navigationBarTitleText": "商城"
-			}
-    }
+		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

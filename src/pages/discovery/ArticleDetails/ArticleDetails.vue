@@ -46,7 +46,7 @@
           <image v-else src="/static/icon/收藏-1.png" mode="scaleToFill" />
         </div>
         <div class="share" open-type="share">
-          <button open-type="share" hover-class="none" @click="" class="button">
+          <button open-type="share" hover-class="none" class="button">
             <image src="/static/icon/分享.png" mode="scaleToFill"></image>
           </button>
         </div>

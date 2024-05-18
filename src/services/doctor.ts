@@ -7,6 +7,6 @@ import type { doctorItem } from '@/types/doctor'
 export const getDoctorAPI = () => {
   return http<doctorItem[]>({
     method: 'GET',
-    url: '/getDoctor',
+    url: '/miniTest/getDoctor',
   })
 }
