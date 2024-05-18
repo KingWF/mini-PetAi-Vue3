@@ -30,39 +30,32 @@ const profile = ref<ProfileDetail>({} as ProfileDetail)
 const getMemberProfileData = async () => {
   const res = await getMemberProfileAPI(memberStore.profile!.id)
   profile.value = res.result
-  console.log(res.result)
 }
 
 const memberStore = useMemberStore()
 
 // 修改头像
 const onAvatarChange = () => {
-  // 调用拍照/选择图片
   uni.chooseMedia({
-    // 文件个数
     count: 1,
-    // 文件类型
     mediaType: ['image'],
     success: (res) => {
-      // 本地路径
+      //本地路径
       const { tempFilePath } = res.tempFiles[0]
-      // 文件上传
+      //文件上传
       uni.uploadFile({
-        url: '/user/updateAvatar', // [!code ++]
-        name: 'avatarUrl', // 后端数据字段名  // [!code ++]
-        filePath: tempFilePath, // 新头像  // [!code ++]
+        url: '/miniTest/user/updateAvatar',
+        name: 'file',
+        filePath: tempFilePath,
         success: (res) => {
-          // 判断状态码是否上传成功
-          if (res.statusCode === 200) {
-            // 提取头像
-            const { avatar } = JSON.parse(res.data).result
-            // 当前页面更新头像
-            profile.value!.avatar = avatar // [!code ++]
-            // 更新 Store 头像
-            memberStore.profile!.avatar = avatar // [!code ++]
+          if (res.statusCode == 200) {
+            const avatar = JSON.parse(res.data).result
+            console.log(avatar)
+            profile.value.avatar = avatar
+            memberStore.profile!.avatar = avatar
             uni.showToast({ icon: 'success', title: '更新成功' })
           } else {
-            uni.showToast({ icon: 'error', title: '出现错误' })
+            uni.showToast({ icon: 'error', title: '更新失败' })
           }
         },
       })

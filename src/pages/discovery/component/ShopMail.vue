@@ -56,8 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { onLoad } from '@dcloudio/uni-app'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { getRecommendGoodsAPI } from '../../../services/home'
 import type { RecommendGoodsItem } from '../../../types/home'
 
@@ -124,12 +123,12 @@ const hghlightSubscript = (val: number) => {
   activeIndex.value = val
   console.log(val)
 }
-onLoad(() => {
+onMounted(() => {
   getHotRecommendData()
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 page {
   height: 100%;
   background: linear-gradient(to bottom, #6ebeff, #ffffff, #ffffff, #6ebeff);
