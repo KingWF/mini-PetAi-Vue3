@@ -204,7 +204,9 @@ const uploadAavatar = () => {
 // 上传头像成功后，提交图片至后端
 const confirmUploadAavatarAndInformation = () => {
   uni.uploadFile({
-    url: 'https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/miniTest/AddNewPet/unload', //仅为示例，非真实的接口地址
+    // http://localhost:8888/miniTest
+    // https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top/miniTest
+    url: 'http://localhost:8888/miniTest/AddNewPet/unload', //仅为示例，非真实的接口地址
     filePath: avatar.value,
     name: 'file',
     formData: {},

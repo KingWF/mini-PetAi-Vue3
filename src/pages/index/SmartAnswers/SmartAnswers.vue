@@ -197,7 +197,7 @@ const getChatData = async () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 page {
   background-color: #f1f1f1;
 }

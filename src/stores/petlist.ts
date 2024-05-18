@@ -4,7 +4,7 @@ import { ref } from 'vue'
 
 // 定义 Store
 export const usepetlistStore = defineStore('petlist', () => {
-  // 会员信息
+  // 宠物信息
   const profile = ref<PetBaseInformation[]>([]) // [!code ++]
 
   // 保存宠物信息，首页使用
@@ -17,6 +17,10 @@ export const usepetlistStore = defineStore('petlist', () => {
     profile.value = []
   }
 
+  // 根据id获取宠物信息
+  const getPetImf = () => {
+    return profile.value
+  }
   // 记得 return
-  return { profile, setProfile, clearProfile }
+  return { profile, setProfile, clearProfile, getPetImf }
 })
