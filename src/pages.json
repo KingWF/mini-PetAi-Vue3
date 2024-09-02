@@ -1,24 +1,16 @@
 {
-	// 配置组件自动引入的规则
 	"easycom": {
-		// 是否开启自动扫描
 		"autoscan": true,
-		// 以正则表达式方式自定义组件匹配的规则
 		"custom": {
-			// uni-ui 规则如下配置
 			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
-			// 将通用组件库中的组件按照PetAI开头的格式导入
 			"^PetAi(.*)": "@/components/PetAi$1.vue"
 		}
 	},
 	"pages": [
-		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/index/index",
 			"style": {
-				// 导航栏样式:隐藏系统自带顶部导航栏
 				"navigationStyle": "custom",
-				// 导航栏标题颜色和状态栏前景颜色
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "首页"
 			}
@@ -26,27 +18,254 @@
 		{
 			"path": "pages/my/my",
 			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "我的"
 			}
 		},
-		{
-			"path": "pages/cart/cart",
-			"style": {
-				"navigationBarTitleText": "购物车"
-			}
-		},
+    {
+      "path": "pages/discovery/Article/Article",
+      "style": {
+        "navigationBarTitleText": "文章",
+        "navigationStyle": "custom"
+      }
+    },
 		{
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "登录"
 			}
 		},
+		{
+			"path": "pages/base/base",
+			"style": {
+				"navigationBarTitleText": "宠物基地"
+			}
+		},
+		{
+			"path": "pages/community/community",
+			"style": {
+				"navigationBarTitleText": "社区"
+			}
+		},
+		{
+			"path": "pages/index/homePetMess/PetIdentification/PetIdentification",
+			"style": {
+				"navigationBarTitleText": "宠物识别"
+			}
+		},
+		{
+			"path": "pages/index/homePetMess/SentimentAnalysis/SentimentAnalysis",
+			"style": {
+				"navigationBarTitleText": "宠物情绪分析"
+			}
+		},
+		{
+			"path": "pages/index/homePetMess/AddPetMess/AddPetMess",
+			"style": {
+				"navigationBarTitleText": "添加宠物信息"
+			}
+		},
+		{
+			"path": "pages/index/ManagePets/SetPetMess/SetPetMess",
+			"style": {
+				"navigationBarTitleText": "修改宠物信息"
+			}
+		},
+		{
+			"path": "pages/index/homePetMess/getMorePetMess/getMorePetMess",
+			"style": {
+				"navigationBarTitleText": "宠物档案室"
+			}
+		},
+		{
+			"path": "pages/my/components/ShoppingCart",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		},
+		{
+			"path": "pages/my/components/MyOrder",
+			"style": {
+				"navigationBarTitleText": "我的订单"
+			}
+		},
+		{
+			"path": "pages/my/components/MyPrivacy",
+			"style": {
+				"navigationBarTitleText": "我的隐私"
+			}
+		},
+		{
+			"path": "pages/my/components/EditInformation",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "编辑"
+			}
+		},
+		{
+			"path": "pages/index/homePetMess/PetIdentification/IndentificationImage",
+			"style": {
+				"navigationBarTitleText": "拍摄宠物图片"
+			}
+		},
+		{
+			"path": "pages/index/shopMalls/shopMalls",
+			"style": {
+				"navigationBarTitleText": "在线商城"
+			}
+		},
+		{
+			"path": "pages/index/shopMalls/shopProductsList",
+			"style": {
+				"navigationBarTitleText": "商品列表"
+			}
+		},
+		{
+			"path": "pages/base/assembly/HealthMonFunction",
+			"style": {
+				"navigationBarTitleText": "健康检测"
+			}
+		},
+		{
+			"path": "pages/base/assembly/DietManagementFunction",
+			"style": {
+				"navigationBarTitleText": "饮食管理"
+			}
+		},
+		{
+			"path": "pages/base/assembly/ExercisePlanFunction",
+			"style": {
+				"navigationBarTitleText": "运动计划"
+			}
+		},
+		{
+			"path": "pages/base/assembly/IntelligentFunction",
+			"style": {
+				"navigationBarTitleText": "智能咨询"
+			}
+		},
+		{
+			"path": "pages/index/petInformation/petInformation",
+			"style": {
+				"navigationBarTitleText": "宠物信息"
+			}
+		},
+		{
+			"path": "pages/index/shopMalls/productDetail",
+			"style": {
+				"navigationBarTitleText": "商品详情"
+			}
+		},
+		{
+			"path": "pages/my/components/MySpace",
+			"style": {
+				"navigationBarTitleText": "个人空间"
+			}
+		},
+		{
+			"path": "pages/my/components/article",
+			"style": {
+				"navigationBarTitleText": "我的帖子"
+			}
+		},
+		{
+			"path": "pages/my/components/collection",
+			"style": {
+				"navigationBarTitleText": "我的收藏"
+			}
+		},
+		{
+			"path": "pages/my/components/history",
+			"style": {
+				"navigationBarTitleText": "浏览历史"
+			}
+		},
+		{
+			"path": "pages/my/components/message",
+			"style": {
+				"navigationBarTitleText": "消息中心"
+			}
+    },
     {
-      "path": "pages/category/category",
-      "style": {
-        "navigationBarTitleText": "分类"
-      }
-    }
+      "path": "pages/my/components/CreateOrder",
+			"style": {
+				"navigationBarTitleText": "填写订单"
+			}
+    },
+    {
+      "path": "pages/my/components/address",
+			"style": {
+				"navigationBarTitleText": "地址管理"
+			}
+    },
+    {
+      "path": "pages/my/components/address-form",
+			"style": {
+				"navigationBarTitleText": "修改地址"
+			}
+    },
+    {
+      "path": "pages/my/components/orderList",
+			"style": {
+				"navigationBarTitleText": "订单列表"
+			}
+    },
+    {
+      "path": "pages/my/components/payment",
+			"style": {
+				"navigationBarTitleText": "支付成功"
+			}
+    },
+		{
+			"path": "pages/index/SmartAnswers/SmartAnswers",
+			"style": {
+				"navigationBarTitleText": "智能回答"
+			}
+		},
+		{
+			"path": "pages/index/OnlineConsultation/OnlineConsultation",
+			"style": {
+				"navigationBarTitleText": "OnlineConsultation"
+			}
+		},
+		{
+			"path": "pages/index/ManagePets/ManageFamilyPets/ManageFamilyPets",
+			"style": {
+				"navigationBarTitleText": "管理家庭宠物(增加、删除)"
+			}
+		},
+		{
+			"path": "pages/index/ManagePets/ManagePetCards/ManagePetCards",
+			"style": {
+				"navigationBarTitleText": "管理所有宠物（增加、删除）"
+			}
+		},
+		{
+			"path": "pages/online/onlineDoctor/onlineDoctor",
+			"style": {
+				"navigationBarTitleText": "在线问诊"
+			}
+		},
+    {
+			"path": "pages/online/consultation/consultation",
+			"style": {
+				"navigationBarTitleText": "问诊咨询"
+			}
+		},
+    {
+			"path": "pages/community/components/upInfo",
+			"style": {
+				"navigationBarTitleText": "发布动态"
+			}
+		},
+    {
+			"path": "pages/discovery/ArticleDetails/ArticleDetails",
+			"style": {
+				"navigationBarTitleText": "文章详情"
+			}
+		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -54,9 +273,8 @@
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},
-	// 设置 TabBar
 	"tabBar": {
-		"color": "#333",
+		"color": "#2c2c2c",
 		"selectedColor": "#27ba9b",
 		"backgroundColor": "#fff",
 		"borderStyle": "white",
@@ -64,26 +282,26 @@
 			{
 				"text": "首页",
 				"pagePath": "pages/index/index",
-				"iconPath": "static/tabs/home_default.png",
-				"selectedIconPath": "static/tabs/home_selected.png"
+				"iconPath": "static/tabs/首页-置灰.png",
+				"selectedIconPath": "static/tabs/首页-置灰 (1).png"
 			},
 			{
-				"text": "分类",
-				"pagePath": "pages/category/category",
-				"iconPath": "static/tabs/category_default.png",
-				"selectedIconPath": "static/tabs/category_selected.png"
+				"text": "社区",
+				"pagePath": "pages/discovery/Article/Article",
+				"iconPath": "static/tabs/社区.png",
+				"selectedIconPath": "static/tabs/社区 (1).png"
 			},
 			{
-				"text": "购物车",
-				"pagePath": "pages/cart/cart",
-				"iconPath": "static/tabs/cart_default.png",
-				"selectedIconPath": "static/tabs/cart_selected.png"
+				"text": "宠物基地",
+				"pagePath": "pages/base/base",
+				"iconPath": "static/tabs/宠物-copy.png",
+				"selectedIconPath": "static/tabs/宠物-copy (1).png"
 			},
 			{
 				"text": "我的",
 				"pagePath": "pages/my/my",
-				"iconPath": "static/tabs/user_default.png",
-				"selectedIconPath": "static/tabs/user_selected.png"
+				"iconPath": "static/tabs/我的.png",
+				"selectedIconPath": "static/tabs/我的 (1).png"
 			}
 		]
 	}

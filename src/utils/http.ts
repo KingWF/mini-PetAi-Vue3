@@ -1,9 +1,15 @@
 import { useMemberStore } from '@/stores'
 
-const baseURL = 'http://localhost:8888/miniTest'
-// 'https://pcapi-xiaotuxian-front-devtest.itheima.net'
-// 添加拦截器
-// 拦截reques请求和uploadFile文件上传
+const baseURL = 'http://localhost:8888'
+// py端的接口
+const PythonbaseURL = 'http://127.0.0.1:5000'
+// java端
+//http://localhost:8888
+//https://mfg8uf6pxn2i.ngrok.xiaomiqiu123.top
+
+// python端
+// http://38gbfla9clgu.ngrok.xiaomiqiu123.top
+// http://127.0.0.1:5000
 
 // 添加拦截器
 const httpInterceptor = {
@@ -14,7 +20,7 @@ const httpInterceptor = {
       options.url = baseURL + options.url
     }
     // 请求超时，默认是60s，修改成10s
-    options.timeout = 10000
+    options.timeout = 60000
     options.header = {
       // 保留原始的header
       ...options.header,
@@ -46,6 +52,7 @@ uni.addInterceptor('uploadFile', httpInterceptor)
  *    3.3 网络错误 -> 提示用户换网络
  */
 interface Data<T> {
+name(name: any): unknown
   code: string
   msg: string
   result: T
